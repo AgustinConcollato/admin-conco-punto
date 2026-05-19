@@ -1,0 +1,31 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination button {
+    height: 40px;
+}
+
+.number-of-pages {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.number-of-pages button {
+    width: 40px;
+}
+
+.number-of-pages span {
+    padding: 7px 10px;
+}
+
+.pagination .page-active {
+    color: #fff;
+    background: var(--primary);
+}

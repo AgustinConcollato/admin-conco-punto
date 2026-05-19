@@ -1,0 +1,19 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 280px;
+    max-width: 420px;
+}
+
+.message {
+    color: var(--color-text, #1e293b);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}

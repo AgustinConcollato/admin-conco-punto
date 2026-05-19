@@ -1,0 +1,61 @@
+﻿.trigger_icon {
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.trigger_icon_active {
+    color: var(--primary, #3d6caa);
+}
+
+.inline_container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface, #fff);
+}
+
+.inline_container h3 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.header a {
+    color: var(--primary, #3d6caa);
+}
+
+.header a:hover {
+    text-decoration: underline;
+}
+
+.promotion_name {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.modal_content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 320px;
+    margin-top: 20px;
+}

@@ -1,0 +1,54 @@
+.drop_zone {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+    border: 2px dashed var(--color-border, #e2e8f0);
+    background: var(--color-bg, #f8fafc);
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.drop_zone:hover {
+    border-color: var(--primary, #3d6caa);
+    background: rgba(61, 108, 170, 0.04);
+}
+
+.drop_zone.dragover {
+    border-color: var(--primary, #3d6caa);
+    background: rgba(61, 108, 170, 0.06);
+}
+
+.drop_zone span {
+    font-size: 14px;
+    pointer-events: none;
+    text-align: center;
+    padding: 0 20px;
+    color: var(--color-text-muted, #64748b);
+}
+
+.drop_zone span div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.drop_zone span div p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+}
+
+.dragover span div p,
+.dragover span div svg path {
+    color: var(--primary);
+    pointer-events: none;
+}
+
+.drop_zone span div svg {
+    height: 28px;
+    color: var(--color-text-muted, #64748b);
+    opacity: 0.5;
+}

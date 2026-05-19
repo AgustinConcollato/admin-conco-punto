@@ -1,0 +1,87 @@
+﻿.title { font-size: 1.1rem; font-weight: 700; color: var(--color-text, #1e293b); margin: 0 0 0.25rem; }
+.subtitle { font-size: 0.85rem; color: var(--color-text-muted, #64748b); margin: 0 0 1.25rem; }
+
+.loading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.9rem;
+}
+
+.options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+
+.card {
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12px);
+    background: var(--color-surface, #fff);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+.card:hover:not(.selected) { border-color: rgba(61, 108, 170, 0.35); background: #f8faff; }
+.card.selected { border-color: var(--primary, #3d6caa); background: #eff6ff; }
+
+.card_top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+}
+.card_info { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.card_title { font-size: 0.95rem; color: var(--color-text, #1e293b); }
+.free_badge {
+    font-size: 0.72rem;
+    background: #dcfce7;
+    color: #15803d;
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-sm, 8px);
+    font-weight: 500;
+}
+.card_desc {
+    font-size: 0.82rem;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    padding-left: 1.5rem;
+    line-height: 1.4;
+}
+
+.free_toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-surface, #fff);
+    border: 1px solid #bfdbfe;
+    border-radius: 7px;
+    font-size: 0.82rem;
+    color: var(--primary-hover, #2563eb);
+    cursor: pointer;
+}
+.free_toggle input { cursor: pointer; }
+
+.field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+.field label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.tip { font-size: 0.72rem; font-weight: 400; color: var(--color-text-muted, #64748b); }
+.field input {
+    max-width: 220px;
+    padding: 0.55rem 0.75rem;
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    border-radius: 7px;
+    font-size: 0.875rem;
+    color: var(--color-text, #1e293b);
+    outline: none;
+    transition: border-color 0.15s;
+}
+.field input:focus { border-color: var(--primary, #3d6caa); }
+

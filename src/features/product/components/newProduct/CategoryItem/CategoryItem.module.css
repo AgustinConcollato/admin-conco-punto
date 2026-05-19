@@ -1,0 +1,8 @@
+﻿.subcategories {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: var(--color-bg, #f8fafc);
+    padding: 10px;
+    border-radius: var(--radius-md, 12px);
+}

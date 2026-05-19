@@ -1,0 +1,154 @@
+.images_section {
+    padding: 20px;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface, #fff);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.header h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+}
+
+/* ── Grid de imágenes ── */
+.images_grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image_item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-sm, 8px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-bg, #f8fafc);
+    cursor: grab;
+    transition: box-shadow 0.15s, opacity 0.15s, transform 0.15s;
+    box-shadow: var(--shadow-sm);
+    user-select: none;
+}
+
+.image_item:active {
+    cursor: grabbing;
+}
+
+.image_item:hover {
+    box-shadow: var(--shadow-card);
+}
+
+.image_item.dragging {
+    opacity: 0.45;
+    transform: scale(0.96);
+    box-shadow: none;
+}
+
+/* Primera imagen = principal */
+.image_item:first-child {
+    outline: 2px solid var(--primary, #3d6caa);
+    outline-offset: 1px;
+}
+
+.image_item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-sm, 8px);
+    padding: 4px;
+    cursor: pointer;
+}
+
+/* Badge "Principal" */
+.badge_principal {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--primary, #3d6caa);
+    color: #fff;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 0 4px;
+    border-radius: 0 0 var(--radius-sm, 8px) var(--radius-sm, 8px);
+    pointer-events: none;
+}
+
+/* Botón × eliminar */
+.btn_remove {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    transition: background 0.15s;
+    z-index: 2;
+}
+
+.btn_remove:hover {
+    background: var(--color-error, #e74c3c);
+}
+
+/* ── Modal galería ── */
+.gallery_content {
+    position: relative;
+}
+
+.modal_image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+.nav_button {
+    border-radius: 50%;
+    border: none;
+    height: 40px;
+    width: 40px;
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.nav_button:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+    .image_item {
+        width: 80px;
+        height: 80px;
+    }
+}

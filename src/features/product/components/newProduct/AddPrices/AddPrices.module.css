@@ -1,0 +1,48 @@
+﻿.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.delivery_price {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px;
+    background: rgba(61, 108, 170, 0.05);
+    border: 1px solid rgba(61, 108, 170, 0.15);
+    border-radius: var(--radius-sm, 8px);
+}
+
+.delivery_price h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+}
+
+.delivery_price p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+}
+
+.price_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.price_list h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.error {
+    font-size: 13px;
+    color: var(--color-error);
+    position: relative;
+    top: -2px;
+}

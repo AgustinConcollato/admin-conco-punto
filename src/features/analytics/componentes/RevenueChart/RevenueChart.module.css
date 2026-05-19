@@ -1,0 +1,71 @@
+.card {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12px);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+}
+
+.chart_wrap {
+    width: 100%;
+}
+
+.empty {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12px);
+    box-shadow: var(--shadow-card);
+    padding: 40px;
+    text-align: center;
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.875rem;
+}
+
+/* Tooltip */
+.tooltip {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    box-shadow: var(--shadow-elevated);
+    padding: 10px 14px;
+    min-width: 160px;
+}
+
+.tooltip_date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tooltip_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.8rem;
+    margin: 2px 0;
+}
+
+.tooltip_row span {
+    color: var(--color-text-muted, #64748b);
+}
+
+.tooltip_row strong {
+    font-weight: 600;
+}

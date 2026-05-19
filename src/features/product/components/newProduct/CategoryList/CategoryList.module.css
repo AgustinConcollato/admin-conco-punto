@@ -1,0 +1,18 @@
+﻿.categories {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.categories li label {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: var(--radius-sm, 8px);
+    cursor: pointer;
+}
+
+.categories li label:hover {
+    background: #0000001a;
+}

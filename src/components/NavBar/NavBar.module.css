@@ -1,0 +1,120 @@
+﻿.container_actions {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.container_actions button {
+    width: 100%;
+    justify-content: start;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm, 8px);
+}
+
+.actions {
+    background: var(--color-surface, #fff);
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    border-radius: var(--radius-md, 10px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,0.08));
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    z-index: 200;
+}
+
+.actions a {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    transition: background 0.12s;
+}
+
+.actions a:hover {
+    background: rgba(61, 108, 170, 0.06);
+    color: var(--primary, #3d6caa);
+}
+
+.actions a span {
+    background: var(--color-bg, #f8fafc);
+    font-size: 12px;
+    color: var(--color-text-muted, #64748b);
+    padding: 3px 6px;
+    border-radius: var(--radius-sm, 6px);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.navbar_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 20px;
+}
+
+.navbar_container img {
+    object-fit: contain;
+    width: 110px;
+    margin: 0 auto 24px;
+    display: block;
+    opacity: 0.9;
+}
+
+.navbar {
+    max-height: calc(100vh - 280px);
+    overflow: auto;
+}
+
+.navbar ul{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.navbar::-webkit-scrollbar {
+    appearance: none;
+}
+
+.navbar::-webkit-scrollbar-thumb {
+    border: 5px solid var(--color-bg, #f8fafc);
+    border-radius: var(--radius-md, 12px);
+    background: var(--color-border, #e2e8f0);
+}
+
+.btn_logout {
+    color: var(--color-error, #e74c3c);
+    width: 100%;
+    background: var(--color-surface, #fff);
+    padding: 12px 15px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.btn_logout:hover {
+    background: rgba(231, 76, 60, 0.06);
+    border-color: var(--color-error, #e74c3c);
+}
+
+@media (max-width: 450px) {
+
+    .navbar_button {
+        display: inline-flex;
+        position: absolute;
+        margin: 0;
+        top: 18px;
+        height: 45px;
+        width: 45px;
+    }
+
+    .navbar ul li a {
+        padding: 10px 20px;
+        font-size: 18px;
+        text-align: center;
+    }
+}

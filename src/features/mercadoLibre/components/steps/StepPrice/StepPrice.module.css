@@ -1,0 +1,77 @@
+﻿.title { font-size: 1.1rem; font-weight: 700; color: var(--color-text, #1e293b); margin: 0 0 1.25rem; }
+
+.price_row { margin-bottom: 1.5rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
+.field label { font-size: 0.85rem; font-weight: 600; color: var(--color-text, #1e293b); }
+.required { color: var(--color-error, #e74c3c); }
+
+.price_wrap {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    overflow: hidden;
+    transition: border-color 0.15s;
+}
+.price_wrap:focus-within { border-color: var(--primary, #3d6caa); }
+.prefix {
+    padding: 0 0.75rem;
+    background: var(--color-bg, #f8fafc);
+    color: var(--color-text-muted, #64748b);
+    font-weight: 600;
+    font-size: 1rem;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--color-border, #e2e8f0);
+}
+.price_wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.65rem 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+}
+
+.loading_types { font-size: 0.85rem; color: var(--color-text-muted, #64748b); }
+
+.types_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.6rem;
+}
+.type_card {
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12px);
+    background: var(--color-surface, #fff);
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: border-color 0.15s, background 0.15s;
+}
+.type_card:hover:not(.type_selected) { border-color: rgba(61, 108, 170, 0.35); background: #f8faff; }
+.type_selected { border-color: var(--primary, #3d6caa); background: #eff6ff; }
+
+.type_name { font-weight: 600; font-size: 0.9rem; color: var(--color-text, #1e293b); }
+.type_badge {
+    font-size: 0.7rem;
+    color: var(--primary, #3d6caa);
+    background: #dbeafe;
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm, 8px);
+    width: fit-content;
+}
+.type_badge_gray {
+    font-size: 0.7rem;
+    color: var(--color-text-muted, #64748b);
+    background: var(--color-bg, #f8fafc);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm, 8px);
+    width: fit-content;
+}
+

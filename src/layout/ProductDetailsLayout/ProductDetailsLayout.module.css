@@ -1,0 +1,64 @@
+.layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+        'info info aside'
+        'images images aside'
+        'prices prices aside'
+        'suppliers suppliers aside'
+        'categories categories aside'
+    ;
+    gap: 15px;
+}
+
+/* Mapeo de Áreas */
+.images {
+    grid-area: images;
+}
+
+.aside {
+    grid-area: aside;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info {
+    grid-area: info;
+}
+
+.categories {
+    grid-area: categories;
+}
+
+.suppliers {
+    grid-area: suppliers;
+}
+
+.prices_list {
+    grid-area: prices;
+}
+
+@media (max-width: 768px) {
+    .layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'images'
+            'info'
+            'aside'
+            'prices'
+            'suppliers'
+            'categories';
+        gap: 16px;
+    }
+
+    .aside {
+        flex-direction: column;
+    }
+
+    .images {
+        min-width: 0;
+        overflow: hidden;
+    }
+}

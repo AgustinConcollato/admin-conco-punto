@@ -1,0 +1,132 @@
+.order_product_card {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1.5fr 1fr 1.5fr 1.5fr;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    transition: background 0.15s;
+}
+
+.order_product_card:last-child {
+    border-bottom: none;
+}
+
+.order_product_card:hover {
+    background: var(--color-bg, #f8fafc);
+}
+
+.container_img {
+    background: var(--color-surface, #fff);
+    position: sticky;
+    left: 5px;
+    width: max-content;
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    border-radius: var(--radius-sm, 8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container_img img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    border-radius: var(--radius-sm, 8px);
+    background: var(--color-bg, #f8fafc);
+    flex-shrink: 0;
+}
+
+.product_name {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+
+.product_name p {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text, #1e293b);
+}
+
+.product_name small {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #64748b);
+    font-family: monospace;
+}
+
+.subtotal_value {
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+}
+
+.options {
+    display: flex;
+    gap: 6px;
+}
+
+.edit_form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.error {
+    font-size: 0.8rem;
+    color: var(--color-error, #e74c3c);
+}
+
+.label {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .order_product_card {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 14px;
+        border-bottom: 1px solid var(--color-border, #e2e8f0);
+        position: relative;
+    }
+
+    .container_img {
+        position: absolute;
+        top: 8px;
+        left: 14px;
+    }
+
+    .product_name {
+        grid-column: span 2;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 10px;
+        min-width: calc(100% - 60px);
+        padding-left: 60px;
+    }
+
+    .options {
+        grid-column: span 2;
+        justify-content: stretch;
+        margin-top: 4px;
+        gap: 8px;
+    }
+
+    .options button {
+        flex: 1;
+    }
+
+    .label {
+        display: inline;
+        color: var(--color-text-muted, #64748b);
+        font-size: 0.75rem;
+        margin-right: 4px;
+    }
+
+    .mobile_row {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.875rem;
+    }
+}

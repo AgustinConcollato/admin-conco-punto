@@ -1,0 +1,155 @@
+.detail {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── Shared card ── */
+.card_section {
+    padding: 20px;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface, #fff);
+}
+
+.section_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.section_label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+}
+
+/* ── Timeline ── */
+.timelineContainer {
+    padding: 14px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    margin-bottom: 12px;
+}
+
+.timelineLabels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+}
+
+.progressBar {
+    width: 100%;
+    height: 6px;
+    background-color: var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background-color: var(--color-success, #66b819);
+    transition: width 0.5s ease-in-out;
+    border-radius: 999px;
+}
+
+.expiredBar {
+    background-color: var(--color-text-muted, #64748b);
+}
+
+/* ── Row pattern (label / value) ── */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-bg, #f8fafc);
+    gap: 12px;
+    font-size: 0.875rem;
+}
+
+.row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.row_label {
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.row_value {
+    color: var(--color-text, #1e293b);
+    font-weight: 500;
+    text-align: right;
+}
+
+/* ── Status badge ── */
+.status {
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.active {
+    color: var(--color-success, #66b819);
+    background: rgba(102, 184, 25, 0.12);
+}
+
+.inactive {
+    color: var(--color-text-muted, #64748b);
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+/* ── Tags (listas de precio) ── */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.tag {
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    color: var(--color-text, #1e293b);
+}
+
+/* ── Product list ── */
+.product_list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+@media (max-width: 640px) {
+    .product_list {
+        grid-template-columns: 1fr;
+    }
+
+    .card_section {
+        padding: 16px;
+    }
+
+    .info {
+        grid-template-columns: 1fr 1fr;
+    }
+}

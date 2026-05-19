@@ -1,0 +1,106 @@
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        'search search'
+        'list summary';
+    gap: 20px;
+    align-items: start;
+}
+
+.search {
+    grid-area: search;
+    position: relative;
+}
+
+.list {
+    grid-area: list;
+    min-width: 0;
+    overflow: auto;
+    border-radius: var(--radius-md, 12px);
+    box-shadow: var(--shadow-card);
+}
+
+.summary {
+    grid-area: summary;
+    position: sticky;
+    top: 92px;
+}
+
+/* ── Mode toggle (posicionado sobre el input de búsqueda) ── */
+.mode {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.mode:hover {
+    border-color: var(--color-text-muted, #64748b);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn_mode {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted, #64748b);
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.active {
+    background: var(--color-surface, #fff);
+    color: var(--primary, #3d6caa);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+/* Tooltip */
+.mode span {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    width: max-content;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm, 8px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.mode:hover span {
+    opacity: 1;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'search'
+            'list'
+            'summary';
+    }
+
+    .summary {
+        position: static;
+    }
+}

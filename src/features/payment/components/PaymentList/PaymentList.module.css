@@ -1,0 +1,90 @@
+﻿.payments_section {
+    background: linear-gradient(135deg, #ffffff 0%, var(--color-bg, #f8fafc) 100%);
+    padding: 24px;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.payments_section h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: var(--color-text, #1e293b);
+    font-weight: 700;
+}
+
+.payments_section .table a {
+    color: var(--primary, #3d6caa);
+}
+
+.payments_section .table a:hover {
+    text-decoration: underline;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table img {
+    object-fit: contain;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border-radius: var(--radius-sm, 8px);
+}
+
+.table thead {
+    background: var(--color-bg, #f8fafc);
+}
+
+.table th {
+    padding: 14px;
+    border-bottom: 2px solid var(--color-border, #e2e8f0);
+    text-align: left;
+    font-size: 13px;
+    color: var(--color-text-muted, #64748b);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    font-size: 14px;
+    color: var(--color-text, #1e293b);
+}
+
+.table td div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: var(--color-bg, #f8fafc);
+}
+
+.table tbody tr:nth-child(even) {
+    background: var(--color-bg, #f8fafc);
+}
+
+.payment_icon {
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.9rem;
+}
+

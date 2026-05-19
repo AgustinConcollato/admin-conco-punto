@@ -1,0 +1,101 @@
+﻿.suppliers {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.suppliers_input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.error {
+    font-size: 14px;
+    color: var(--color-error);
+    position: relative;
+    top: -2px;
+}
+
+.btn_remove {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.supplier_header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.supplier_header strong {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text, #1e293b);
+}
+
+.search_results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search_results li {
+    background: var(--color-bg, #f8fafc);
+    border-radius: 30px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.search_results li:hover,
+.search_results .selected {
+    outline: 1px solid var(--primary);
+    outline-offset: 2px;
+    background: var(--primary);
+    color: #fff;
+}
+
+.search_results li:hover .associated_badge,
+.search_results .selected .associated_badge {
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+}
+
+/* Badge "Asociado" en pill de búsqueda */
+.associated_badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: rgba(61, 108, 170, 0.12);
+    color: var(--primary, #3d6caa);
+    border-radius: 999px;
+    padding: 1px 7px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* Badge "Editando" en el supplier_item */
+.editing_badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
+}
+
+.supplier_item {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm, 8px);
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: var(--shadow-sm);
+}

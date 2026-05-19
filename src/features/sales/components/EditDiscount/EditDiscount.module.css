@@ -1,0 +1,28 @@
+﻿.form {
+    margin-top: 30px;
+}
+
+.type_selector {
+    display: flex;
+    gap: 10px;
+}
+
+.type_selector button {
+    font-size: 16px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: var(--radius-sm, 8px);
+    transition: .3s;
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.type_selector button:hover {
+    transform: scale(1.05);
+}
+
+.type_selector .active {
+    color: var(--primary, #3d6caa);
+    border-color: var(--primary, #3d6caa);
+    background: var(--primary, #3d6caa)20;
+}

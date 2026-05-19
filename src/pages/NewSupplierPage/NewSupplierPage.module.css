@@ -1,0 +1,19 @@
+.page {
+    max-width: 800px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12);
+    box-shadow: var(--shadow-card);
+}
+
+.error {
+    font-size: 14px;
+    color: var(--color-error);
+    position: relative;
+    top: -2px;
+}

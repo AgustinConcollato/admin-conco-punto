@@ -1,0 +1,212 @@
+﻿.filters_form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border, #e2e8f0);
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface, #fff);
+    margin: 0 auto;
+    max-width: 1024px;
+    width: 100%;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+}
+
+.filters_form label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-text-muted, #64748b);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.filters_form input,
+.filters_form select {
+    padding: 10px 12px;
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: var(--color-surface, #fff);
+}
+
+.filters_form .custom_date_filters {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    background: var(--color-bg, #f8fafc);
+    border-radius: var(--radius-sm, 8px);
+    border: 1px dashed var(--color-border, var(--color-border, #e2e8f0));
+    padding: 10px;
+}
+
+.filters_form input:focus,
+.filters_form select:focus {
+    outline: none;
+    border-color: var(--primary, #3d6caa);
+    box-shadow: 0 0 0 3px rgba(61, 108, 170, 0.10);
+}
+
+.filter_buttons {
+    display: flex;
+    gap: 10px;
+    justify-self: end;
+}
+
+.clear_button {
+    padding: 10px 12px;
+    margin-top: 20px;
+    background: var(--color-bg, #f8fafc);
+    color: var(--color-error);
+    border: none;
+    border-radius: var(--radius-sm, 8px);
+    cursor: pointer;
+    font-size: 14px;
+    height: 41px;
+    transition: background 0.3s;
+}
+
+.range_buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.range_buttons label {
+    font-size: 13px;
+    color: var(--color-text-muted, #64748b);
+    font-weight: 600;
+}
+
+.buttons_group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.range_button {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    background: var(--color-surface, #fff);
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.range_button:hover {
+    border-color: var(--color-text-muted, #64748b);
+    background: var(--color-bg, #f8fafc);
+}
+
+.range_button.active {
+    background: var(--primary, #3d6caa);
+    color: #fff;
+    border-color: var(--primary, #3d6caa);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+    .filters_form {
+        flex-direction: column;
+    }
+
+    .filters {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        gap: 16px;
+    }
+
+    .filters>div {
+        width: 100%;
+    }
+
+    .range_buttons {
+        width: 100%;
+    }
+
+    .buttons_group {
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .range_button {
+        padding: 8px 12px;
+        font-size: 13px;
+        flex: 1;
+    }
+
+    .filter_buttons {
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .clear_button {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .filters_form input,
+    .filters_form select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .filters_form .custom_date_filters {
+        flex-direction: column;
+        width: 100%;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .filters_form .custom_date_filters>div {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .filters_form {
+        padding: 12px;
+    }
+
+    .filters {
+        gap: 12px;
+    }
+
+    .range_button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .buttons_group {
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+
+    .filters_form label {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .filters_form input,
+    .filters_form select {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+

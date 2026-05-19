@@ -1,0 +1,21 @@
+project-root/
+│── public/                 # Archivos estáticos públicos (imágenes, favicon, etc.)
+│── src/                    # Código fuente de la app
+│   │── assets/             # Recursos estáticos (imágenes, fuentes, estilos globales)
+│   │── components/         # Componentes reutilizables (botones, inputs, tarjetas)
+│   │── features/           # Módulos/funcionalidades agrupadas (auth, users, products)
+│   │   └── auth/
+│   │       ├── components/ # Componentes específicos de la funcionalidad
+│   │       ├── hooks/      # Hooks relacionados con auth
+│   │       ├── services/   # Requests API o lógica de negocio de auth
+│   │       └── pages/      # Vistas completas relacionadas con auth
+│   │── hooks/              # Hooks globales (useFetch, useAuth, etc.)
+│   │── routes/             # Configuración de rutas (react-router-dom)
+│   │── services/           # Conexiones con APIs externas o funciones de backend
+│   │── contexts/              # Estado global (Redux, Zustand, Context API)
+│   │── utils/              # Funciones utilitarias (helpers, formatters, validators)
+│   │── App.jsx             # Componente raíz
+│   │── main.jsx            # Punto de entrada de la app (ReactDOM.createRoot)
+│── .env                    # Variables de entorno
+│── package.json
+│── vite.config.js          # Configuración de Vite

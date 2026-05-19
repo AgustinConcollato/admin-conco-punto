@@ -1,0 +1,60 @@
+﻿.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.primary_barcode {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    width: max-content;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--color-text, #1e293b);
+}
+
+.btn_generate_barcode {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    align-self: flex-start;
+}
+
+.error {
+    font-size: 13px;
+    color: var(--color-error);
+    position: relative;
+    top: -2px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.buttons a {
+    width: calc(50% - 6px);
+    min-width: max-content;
+}
+
+.alert_pending {
+    background-color: #fffbeb;
+    border: 1px solid var(--color-border, #e2e8f0);
+    padding: 1rem;
+    border-radius: var(--radius-sm, 8px);
+    text-align: center;
+}
+
+.alert_buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+@media (max-width: 500px) {
+    .buttons a {
+        width: 100%;
+    }
+}
