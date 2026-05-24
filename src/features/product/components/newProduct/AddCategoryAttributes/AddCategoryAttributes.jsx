@@ -90,7 +90,11 @@ export function AddCategoryAttributes() {
         setErrors({});
 
         try {
-            await productService.syncCategories({ categories }, product.id);
+            const syncResult = await productService.syncCategories({ categories }, product.id);
+
+            let updatedProduct = { ...product, sku: syncResult.sku, categories: syncResult.categories };
+            setProduct(updatedProduct);
+            sessionStorage.setItem('product', JSON.stringify(updatedProduct));
 
             const avEntries = Object.entries(attributeValues).filter(([, v]) => v !== '');
             if (avEntries.length > 0) {
@@ -98,7 +102,9 @@ export function AddCategoryAttributes() {
                     category_attribute_id: parseInt(attrId),
                     value,
                 }));
-                await productService.updateAttributeValues(product.id, payload);
+                const p = await productService.updateAttributeValues(product.id, payload);
+                updatedProduct = { ...updatedProduct, categories: p.categories };
+                sessionStorage.setItem('product', JSON.stringify(updatedProduct));
             }
 
             navigate(`/productos/nuevo/3/${product.id}`);
