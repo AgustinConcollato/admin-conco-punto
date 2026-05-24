@@ -43,18 +43,18 @@ export function Metrics({ data, comparison }) {
     const label = data?.comparison_label || null;
 
     const keyCards = [
-        { label: 'Total facturado',  value: formatPrice(data.total_revenue),       compKey: 'total_revenue',  isMonetary: true  },
-        { label: 'Ganancia neta',    value: formatPrice(data.net_profit),           compKey: 'net_profit',     isMonetary: true  },
-        { label: 'Total de pedidos', value: data.orders_count,                      compKey: 'orders_count',   isMonetary: false },
-        { label: 'Ticket promedio',  value: formatPrice(data.average_order_value) },
+        { label: 'Total facturado', value: formatPrice(data.total_revenue), compKey: 'total_revenue', isMonetary: true },
+        { label: 'Ganancia neta', value: formatPrice(data.net_profit), compKey: 'net_profit', isMonetary: true },
+        { label: 'Total de pedidos', value: data.orders_count, compKey: 'orders_count', isMonetary: false },
+        { label: 'Ticket promedio', value: formatPrice(data.average_order_value) },
     ];
 
     const secondaryRows = [
-        { label: 'Dinero a cobrar',   value: formatPrice(data.total_debt) },
-        { label: 'Costo mercadería',  value: formatPrice(data.total_cost) },
-        { label: 'Envíos cobrados',   value: formatPrice(data.shipping_cost) },
+        { label: 'Dinero a cobrar', value: formatPrice(data.total_debt) },
+        { label: 'Costo mercadería', value: formatPrice(data.total_cost) },
+        { label: 'Envíos cobrados', value: formatPrice(data.shipping_cost) },
         { label: 'Reinversión (10%)', value: formatPrice(data.reinvestment_amount) },
-        { label: 'Margen bruto',      value: `${data.gross_margin_percent}%` },
+        { label: 'Margen bruto', value: `${data.gross_margin_percent}%` },
     ];
 
     return (

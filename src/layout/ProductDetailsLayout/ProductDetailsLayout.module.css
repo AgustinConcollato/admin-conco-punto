@@ -8,6 +8,8 @@
         'prices prices aside'
         'suppliers suppliers aside'
         'categories categories aside'
+        'product_attrs product_attrs product_attrs'
+        'variants variants variants'
     ;
     gap: 15px;
 }
@@ -40,6 +42,14 @@
     grid-area: prices;
 }
 
+.product_attrs {
+    grid-area: product_attrs;
+}
+
+.variants {
+    grid-area: variants;
+}
+
 @media (max-width: 768px) {
     .layout {
         grid-template-columns: 1fr;
@@ -49,7 +59,9 @@
             'aside'
             'prices'
             'suppliers'
-            'categories';
+            'categories'
+            'product_attrs'
+            'variants';
         gap: 16px;
     }
 

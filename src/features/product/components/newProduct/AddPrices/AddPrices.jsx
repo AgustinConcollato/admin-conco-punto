@@ -101,7 +101,7 @@ export function AddPrices() {
                 throw new Error('Producto no encontrado');
             }
             const updatedProduct = await productService.addPrices(formData, product.id);
-            navigate(`/productos/nuevo/3/${updatedProduct.id}`);
+            navigate(`/productos/nuevo/4/${updatedProduct.id}`);
 
         } catch (error) {
             setErrors(error[0]);
@@ -136,6 +136,11 @@ export function AddPrices() {
         getPriceLists();
     }, []);
 
+    useEffect(() => {
+        if (product && product.price_lists.length > 0) {
+            navigate(`/productos/nuevo/4/${product.id}`);
+        }
+    }, [product])
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -184,7 +189,7 @@ export function AddPrices() {
                 </> :
                 <Loading />
             }
-            {product && <Link to={`/productos/nuevo/3/${product.id}`} className="btn btn_regular">Agregar Código de Barras</Link>}
+            {product && <Link to={`/productos/nuevo/4/${product.id}`} className="btn btn_regular">Agregar Código de Barras</Link>}
         </form>
     );
 }

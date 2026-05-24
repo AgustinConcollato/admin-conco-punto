@@ -11,6 +11,8 @@ import styles from './Product.module.css';
 
 export function Product({ detail }) {
 
+    console.log(detail);
+
     const { updateProduct, removeProduct } = useContext(OrderContext);
 
     const [showModal, setShowModal] = useState(false);
@@ -108,12 +110,21 @@ export function Product({ detail }) {
         <>
             <div key={detail.id} className={styles.order_product_card}>
                 <div className={styles.container_img}>
-                    <img src={`${IMAGE_URL}/${detail.product.images[0]?.thumbnail_path}`} alt={detail.product.name} />
+                    <img
+                        src={`${IMAGE_URL}/${detail.variant?.images?.[0]?.thumbnail_path ?? detail.product.images[0]?.thumbnail_path}`}
+                        alt={detail.product.name}
+                    />
                 </div>
                 <div className={styles.product_name}>
                     <div>
                         <p>{detail.product.name}</p>
-                        <small>({detail.product.sku})</small>
+                        <small>
+                            {detail.variant_id ?
+                                detail.variant.sku ??
+                                '':
+                                detail.product.sku
+                            }
+                        </small>
                     </div>
                 </div>
 

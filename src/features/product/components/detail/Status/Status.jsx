@@ -16,16 +16,7 @@ export function Status({ status, id, onStatusChange }) {
 
     const NotificationContent = {
         'incomplete': (
-            <>
-                <p><span><FontAwesomeIcon icon={faExclamationCircle} style={{ color: 'var(--color-error, #e74c3c)' }} /> Faltan precios</span> <Link to={`/productos/nuevo/2/${id}`}>Agregar</Link></p>
-                <p><span><FontAwesomeIcon icon={faExclamationCircle} style={{ color: 'var(--color-error, #e74c3c)' }} /> Falta código de barras</span> <Link to={`/productos/nuevo/3/${id}`}>Agregar</Link></p>
-            </>
-        ),
-        'pending_barcode': (
-            <p><span><FontAwesomeIcon icon={faExclamationCircle} style={{ color: 'var(--color-error, #e74c3c)' }} /> Falta código de barras</span> <Link to={`/productos/nuevo/3/${id}`}>Agregar</Link></p>
-        ),
-        'pending_prices': (
-            <p><span><FontAwesomeIcon icon={faExclamationCircle} style={{ color: 'var(--color-error, #e74c3c)' }} /> Faltan precios</span> <Link to={`/productos/nuevo/2/${id}`}>Agregar</Link></p>
+            <p><span><FontAwesomeIcon icon={faExclamationCircle} style={{ color: 'var(--color-error, #e74c3c)' }} /> Faltan precios en todas las listas</span> <Link to={`/productos/nuevo/3/${id}`}>Agregar</Link></p>
         ),
         'archived': (
             <p><span><FontAwesomeIcon icon={faFolder} style={{ color: '#df9710' }} /> Archivado</span></p>

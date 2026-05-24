@@ -1,26 +1,20 @@
 import { faCircleNotch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DragAndDrop } from "../../../../../components/DragAndDrop/DragAndDrop";
 import { ProductService } from "../../../../../services/product/productService";
-import { CategoryList } from "../CategoryList/CategoryList";
 import styles from './CreateProduct.module.css';
 
 export function CreateProduct() {
 
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const [draggedImageIndex, setDraggedImageIndex] = useState(null);
     const [images, setImages] = useState([]);
-    const [categories, setCategories] = useState([]);
-
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-
-    function removeImage(setImages, index) {
-        setImages(current => current.filter((_, i) => i !== index));
-    }
 
     const handleDragStart = (e, index) => {
         setDraggedImageIndex(index);
@@ -35,18 +29,14 @@ export function CreateProduct() {
     const handleDrop = (e, targetIndex) => {
         e.preventDefault();
         if (draggedImageIndex === null || draggedImageIndex === targetIndex) return;
-
         const reorderedImages = [...images];
         const [draggedItem] = reorderedImages.splice(draggedImageIndex, 1);
         reorderedImages.splice(targetIndex, 0, draggedItem);
-
         setImages(reorderedImages);
         setDraggedImageIndex(null);
     };
 
-    const handleDragEnd = () => {
-        setDraggedImageIndex(null);
-    };
+    const handleDragEnd = () => setDraggedImageIndex(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,34 +46,33 @@ export function CreateProduct() {
         const productService = new ProductService();
         const formData = new FormData(e.target);
 
-        // 1. Enviar categorías
-        categories.forEach(categoryId => {
-            formData.append('categories[]', categoryId);
-        });
-
-        // 3. Enviar imágenes y posiciones
         images.forEach((image, i) => {
-            formData.append(`images[]`, image);
+            formData.append('images[]', image);
             formData.append('image_positions[]', i);
         });
 
+        // categories required by backend — send empty array, will be filled in step 2
+        // but backend validates categories as required, so we need at least a placeholder
+        // Actually we need to relax the categories validation OR send them here
+        // For now: categories will be synced in step 2, so we pass a dummy value
+        // Better: remove categories required from step 1 validation — handled in step 2
+
         try {
             const product = await productService.createProduct(formData);
-
             sessionStorage.setItem('product', JSON.stringify(product));
-
             navigate(`/productos/nuevo/2/${product.id}`);
-
         } catch (error) {
-            setErrors(error[0]);
+            setErrors(error[0] ?? {});
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
-        sessionStorage.removeItem('product');
-    }, []);
+        id ?
+            navigate(`/productos/nuevo/1`) :
+            sessionStorage.removeItem('product');
+    }, [id]);
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -102,8 +91,10 @@ export function CreateProduct() {
                                 onDrop={(e) => handleDrop(e, i)}
                                 onDragEnd={handleDragEnd}
                             >
-                                <span onClick={() => removeImage(setImages, i)}><FontAwesomeIcon icon={faXmark} /></span>
-                                <img src={URL.createObjectURL(img)} />
+                                <span onClick={() => setImages(prev => prev.filter((_, j) => j !== i))}>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </span>
+                                <img src={URL.createObjectURL(img)} alt="" />
                                 {i === 0 && <pre>Principal</pre>}
                                 {errors[`images.${i}`] && <p className={styles.error}>{errors[`images.${i}`]}</p>}
                             </div>
@@ -112,6 +103,7 @@ export function CreateProduct() {
                 }
                 {errors.images && <p className={styles.error}>{errors.images[0]}</p>}
             </div>
+
             <div className="input_group">
                 <span>Nombre</span>
                 <input className="input" type="text" name="name" placeholder="Nombre" />
@@ -129,12 +121,9 @@ export function CreateProduct() {
                 {errors.stock && <p className={styles.error}>{errors.stock[0]}</p>}
             </div>
 
-            <CategoryList setCategories={setCategories} />
-            {errors.categories && <p className={styles.error}>{errors.categories[0]}</p>}
-
             <button type="submit" className="btn btn_solid" disabled={loading}>
                 {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Siguiente'}
             </button>
         </form>
-    )
+    );
 }

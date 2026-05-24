@@ -1,18 +1,113 @@
-﻿.categories {
+.container {
+    margin-top: 12px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+    margin-bottom: 14px;
+}
+
+.crumb_item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.crumb_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary, #3d6caa);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.crumb_btn:hover {
+    background: rgba(61, 108, 170, 0.08);
+}
+
+.crumb_sep {
+    color: var(--color-text-muted, #94a3b8);
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.change_btn {
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--color-border, #e2e8f0);
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #64748b);
+    padding: 3px 10px;
+    border-radius: 999px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.change_btn:hover {
+    background: #fee2e2;
+    color: var(--color-error, #e74c3c);
+    border-color: #fca5a5;
+}
+
+/* Nivel actual */
+.level_section {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    margin-top: 10px;
+    gap: 8px;
 }
 
-.categories li label {
+.level_label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted, #64748b);
+    font-weight: 500;
+}
+
+/* Grid de opciones */
+.options_grid {
     display: flex;
-    gap: 10px;
-    padding: 10px;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.option_btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 14px;
+    background: white;
+    border: 1px solid var(--color-border, #e2e8f0);
     border-radius: var(--radius-sm, 8px);
     cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+    box-shadow: var(--shadow-card);
 }
 
-.categories li label:hover {
-    background: #0000001a;
+.option_btn:hover {
+    border-color: var(--primary, #3d6caa);
+    background: rgba(61, 108, 170, 0.04);
+}
+
+.option_name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text, #1e293b);
+}
+
+.option_arrow {
+    font-size: 1.1rem;
+    color: var(--color-text-muted, #94a3b8);
+    flex-shrink: 0;
 }

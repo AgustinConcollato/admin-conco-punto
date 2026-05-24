@@ -20,18 +20,15 @@ export function CategoryItem({
             descendantsToDeselect.forEach(id => currentIdsSet.delete(id));
 
         } else {
-            // Regla de selección única para categorías de nivel superior (parent_id: null)
-            if (category.parent_id === null) {
-                const currentlySelectedTopLevelId = selectedCategoryIds.find(id => {
-                    const selectedCategory = categoryList.find(c => c.id === id);
-                    return selectedCategory && selectedCategory.parent_id === null;
-                });
-
-                if (currentlySelectedTopLevelId && currentlySelectedTopLevelId !== categoryId) {
-                    currentIdsSet.delete(currentlySelectedTopLevelId);
-                    const descendantsToDeselect = getDescendantIds(currentlySelectedTopLevelId, categoryList);
-                    descendantsToDeselect.forEach(id => currentIdsSet.delete(id));
-                }
+            // Deseleccionar cualquier categoría hermana (mismo parent_id) ya seleccionada
+            const conflictingId = selectedCategoryIds.find(id => {
+                if (id === categoryId) return false;
+                const c = categoryList.find(cat => cat.id === id);
+                return c && c.parent_id === category.parent_id;
+            });
+            if (conflictingId) {
+                currentIdsSet.delete(conflictingId);
+                getDescendantIds(conflictingId, categoryList).forEach(id => currentIdsSet.delete(id));
             }
 
             currentIdsSet.add(categoryId);

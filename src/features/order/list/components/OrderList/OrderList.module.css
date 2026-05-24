@@ -29,6 +29,17 @@
     margin-bottom: 0.2rem;
 }
 
+.inputs_radio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.inputs_radio:hover {
+    text-decoration: underline;
+}
+
 /* Grilla de Botones (Estados) */
 .button_grid {
     display: grid;
@@ -279,4 +290,3 @@
         flex-direction: column;
     }
 }
-

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { normalizeStr } from '../../../../../utils/normalizeStr';
 import { Loading } from '../../../../../components/Loading/Loading';
 import { SupplierService } from '../../../../../services/supplier/supplierService';
 import styles from './SupplierList.module.css';
@@ -16,7 +17,7 @@ export function SupplierList({ suppliers, setSuppliers, errors, currentSuppliers
         if (supplierList) {
             if (term.length > 1) {
                 setSearchResults(supplierList.filter(s =>
-                    s.name.toLowerCase().includes(term.toLowerCase())
+                    normalizeStr(s.name).includes(normalizeStr(term))
                 ));
             } else {
                 setSearchResults(supplierList.filter(s =>
@@ -57,7 +58,7 @@ export function SupplierList({ suppliers, setSuppliers, errors, currentSuppliers
             );
 
             if (searchTerm.length > 1) {
-                setSearchResults(unselected.filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase())));
+                setSearchResults(unselected.filter(s => normalizeStr(s.name).includes(normalizeStr(searchTerm))));
             } else {
                 setSearchResults(unselected);
             }

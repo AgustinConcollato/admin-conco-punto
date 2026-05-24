@@ -93,13 +93,11 @@ ul {
 
 .btn_regular {
     color: var(--primary);
-    /* border: 1px solid var(--primary); */
     background: #8ecae630;
 }
 
 .btn_thins {
     color: var(--primary);
-    border: 1px solid var(--primary);
     background: #fff;
 }
 

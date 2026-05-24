@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { normalizeStr } from '../../../../../utils/normalizeStr';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Pagination } from '../../../../../components/Pagination/Pagination';
@@ -43,6 +44,7 @@ export function OrderList() {
         end_date: searchParams.get('end_date') || '',
         range: searchParams.get('range') || DEFAULT_RANGE,
         client_id: searchParams.get('client_id') || '',
+        with_debt: searchParams.get('with_debt') || '',
         page: searchParams.get('page') || '1'
     };
 
@@ -108,6 +110,10 @@ export function OrderList() {
         if (name === 'range' && value !== 'custom') {
             newParams.delete('start_date');
             newParams.delete('end_date');
+        }
+
+        if (name !== 'page') {
+            newParams.delete('page');
         }
 
         setSearchParams(newParams);
@@ -212,7 +218,30 @@ export function OrderList() {
                     </div>
                 )}
 
-                {/* 4. Selector de Cliente (Sigue siendo Select por ser muchos) */}
+                {/* 4. Filtro por Deuda */}
+                <div className={styles.filter_group}>
+                    <label>Pedidos con deuda</label>
+                    <label className={styles.inputs_radio}>
+                        <input
+                            type="radio"
+                            name='with_debt'
+                            onChange={() => handleFilterChange('with_debt', '1')}
+                            checked={filters.with_debt === '1'}
+                        />
+                        Si
+                    </label>
+                    <label className={styles.inputs_radio}>
+                        <input
+                            type="radio"
+                            name='with_debt'
+                            onChange={() => handleFilterChange('with_debt', '')}
+                            checked={filters.with_debt === ''}
+                        />
+                        Todos los pedidos
+                    </label>
+                </div>
+
+                {/* 5. Selector de Cliente (Sigue siendo Select por ser muchos) */}
                 <div className={styles.filter_group}>
                     <label>Filtrar por Cliente</label>
 
@@ -262,7 +291,7 @@ export function OrderList() {
 
                                 {clients
                                     .filter(c =>
-                                        !clientSearch || c.name.toLowerCase().includes(clientSearch.toLowerCase())
+                                        !clientSearch || normalizeStr(c.name).includes(normalizeStr(clientSearch))
                                     )
                                     .slice(0, 50)
                                     .map(client => (

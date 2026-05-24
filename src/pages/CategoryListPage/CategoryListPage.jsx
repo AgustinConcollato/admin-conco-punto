@@ -1,4 +1,5 @@
-import { faChevronDown, faChevronRight, faEdit, faFolderOpen, faPlus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronRight, faEdit, faFolderOpen, faPlus, faSlidersH, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { normalizeStr } from '../../utils/normalizeStr';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -7,6 +8,7 @@ import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
 import { EmptyState } from "../../components/EmptyState/EmptyState";
 import { Loading } from "../../components/Loading/Loading";
 import { Modal } from "../../components/Modal/Modal";
+import { CategoryAttributesEditor } from "../../features/category/components/CategoryAttributesEditor/CategoryAttributesEditor";
 import { EditCategoryForm } from "../../features/category/editCategory/components/EditCategoryForm/EditCategoryForm";
 import { CategoryService } from "../../services/category/categoryService";
 import styles from "./CategoryListPage.module.css";
@@ -16,9 +18,11 @@ export function CategoryListPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [expandedCategories, setExpandedCategories] = useState(new Set());
+    const [allCategoryIds, setAllCategoryIds] = useState(new Set());
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
     const [pendingDeleteId, setPendingDeleteId] = useState(null);
+    const [attributesCategory, setAttributesCategory] = useState(null);
 
     // Se memoiza el servicio para evitar re-instancias
     const categoryService = useMemo(() => new CategoryService(), []);
@@ -29,7 +33,6 @@ export function CategoryListPage() {
             const data = await categoryService.getAll();
             setCategories(data);
 
-            // Opción: Expandir todo al inicio (comentar si se prefiere todo colapsado)
             const allIds = new Set();
             const collectIds = (items) => {
                 items.forEach(cat => {
@@ -40,7 +43,7 @@ export function CategoryListPage() {
                 });
             };
             collectIds(data);
-            setExpandedCategories(allIds);
+            setAllCategoryIds(allIds);
 
         } catch (error) {
             console.error("Error al obtener categorías:", error);
@@ -68,7 +71,7 @@ export function CategoryListPage() {
 
     const filteredCategories = useMemo(() => {
         if (!searchTerm) return categories;
-        const lower = searchTerm.trim().toLowerCase();
+        const lower = normalizeStr(searchTerm.trim());
         const filterRecursive = (items) => {
             return items
                 .map((cat) => ({
@@ -76,7 +79,7 @@ export function CategoryListPage() {
                     children: cat.children ? filterRecursive(cat.children) : [],
                 }))
                 .filter((cat) => {
-                    const matches = cat.name.toLowerCase().includes(lower);
+                    const matches = normalizeStr(cat.name).includes(lower);
                     const hasChildren = cat.children && cat.children.length > 0;
                     return matches || hasChildren;
                 });
@@ -162,6 +165,16 @@ export function CategoryListPage() {
                             <span className={styles.slug_text}>{category.slug}</span>
                         </div>
 
+                        {/* Chips de meta info */}
+                        <div className={styles.meta_chips}>
+                            {hasChildren && (
+                                <span className={styles.chip_children}>{category.children.length} sub</span>
+                            )}
+                            {category.products_count > 0 && (
+                                <span className={styles.chip_products}>{category.products_count} prod.</span>
+                            )}
+                        </div>
+
                         {/* Info Secundaria (Padre) - Se oculta en móvil por CSS */}
                         <span className={styles.parent_info}>
                             {category.parent ? <><small>Padre:</small> {category.parent.name}</> : "-"}
@@ -169,6 +182,12 @@ export function CategoryListPage() {
 
                         {/* Acciones */}
                         <div className={styles.card_actions}>
+                            <button className={styles.icon_btn_attrs} onClick={() => setAttributesCategory(category)} title="Atributos de variantes">
+                                <FontAwesomeIcon icon={faSlidersH} />
+                                {category.attributes_count > 0 && (
+                                    <span className={styles.attr_count_badge}>{category.attributes_count}</span>
+                                )}
+                            </button>
                             <button className={styles.icon_btn_edit} onClick={() => handleEdit(category)} title="Editar">
                                 <FontAwesomeIcon icon={faEdit} />
                             </button>
@@ -196,9 +215,15 @@ export function CategoryListPage() {
         <div className={styles.container}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Categorías</h2>
-                <Link to="/categorias/nueva" className="btn btn_primary">
-                    <FontAwesomeIcon icon={faPlus} /> <span className={styles.btn_text}>Nueva</span>
-                </Link>
+                <div className={styles.header_actions}>
+                    <div className={styles.expand_collapse_btns}>
+                        <button className="btn btn_regular" onClick={() => setExpandedCategories(new Set(allCategoryIds))}>Expandir</button>
+                        <button className="btn btn_regular" onClick={() => setExpandedCategories(new Set())}>Colapsar</button>
+                    </div>
+                    <Link to="/categorias/nueva" className="btn btn_solid">
+                        <FontAwesomeIcon icon={faPlus} /> <span className={styles.btn_text}>Nueva</span>
+                    </Link>
+                </div>
             </div>
 
             <div className={styles.search_container}>
@@ -235,6 +260,12 @@ export function CategoryListPage() {
                         onSave={handleUpdate}
                         onCancel={closeEditModal}
                     />
+                </Modal>
+            )}
+
+            {attributesCategory && (
+                <Modal onClose={() => setAttributesCategory(null)} title={`Atributos: ${attributesCategory.name}`}>
+                    <CategoryAttributesEditor category={attributesCategory} />
                 </Modal>
             )}
 

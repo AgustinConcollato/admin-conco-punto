@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { normalizeStr } from '../../utils/normalizeStr';
 import { useSearchParams } from "react-router-dom";
 import { PaymentList } from "../../features/payment/components/PaymentList/PaymentList";
 import { ClientService } from "../../services/client/clientService";
@@ -223,7 +224,7 @@ export function PaymentPage() {
 
                                 {clients
                                     .filter(c =>
-                                        !clientSearch || c.name.toLowerCase().includes(clientSearch.toLowerCase())
+                                        !clientSearch || normalizeStr(c.name).includes(normalizeStr(clientSearch))
                                     )
                                     .slice(0, 50)
                                     .map(client => (

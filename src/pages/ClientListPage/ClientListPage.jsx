@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { normalizeStr } from '../../utils/normalizeStr';
 import { toast } from "react-toastify";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
@@ -41,10 +42,10 @@ export function ClientListPage() {
 
     const filteredClients = useMemo(() => {
         if (!searchTerm) return clients;
-        const lowerCaseSearch = searchTerm.trim().toLowerCase();
+        const lowerCaseSearch = normalizeStr(searchTerm.trim());
         return clients.filter(client => {
-            const name = client.name?.toLowerCase() || '';
-            const email = client.email?.toLowerCase() || '';
+            const name = normalizeStr(client.name);
+            const email = normalizeStr(client.email);
             const phone = client.phone || '';
             return name.includes(lowerCaseSearch) || email.includes(lowerCaseSearch) || phone.includes(lowerCaseSearch);
         });

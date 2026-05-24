@@ -9,7 +9,6 @@ export function Info({ product }) {
     const [currentProduct, setCurrentProduct] = useState(product);
 
     const handleSuccess = (updatedProduct) => {
-        // Actualizamos el estado local con la respuesta del servidor
         setCurrentProduct(updatedProduct);
         setIsEditing(false);
     };

@@ -18,15 +18,18 @@ export function SearchByBarcode() {
 
     const addProductToOrder = async (product) => {
         try {
-            // Extracción de precios
+            const variant = product.matched_variant ?? null;
+
             const [priceListItem] = product.price_lists.filter(e => e.id == order.price_list_id);
             const unitPrice = priceListItem ? parseFloat(priceListItem.pivot.price) : 0;
             const supplierItem = product.suppliers.length > 0 ? product.suppliers[0] : null;
-            const purchasePrice = supplierItem ? parseFloat(supplierItem.pivot.purchase_price) : unitPrice - (unitPrice * (order.price_list_id === 1 ? 0.3 : 0.45));
+            const purchasePrice = supplierItem
+                ? parseFloat(supplierItem.pivot.purchase_price)
+                : unitPrice - (unitPrice * (order.price_list_id === 1 ? 0.3 : 0.45));
 
-            // Objeto de datos listo para el backend
             const productDataForOrder = {
                 product_id: product.id,
+                ...(variant && { variant_id: variant.id }),
                 quantity: 1,
                 unit_price: unitPrice,
                 purchase_price: purchasePrice,
@@ -34,11 +37,11 @@ export function SearchByBarcode() {
 
             await addProduct(productDataForOrder);
         } catch (error) {
-            setError(error[0].quantity);
+            setError(error[0]?.quantity ?? 'Error al agregar el producto.');
         } finally {
-            setProduct(null)
+            setProduct(null);
         }
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,13 +51,11 @@ export function SearchByBarcode() {
         setProduct(null);
 
         const productService = new ProductService();
-
-        const barcode = e.target.barcode.value
+        const barcode = e.target.barcode.value;
 
         try {
             const foundProduct = await productService.getByBarcode(barcode);
             setProduct(foundProduct);
-
         } catch (err) {
             setError(err.message);
         } finally {
@@ -64,25 +65,19 @@ export function SearchByBarcode() {
             }
             barcodeInputRef.current.focus();
         }
-    }
+    };
 
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.code === "ShiftLeft") {
                 event.preventDefault();
-
                 setProduct(null);
                 setError(null);
-
                 barcodeInputRef.current?.focus();
             }
         };
-
         document.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
+        return () => document.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     useEffect(() => {
@@ -96,6 +91,13 @@ export function SearchByBarcode() {
             barcodeInputRef.current?.focus();
         }
     }, [isLoading]);
+
+    const variant = product?.matched_variant ?? null;
+    const displayImage = variant?.images?.[0]?.thumbnail_path
+        ? `${IMAGE_URL}/${variant.images[0].thumbnail_path}`
+        : product?.images?.[0]?.thumbnail_path
+            ? `${IMAGE_URL}/${product.images[0].thumbnail_path}`
+            : null;
 
     return (
         <>
@@ -113,17 +115,30 @@ export function SearchByBarcode() {
             </form>
 
             {isLoading && <p className={styles.status_loading}><Loading /></p>}
-            {error && <p className={styles.error}> {error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
 
             {product && (
                 <div className={styles.product_card}>
-                    <img
-                        src={`${IMAGE_URL}/${product.images[0]?.thumbnail_path}`}
-                        alt={`Imagen de ${product.name}`}
-                    />
+                    {displayImage && (
+                        <img src={displayImage} alt={product.name} />
+                    )}
                     <div className={styles.product_info}>
-                        <h4> {product.name}</h4>
-                        <span >{product.sku}</span>
+                        <h4>{product.name}</h4>
+                        {variant ? (
+                            <>
+                                <span className={styles.variant_sku}>{variant.sku || product.sku}</span>
+                                <div className={styles.attr_pills}>
+                                    {variant.attribute_values?.map(av => (
+                                        <span key={av.category_attribute_id} className={styles.attr_pill}>
+                                            <span className={styles.pill_label}>{av.category_attribute?.name}</span>
+                                            {av.value}
+                                        </span>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <span>{product.sku}</span>
+                        )}
                     </div>
                     <FontAwesomeIcon icon={faCircleNotch} spin />
                 </div>

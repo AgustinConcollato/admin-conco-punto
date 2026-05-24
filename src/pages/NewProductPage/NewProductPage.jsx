@@ -7,8 +7,10 @@ import styles from "./NewProductPage.module.css";
 
 const STEPS = [
     { num: 1, label: 'Datos' },
-    { num: 2, label: 'Proveedor y Precios' },
-    { num: 3, label: 'Código de barras' },
+    { num: 2, label: 'Categoría' },
+    { num: 3, label: 'Precios' },
+    { num: 4, label: 'Barras' },
+    { num: 5, label: 'Variantes' },
 ];
 
 export function NewProductPage() {

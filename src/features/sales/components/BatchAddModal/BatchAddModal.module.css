@@ -1,0 +1,206 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .overlay {
+        align-items: center;
+    }
+}
+
+.modal {
+    background: var(--color-surface, #fff);
+    border-radius: var(--radius-md, 12px);
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 640px) {
+    .modal {
+        border-radius: var(--radius-md, 12px);
+        max-height: 80vh;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    }
+}
+
+.header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    flex-shrink: 0;
+}
+
+.header_info {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text, #1e293b);
+    line-height: 1.3;
+}
+
+.price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary, #3d6caa);
+    white-space: nowrap;
+}
+
+.rows {
+    overflow-y: auto;
+    flex: 1;
+    padding: 8px 0;
+}
+
+.empty {
+    padding: 24px 20px;
+    text-align: center;
+    color: var(--color-text-muted, #64748b);
+    font-size: 0.9rem;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--color-bg, #f8fafc);
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+.thumb {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    flex-shrink: 0;
+}
+
+.thumb_placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    flex-shrink: 0;
+}
+
+.row_text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.row_label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text, #1e293b);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.row_sku {
+    font-size: 0.72rem;
+    font-family: monospace;
+    color: var(--color-text-muted, #64748b);
+}
+
+.row_stock {
+    font-size: 0.72rem;
+    color: var(--color-text-muted, #64748b);
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.step_btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-surface, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--color-text, #1e293b);
+    transition: background 0.15s, border-color 0.15s;
+    touch-action: manipulation;
+}
+
+.step_btn:hover:not(:disabled) {
+    border-color: var(--primary, #3d6caa);
+    background: rgba(61, 108, 170, 0.06);
+}
+
+.step_btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.step_input {
+    width: 44px;
+    height: 36px;
+    text-align: center;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 6px);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text, #1e293b);
+    background: var(--color-bg, #f8fafc);
+    -moz-appearance: textfield;
+}
+
+.step_input::-webkit-outer-spin-button,
+.step_input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    background: var(--color-surface, #fff);
+    border-radius: 0 0 var(--radius-md, 12px) var(--radius-md, 12px);
+}
+
+.footer .btn {
+    flex: 1;
+}

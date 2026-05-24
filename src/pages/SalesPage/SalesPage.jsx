@@ -1,4 +1,5 @@
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { normalizeStr } from '../../utils/normalizeStr';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -170,7 +171,7 @@ export function SalesPage() {
                                         </div>
 
                                         {clients
-                                            .filter(c => !clientSearch || c.name.toLowerCase().includes(clientSearch.toLowerCase()))
+                                            .filter(c => !clientSearch || normalizeStr(c.name).includes(normalizeStr(clientSearch)))
                                             .slice(0, 50)
                                             .map(c => (
                                                 <div

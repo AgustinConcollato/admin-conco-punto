@@ -57,7 +57,7 @@ export function Barcodes({ barcodes, sku, id }) {
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     {message && <div style={{ color: '#66b819' }}><FontAwesomeIcon icon={faCheckCircle} /> {message}</div>}
                     {error && <div style={{ color: '#be3232' }}><FontAwesomeIcon icon={faExclamationCircle} /> {error}</div>}
-                    <Link to={`/productos/nuevo/3/${id}`} className='btn btn_regular'>+ Nuevo</Link>
+                    <Link to={`/productos/nuevo/4/${id}`} className='btn btn_regular'>+ Nuevo</Link>
                 </div>
             </div>
 

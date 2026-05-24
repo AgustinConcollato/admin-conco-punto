@@ -42,7 +42,7 @@ export function AddBarcode() {
             e.target.reset();
             setBarcodeValue('');
             sessionStorage.removeItem('pendingBarcode');
-
+            navigate(`/productos/nuevo/5/${product.id}`);
         } catch (error) {
             setErrors(error[0]);
         } finally {
@@ -143,10 +143,10 @@ export function AddBarcode() {
                 <Loading />
             }
             {product &&
-                <div className={styles.buttons}>
-                    <Link to={`/productos/${product.id}`} className="btn btn_regular">Ver producto</Link>
-                    <Link to={`/productos/nuevo/1`} className="btn btn_regular">Agregar otro producto</Link>
-                </div>
+                <>
+                    <Link to={`/productos/nuevo/5/${product.id}`} className="btn btn_regular">Siguiente</Link>
+                    <Link to={`/productos/${product.id}`} className="btn btn_thins">Ver producto</Link>
+                </>
             }
         </form>
     )

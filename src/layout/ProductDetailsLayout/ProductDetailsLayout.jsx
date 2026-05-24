@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Barcodes } from '../../features/product/components/detail/Barcodes/Barcodes';
 import { Images } from '../../features/product/components/detail/Images/Images';
 import { Status } from '../../features/product/components/detail/Status/Status';
@@ -6,6 +6,8 @@ import { Info } from '../../features/product/components/detail/Info/Info';
 import { Categories } from '../../features/product/components/detail/Categories/Categories';
 import { Suppliers } from '../../features/product/components/detail/Suppliers/Suppliers';
 import { PriceLists } from '../../features/product/components/detail/PriceLists/PriceLists';
+import { ProductAttributeValues } from '../../features/product/components/detail/ProductAttributeValues/ProductAttributeValues';
+import { Variants } from '../../features/product/components/detail/Variants/Variants';
 import { ProductPromotionControl } from '../../features/promotion/components/ProductPromotionControl/ProductPromotionControl';
 import styles from './ProductDetailsLayout.module.css';
 
@@ -38,6 +40,13 @@ export function ProductDetailsLayout({ product }) {
     };
 
     const { images, barcodes } = product;
+
+    const deepestCategoryId = useMemo(() => {
+        if (!currentCategories?.length) return null;
+
+        const category = currentCategories.reduce((max, obj) => obj.id > max.id ? obj : max, currentCategories[0]);
+        return category.id;
+    }, [currentCategories]);
 
     return (
         <div className={styles.layout}>
@@ -74,6 +83,7 @@ export function ProductDetailsLayout({ product }) {
                     categories={currentCategories}
                     productId={product.id}
                     onRefresh={refreshCategories}
+                    disabled={currentCategories.length > 0}
                 />
             </div>
             <div className={styles.suppliers}>
@@ -81,6 +91,16 @@ export function ProductDetailsLayout({ product }) {
             </div>
             <div className={styles.prices_list}>
                 <PriceLists priceLists={currentPriceLists} productId={product.id} onRefresh={refreshSuppliersPrices} />
+            </div>
+            <div className={styles.product_attrs}>
+                <ProductAttributeValues
+                    productId={product.id}
+                    deepestCategoryId={deepestCategoryId}
+                    initialAttributeValues={product.attribute_values}
+                />
+            </div>
+            <div className={styles.variants}>
+                <Variants productId={product.id} productSku={product.sku} />
             </div>
         </div>
     )

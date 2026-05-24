@@ -5,23 +5,26 @@ import { Link } from 'react-router-dom';
 import { Barcode } from '../../../../components/Barcode/Barcode';
 import { Modal } from '../../../../components/Modal/Modal';
 import { IMAGE_URL } from '../../../../config/api';
+import { MercadoLibreIcon } from '../../../../icons/icons';
 import { formatPrice } from '../../../../utils/formatPrice';
+import { ProductPromotionControl } from '../../../promotion/components/ProductPromotionControl/ProductPromotionControl';
 import { AddImagesModal } from '../detail/AddImagesModal/AddImagesModal';
+import { EditCategories } from '../detail/edit/EditCategories/EditCategories';
 import { EditInfo } from '../detail/EditInfo/EditInfo';
 import { EditPriceLists } from '../detail/EditPriceLists/EditPriceLists';
 import { EditStatus } from '../detail/EditStatus/EditStatus';
 import { EditSupplier } from '../detail/EditSupplier/EditSupplier';
 import styles from './Card.module.css';
-import { EditCategories } from '../detail/edit/EditCategories/EditCategories';
-import { ProductPromotionControl } from '../../../promotion/components/ProductPromotionControl/ProductPromotionControl';
-import { MercadoLibreIcon } from '../../../../icons/icons';
 
 export function Card({ product, categories: allCategories }) {
 
     const [barcodeVisible, setBarcodeVisible] = useState(false);
     const [showMenuEdit, setShowMenuEdit] = useState(false);
     const [edit, setEdit] = useState(null);
+    const [selectedSupplierIndex, setSelectedSupplierIndex] = useState(0);
+    const [showVariantsPreview, setShowVariantsPreview] = useState(false);
     const [prices, setPrices] = useState(product.price_lists || []);
+    const [variants, setVariants] = useState(product.variants || []);
     const [suppliers, setSuppliers] = useState(product.suppliers || []);
     const [categories, setCategories] = useState(product.categories || []);
     const [currentProduct, setCurrentProduct] = useState(product);
@@ -32,6 +35,7 @@ export function Card({ product, categories: allCategories }) {
     useEffect(() => {
         setCurrentProduct(product);
         setPrices(product.price_lists || []);
+        setVariants(product.variants || []);
         setSuppliers(product.suppliers || []);
         setCategories(product.categories || []);
         setImages(product.images || []);
@@ -44,10 +48,11 @@ export function Card({ product, categories: allCategories }) {
         setEdit(null);
     };
 
-    const onRefreshSupplisersAndPrices = ({ price_lists, suppliers }) => {
-        console.log({ price_lists, suppliers })
+    const onRefreshSupplisersAndPrices = ({ price_lists, variants }) => {
+        console.log({ price_lists, variants })
         setPrices(price_lists);
         suppliers && setSuppliers(suppliers);
+        variants && setVariants(variants);
         setEdit(null)
     }
 
@@ -88,20 +93,12 @@ export function Card({ product, categories: allCategories }) {
     const editProduct = (type) => {
         setEdit(type);
         setShowMenuEdit(false);
+        if (type === 'supplier') setSelectedSupplierIndex(0);
     };
 
     const NotificationContent = {
         'incomplete': (
-            <>
-                <p>Faltan precios <Link to={`/productos/nuevo/2/${product.id}`}>Agregar</Link></p>
-                <p>Falta código de barras <Link to={`/productos/nuevo/3/${product.id}`}>Agregar</Link></p>
-            </>
-        ),
-        'pending_barcode': (
-            <p>Falta código de barras <Link to={`/productos/nuevo/3/${product.id}`}>Agregar</Link></p>
-        ),
-        'pending_prices': (
-            <p>Faltan precios <Link to={`/productos/nuevo/2/${product.id}`}>Agregar</Link></p>
+            <p>Faltan precios <Link to={`/productos/nuevo/3/${product.id}`}>Agregar</Link></p>
         ),
     };
 
@@ -135,13 +132,13 @@ export function Card({ product, categories: allCategories }) {
                                         className={styles.nav_arrow_left}
                                         onClick={prevImage}
                                     >
-                                        ‹
+                                        <span> ‹ </span>
                                     </button>
                                     <button
                                         className={styles.nav_arrow_right}
                                         onClick={nextImage}
                                     >
-                                        ›
+                                        <span> › </span>
                                     </button>
                                     <div className={styles.image_counter}>
                                         {currentImageIndex + 1} / {images.length}
@@ -184,7 +181,7 @@ export function Card({ product, categories: allCategories }) {
                                     </span>
                                 </div>
                             ) :
-                            <Link to={`/productos/nuevo/2/${product.id}`}>Agregar precios</Link>
+                            <Link to={`/productos/nuevo/4/${product.id}`}>Agregar precios</Link>
                         }
                     </div>
 
@@ -194,14 +191,55 @@ export function Card({ product, categories: allCategories }) {
                             e.preventDefault();
                         }}
                     >
-                        {suppliers && suppliers.length > 0 ?
-                            <div className={styles.suppliers}>
-                                <span className={styles.suppliers_label}>
-                                    Proveedores: {suppliers.length}
+                        {variants && variants.length > 0 ? (
+                            <div
+                                className={styles.variants_wrapper}
+                                onMouseEnter={() => setShowVariantsPreview(true)}
+                                onMouseLeave={() => setShowVariantsPreview(false)}
+                            >
+                                <span className={styles.variants_label}>
+                                    Variantes: {variants.length}
                                 </span>
-                            </div> :
-                            <div></div>
-                        }
+                                <div className={styles.variants_preview}>
+                                    {variants.map(v => {
+                                        const vImg = v.images?.[0]?.thumbnail_path
+                                            ?? images?.[0]?.thumbnail_path ?? null;
+                                        const attrs = v.attribute_values ?? [];
+                                        return (
+                                            <div key={v.id} className={styles.preview_row}>
+                                                {vImg && (
+                                                    <img
+                                                        src={`${IMAGE_URL}/${vImg}`}
+                                                        className={styles.preview_img}
+                                                        alt=""
+                                                    />
+                                                )}
+                                                <div className={styles.preview_info}>
+                                                    {attrs.length > 0 ? (
+                                                        <span className={styles.preview_attrs}>
+                                                            {attrs.map(av =>
+                                                                `${av.category_attribute?.name ?? ''}: ${av.value}`
+                                                            ).join(' · ')}
+                                                        </span>
+                                                    ) : (
+                                                        <span className={styles.preview_sku}>{v.sku || `#${v.id}`}</span>
+                                                    )}
+                                                    {v.sku && attrs.length > 0 && (
+                                                        <span className={styles.preview_sku}>{v.sku}</span>
+                                                    )}
+                                                </div>
+                                                <div className={styles.preview_meta}>
+                                                    <span className={styles.preview_stock}>{v.stock} uds.</span>
+                                                    {!v.is_active && <span className={styles.preview_inactive}>Inact.</span>}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ) : (
+                            <div />
+                        )}
                         <div className={styles.container_btn}>
                             <Link
                                 className={styles.btn_barcode}
@@ -253,7 +291,7 @@ export function Card({ product, categories: allCategories }) {
                                         <Barcode value={barcode} code={product.sku} />
                                     </div>
                                 ) :
-                                <Link to={`/productos/nuevo/3/${product.id}`}>Agregar código de barras</Link>
+                                <Link to={`/productos/nuevo/4/${product.id}`}>Agregar código de barras</Link>
                         }
                     </div>
                 }
@@ -304,11 +342,25 @@ export function Card({ product, categories: allCategories }) {
                     />
                 </Modal>
             )}
-            {edit === 'supplier' && (
-                <Modal onClose={() => setEdit(null)} title={`Editar: ${product.suppliers[0].name}`}>
+            {edit === 'supplier' && suppliers.length > 0 && (
+                <Modal onClose={() => setEdit(null)} title="Editar proveedor">
+                    {suppliers.length > 1 && (
+                        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+                            {suppliers.map((s, i) => (
+                                <button
+                                    key={s.id}
+                                    type="button"
+                                    className={`btn ${i === selectedSupplierIndex ? 'btn_solid' : 'btn_regular'}`}
+                                    onClick={() => setSelectedSupplierIndex(i)}
+                                >
+                                    {s.name}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                     <EditSupplier
-                        supplier={suppliers[0]}
-                        suppliers={[suppliers[0]]}
+                        supplier={suppliers[selectedSupplierIndex]}
+                        suppliers={suppliers}
                         productId={product.id}
                         onRefresh={onRefreshSupplisersAndPrices}
                         onClose={() => setEdit(null)}

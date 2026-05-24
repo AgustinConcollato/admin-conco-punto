@@ -156,6 +156,14 @@ export class ProductService {
         });
     }
 
+    async updateAttributeValues(productId, attributeValues) {
+        return apiRequest(`/products/${productId}/attribute-values`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ attribute_values: attributeValues }),
+        });
+    }
+
     async updateStatus(status, productId) {
         return apiRequest(`/products/${productId}/status`, {
             method: "PUT",

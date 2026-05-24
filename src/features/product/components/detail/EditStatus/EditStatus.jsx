@@ -14,8 +14,8 @@ export function EditStatus({ currentStatus, productId, onRefresh, onCancel }) {
     const handleUpdateStatus = async () => {
         setIsSubmitting(true);
         try {
-            await productService.updateStatus(nextStatus, productId);
-            onRefresh(nextStatus); // Notificamos el cambio al padre
+            const updated = await productService.updateStatus(nextStatus, productId);
+            onRefresh(updated?.status ?? nextStatus);
         } catch (error) {
             console.error("Error al actualizar estado:", error);
             toast.error("No se pudo cambiar el estado.");
