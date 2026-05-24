@@ -72,7 +72,7 @@ export function AddCategoryAttributes() {
     }, []);
 
     useEffect(() => {
-        if (product && product.categories.length > 0) {
+        if (product && product?.categories?.length > 0) {
             navigate(`/productos/nuevo/3/${product.id}`);
         }
     }, [product])

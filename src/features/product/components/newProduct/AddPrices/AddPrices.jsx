@@ -137,7 +137,7 @@ export function AddPrices() {
     }, []);
 
     useEffect(() => {
-        if (product && product.price_lists.length > 0) {
+        if (product && product?.price_lists?.length > 0) {
             navigate(`/productos/nuevo/4/${product.id}`);
         }
     }, [product])
