@@ -181,7 +181,7 @@ export function Card({ product, categories: allCategories }) {
                                     </span>
                                 </div>
                             ) :
-                            <Link to={`/productos/nuevo/4/${product.id}`}>Agregar precios</Link>
+                            <Link to={`/productos/nuevo/3/${product.id}`}>Agregar precios</Link>
                         }
                     </div>
 
