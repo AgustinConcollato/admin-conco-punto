@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { CategoryAttributeService } from "../../../../../services/category/categoryAttributeService";
 import { ProductService } from "../../../../../services/product/productService";
+import { ComboInput } from "../../../../../components/ComboInput/ComboInput";
 import styles from "./ProductAttributeValues.module.css";
 
 export function ProductAttributeValues({ productId, deepestCategoryId, initialAttributeValues }) {
@@ -90,6 +91,13 @@ export function ProductAttributeValues({ productId, deepestCategoryId, initialAt
                                                 <option key={opt.id} value={opt.value}>{opt.value}</option>
                                             ))}
                                         </select>
+                                    ) : attr.type === 'combo' ? (
+                                        <ComboInput
+                                            options={attr.options?.map(o => o.value) ?? []}
+                                            value={val}
+                                            onChange={v => setVal(attr.id, v)}
+                                            placeholder={attr.name}
+                                        />
                                     ) : attr.type === 'boolean' ? (
                                         <label className={styles.bool_toggle}>
                                             <input

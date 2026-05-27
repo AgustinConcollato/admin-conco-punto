@@ -6,7 +6,7 @@ import { ConfirmModal } from "../../../../components/ConfirmModal/ConfirmModal";
 import { CategoryAttributeService } from "../../../../services/category/categoryAttributeService";
 import styles from "./CategoryAttributesEditor.module.css";
 
-const TYPE_LABELS = { text: "Texto", number: "Número", select: "Opciones", boolean: "Sí / No" };
+const TYPE_LABELS = { text: "Texto", number: "Número", select: "Opciones", boolean: "Sí / No", combo: "Opciones + texto libre" };
 
 const emptyForm = () => ({ name: '', type: 'text', required: false, options: [] });
 
@@ -64,7 +64,7 @@ export function CategoryAttributesEditor({ category }) {
         setErrors({});
         try {
             const payload = { ...form };
-            if (payload.type !== 'select') delete payload.options;
+            if (!['select', 'combo'].includes(payload.type)) delete payload.options;
 
             if (editingAttr) {
                 const updated = await service.update(category.id, editingAttr.id, payload);
@@ -133,7 +133,7 @@ export function CategoryAttributesEditor({ category }) {
                                     {TYPE_LABELS[attr.type]}
                                     {attr.required && <span className={styles.badge_required}>Requerido</span>}
                                 </span>
-                                {attr.type === 'select' && attr.options?.length > 0 && (
+                                {['select', 'combo'].includes(attr.type) && attr.options?.length > 0 && (
                                     <div className={styles.options_preview}>
                                         {attr.options.map(o => (
                                             <span key={o.id} className={styles.option_pill}>{o.value}</span>
@@ -181,6 +181,7 @@ export function CategoryAttributesEditor({ category }) {
                                 <option value="number">Número</option>
                                 <option value="select">Lista de opciones</option>
                                 <option value="boolean">Sí / No</option>
+                                <option value="combo">Opciones + texto libre</option>
                             </select>
                         </div>
 
@@ -193,7 +194,7 @@ export function CategoryAttributesEditor({ category }) {
                             Requerido al crear variante
                         </label>
 
-                        {form.type === 'select' && (
+                        {['select', 'combo'].includes(form.type) && (
                             <div className={styles.options_section}>
                                 <span className={styles.options_label}>Opciones</span>
                                 <div className={styles.option_input_row}>

@@ -2,6 +2,7 @@ import { faCircleNotch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import { ComboInput } from "../../../../../components/ComboInput/ComboInput";
 import { DragAndDrop } from "../../../../../components/DragAndDrop/DragAndDrop";
 import { IMAGE_URL } from "../../../../../config/api";
 import { ProductService } from "../../../../../services/product/productService";
@@ -252,6 +253,13 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
                                             <option key={opt.id} value={opt.value}>{opt.value}</option>
                                         ))}
                                     </select>
+                                ) : attr.type === 'combo' ? (
+                                    <ComboInput
+                                        options={attr.options?.map(o => o.value) ?? []}
+                                        value={val}
+                                        onChange={v => setAttrValue(attr.id, v)}
+                                        placeholder={attr.name}
+                                    />
                                 ) : attr.type === 'boolean' ? (
                                     <label className={styles.bool_toggle}>
                                         <input
