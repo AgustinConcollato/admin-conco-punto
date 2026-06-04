@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { usePendingOrdersCount } from '../../hooks/usePendingOrdersCount';
 import { NavLink, Link } from 'react-router-dom';
 import {
     ProductIcon,
@@ -35,6 +36,8 @@ const extraNavItems = [
 export function NavBarMobile() {
     const [showMore, setShowMore] = useState(false);
     const [showNew, setShowNew] = useState(false);
+    const [reload, setReload] = useState(false);
+    const pendingOrdersCount = usePendingOrdersCount(reload);
     const moreMenuRef = useRef(null);
     const newMenuRef = useRef(null);
 
@@ -50,15 +53,26 @@ export function NavBarMobile() {
     return (
         <nav className={styles.mobile_nav}>
             <div className={styles.tab_bar}>
-                
+
                 {/* 2. Mapeamos los items principales de la izquierda */}
                 {mainNavItems.map((item) => (
-                    <NavLink 
-                        key={item.to} 
-                        to={item.to} 
+                    <NavLink
+                        key={item.to}
+                        to={item.to}
                         className={({ isActive }) => isActive ? styles.tab_active : styles.tab_item}
                     >
-                        {item.icon}
+                        <div className={styles.tab_icon_wrapper}>
+                            {item.icon}
+                            {item.to === '/pedidos' && pendingOrdersCount > 0 && (
+                                <span className={styles.badge} onClick={(e) => {
+                                    e.preventDefault();
+                                    setReload(!reload);
+                                }}>
+                                    <span className={styles.badge_count}>{pendingOrdersCount > 99 ? '99+' : pendingOrdersCount}</span>
+                                    <i className={`${styles.badge_icon} hgi hgi-stroke hgi-rounded hgi-reload`} />
+                                </span>
+                            )}
+                        </div>
                         <span>{item.label}</span>
                     </NavLink>
                 ))}

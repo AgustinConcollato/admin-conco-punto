@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import logo from '../../assets/img/logo-completo.png'
 import { NavItem } from '../NavItem/NavItem'
+import { usePendingOrdersCount } from '../../hooks/usePendingOrdersCount'
 import styles from './NavBar.module.css'
 
 
@@ -114,6 +115,8 @@ const navItems = [
 export function NavBar() {
 
     const { logout } = useContext(AuthContext);
+    const [pendingReload, setPendingReload] = useState(false);
+    const pendingOrdersCount = usePendingOrdersCount(pendingReload);
 
     const [loading, setLoading] = useState(false);
 
@@ -206,8 +209,13 @@ export function NavBar() {
                 </div>
                 <nav className={styles.navbar}>
                     <ul>
-                        {navItems.map((item, i) => (
-                            <NavItem key={item.to || item.label} item={item} />
+                        {navItems.map((item) => (
+                            <NavItem
+                                key={item.to || item.label}
+                                item={item}
+                                badge={item.to === '/pedidos' ? pendingOrdersCount : 0}
+                                onBadgeClick={item.to === '/pedidos' ? () => setPendingReload(r => !r) : undefined}
+                            />
                         ))}
                     </ul>
                 </nav>

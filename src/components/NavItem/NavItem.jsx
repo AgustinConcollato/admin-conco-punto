@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styles from './NavItem.module.css'
 
-export function NavItem({ item }) {
+export function NavItem({ item, badge = 0, onBadgeClick }) {
     const [isOpen, setIsOpen] = useState(true);
 
     // Si no tiene hijos, renderiza un NavLink normal
@@ -15,6 +15,15 @@ export function NavItem({ item }) {
                 >
                     {item.icon}
                     {item.label}
+                    {badge > 0 && (
+                        <span
+                            className={styles.badge}
+                            onClick={(e) => { e.preventDefault(); onBadgeClick?.(); }}
+                        >
+                            <span className={styles.badge_count}>{badge > 99 ? '99+' : badge}</span>
+                            <i className={`${styles.badge_icon} hgi hgi-stroke hgi-rounded hgi-reload`} />
+                        </span>
+                    )}
                 </NavLink>
             </li>
         );

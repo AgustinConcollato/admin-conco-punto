@@ -123,4 +123,8 @@ export class OrderService {
             responseType: 'arrayBuffer'
         });
     }
+
+    async getPendingCount() {
+        return apiRequest('/orders/pending-count', { method: 'GET' });
+    }
 }

@@ -342,7 +342,7 @@ export function OrderList() {
                                     onDownload={handleDownloadPdf}
                                     onRefresh={(updatedOrder) => {
                                         if (updatedOrder) {
-                                            setOrders(prev => prev.map(o => o.id === updatedOrder.id ? updatedOrder : o));
+                                            setOrders(prev => prev.map(o => o.id === updatedOrder.id ? { ...o, ...updatedOrder } : o));
                                         } else {
                                             getOrders();
                                         }
