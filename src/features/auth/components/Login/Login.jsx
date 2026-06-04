@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+﻿import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../../contexts/AuthContext';
+import { AuthContext } from '../../../../context/AuthContext';
 import styles from './Login.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -52,18 +52,18 @@ export function Login() {
                 <input
                     type="text"
                     name='email'
-                    placeholder='Correo electrónico'
+                    placeholder='Correo electrÃ³nico'
                     onChange={handleInputChange}
                     value={'bazarshopmayorista@gmail.com'}
                     hidden
                 />
                 <div className='input_group'>
-                    <span>Contraseña</span>
+                    <span>ContraseÃ±a</span>
                     <input
                         className='input'
                         type={inputType}
                         name='password'
-                        placeholder='Contraseña'
+                        placeholder='ContraseÃ±a'
                         onChange={handleInputChange}
                     />
                     {errors.password && errors.password.map((msg, i) => (
@@ -71,7 +71,7 @@ export function Login() {
                     ))}
                     <label>
                         <input type="checkbox" onChange={() => setInputType(e => e == 'password' ? 'text' : 'password')} />
-                        <span>Mostrar contraseña</span>
+                        <span>Mostrar contraseÃ±a</span>
                     </label>
                 </div>
                 <button

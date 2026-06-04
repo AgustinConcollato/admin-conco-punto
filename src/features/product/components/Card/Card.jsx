@@ -1,19 +1,19 @@
-import { faBarcode, faExclamationCircle, faFolder, faPen, faXmark } from '@fortawesome/free-solid-svg-icons';
+﻿import { faBarcode, faExclamationCircle, faFolder, faPen, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Barcode } from '../../../../components/Barcode/Barcode';
 import { Modal } from '../../../../components/Modal/Modal';
 import { IMAGE_URL } from '../../../../config/api';
-import { MercadoLibreIcon } from '../../../../icons/icons';
+import { MercadoLibreIcon } from '../../../../assets/icons';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { ProductPromotionControl } from '../../../promotion/components/ProductPromotionControl/ProductPromotionControl';
-import { AddImagesModal } from '../detail/AddImagesModal/AddImagesModal';
-import { EditCategories } from '../detail/edit/EditCategories/EditCategories';
-import { EditInfo } from '../detail/EditInfo/EditInfo';
-import { EditPriceLists } from '../detail/EditPriceLists/EditPriceLists';
-import { EditStatus } from '../detail/EditStatus/EditStatus';
-import { EditSupplier } from '../detail/EditSupplier/EditSupplier';
+import { AddImagesModal } from '../AddImagesModal/AddImagesModal';
+import { EditCategories } from '../EditCategories/EditCategories';
+import { EditInfo } from '../EditInfo/EditInfo';
+import { EditPriceLists } from '../EditPriceLists/EditPriceLists';
+import { EditStatus } from '../EditStatus/EditStatus';
+import { EditSupplier } from '../EditSupplier/EditSupplier';
 import styles from './Card.module.css';
 
 export function Card({ product, categories: allCategories }) {
@@ -125,20 +125,20 @@ export function Card({ product, categories: allCategories }) {
                                 onError={(e) => { e.target.src = '/not-image.jpg'; }}
                             />
 
-                            {/* Solo mostrar flechas si hay más de una imagen */}
+                            {/* Solo mostrar flechas si hay mÃ¡s de una imagen */}
                             {images.length > 1 && (
                                 <div className={styles.image_nav}>
                                     <button
                                         className={styles.nav_arrow_left}
                                         onClick={prevImage}
                                     >
-                                        <span> ‹ </span>
+                                        <span> â€¹ </span>
                                     </button>
                                     <button
                                         className={styles.nav_arrow_right}
                                         onClick={nextImage}
                                     >
-                                        <span> › </span>
+                                        <span> â€º </span>
                                     </button>
                                     <div className={styles.image_counter}>
                                         {currentImageIndex + 1} / {images.length}
@@ -219,7 +219,7 @@ export function Card({ product, categories: allCategories }) {
                                                         <span className={styles.preview_attrs}>
                                                             {attrs.map(av =>
                                                                 `${av.category_attribute?.name ?? ''}: ${av.value}`
-                                                            ).join(' · ')}
+                                                            ).join(' Â· ')}
                                                         </span>
                                                     ) : (
                                                         <span className={styles.preview_sku}>{v.sku || `#${v.id}`}</span>
@@ -291,7 +291,7 @@ export function Card({ product, categories: allCategories }) {
                                         <Barcode value={barcode} code={product.sku} />
                                     </div>
                                 ) :
-                                <Link to={`/productos/nuevo/4/${product.id}`}>Agregar código de barras</Link>
+                                <Link to={`/productos/nuevo/4/${product.id}`}>Agregar cÃ³digo de barras</Link>
                         }
                     </div>
                 }
@@ -319,7 +319,7 @@ export function Card({ product, categories: allCategories }) {
                                 <li onClick={() => editProduct('status')}>Estado</li>
                             }
                             <li onClick={() => editProduct('image')}>Imagenes</li>
-                            <li onClick={() => editProduct('category')}>Categorías</li>
+                            <li onClick={() => editProduct('category')}>CategorÃ­as</li>
                         </ul>
                     </div>
                 }
@@ -384,13 +384,13 @@ export function Card({ product, categories: allCategories }) {
                     <AddImagesModal
                         productId={product.id}
                         onClose={() => setEdit(null)}
-                        onUpdate={setImages} // Pasamos la función de recarga
+                        onUpdate={setImages} // Pasamos la funciÃ³n de recarga
                     />
                 </Modal>
             )}
 
             {edit === 'category' && (
-                <Modal onClose={() => setEdit(null)} title={'Editar categorías'}>
+                <Modal onClose={() => setEdit(null)} title={'Editar categorÃ­as'}>
                     <EditCategories
                         productId={product.id}
                         currentCategoryIds={categories.map(cat => cat.id)}
@@ -401,3 +401,4 @@ export function Card({ product, categories: allCategories }) {
         </>
     );
 }
+

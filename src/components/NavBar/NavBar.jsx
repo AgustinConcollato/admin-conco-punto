@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+﻿import { useContext, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../contexts/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 import {
     AnalyticsIcon,
     CalendarIcon,
@@ -13,7 +13,7 @@ import {
     ProductIcon,
     ProviderIcon,
     WalletIcon
-} from '../../icons/icons'
+} from '../../assets/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import logo from '../../assets/img/logo-completo.png'
@@ -72,13 +72,13 @@ const navItems = [
         icon: <HomeIcon width={18} height={18} color='currentColor' />,
         label: 'Inicio'
     },
-    // Ejemplo de grupo: Gestión
+    // Ejemplo de grupo: GestiÃ³n
     {
-        label: 'Gestión',
+        label: 'GestiÃ³n',
         icon: <ProductIcon width={18} height={18} color='currentColor' />,
         children: [
             { to: '/productos', label: 'Productos' },
-            { to: '/categorias', label: 'Categorías' },
+            { to: '/categorias', label: 'CategorÃ­as' },
         ]
     },
     {
@@ -91,9 +91,9 @@ const navItems = [
         icon: <ClientIcon width={18} height={18} color='currentColor' />,
         label: 'Clientes'
     },
-    // Ejemplo de grupo: Administración
+    // Ejemplo de grupo: AdministraciÃ³n
     {
-        label: 'Análisis',
+        label: 'AnÃ¡lisis',
         icon: <AnalyticsIcon width={18} height={18} color='currentColor' />,
         children: [
             { to: '/reportes', label: 'Reportes' },
@@ -229,7 +229,7 @@ export function NavBar() {
                         <FontAwesomeIcon icon={faCircleNotch} spin /> :
                         <>
                             <FontAwesomeIcon icon={faSignOutAlt} />
-                            Cerrar sesión
+                            Cerrar sesiÃ³n
                         </>
                     }
                 </button>
@@ -237,3 +237,4 @@ export function NavBar() {
         </div>
     )
 }
+

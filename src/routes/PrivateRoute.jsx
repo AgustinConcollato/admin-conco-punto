@@ -1,6 +1,6 @@
-import { useContext } from "react";
+﻿import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { Modal } from "../components/Modal/Modal";
 import { Loading } from "../components/Loading/Loading";
 
@@ -15,3 +15,4 @@ export function PrivateRoute({ children }) {
 
     return children;
 }
+

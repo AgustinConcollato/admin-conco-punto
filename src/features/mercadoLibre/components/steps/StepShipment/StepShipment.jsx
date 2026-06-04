@@ -1,4 +1,4 @@
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+﻿import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useMLPublish } from "../../../hooks/useMLPublish";
@@ -7,7 +7,7 @@ import { FREE_SHIPPING_THRESHOLD } from "../../../hooks/useMLFees";
 import { StepNav } from "../StepNav/StepNav";
 import styles from "./StepShipment.module.css";
 
-// Mapeo shipping option → logistic_type para el API de comisiones
+// Mapeo shipping option â†’ logistic_type para el API de comisiones
 const LOGISTIC_MAP = {
     me2: "drop_off",
     local: "not_specified",
@@ -22,7 +22,7 @@ export function StepShipment() {
         if (shippingPrefs) {
             const opts = getShippingOptions(shippingPrefs, parseFloat(form.price) || 0);
             setOptions(opts);
-            // Selección default: me2 si existe
+            // SelecciÃ³n default: me2 si existe
             if (!form.shipping_mode && opts.some(o => o.id === "me2")) {
                 updateForm({ shipping_mode: "me2", logistic_type: "drop_off" });
             }
@@ -44,15 +44,15 @@ export function StepShipment() {
         return (
             <div className={styles.loading}>
                 <FontAwesomeIcon icon={faCircleNotch} spin />
-                <span>Cargando preferencias de envío...</span>
+                <span>Cargando preferencias de envÃ­o...</span>
             </div>
         );
     }
 
     return (
         <div>
-            <h3 className={styles.title}>Configuración de envío</h3>
-            <p className={styles.subtitle}>Elegí cómo vas a entregar el producto a los compradores.</p>
+            <h3 className={styles.title}>ConfiguraciÃ³n de envÃ­o</h3>
+            <p className={styles.subtitle}>ElegÃ­ cÃ³mo vas a entregar el producto a los compradores.</p>
 
             <div className={styles.options}>
                 {options.map(opt => {
@@ -67,7 +67,7 @@ export function StepShipment() {
                                 <input type="radio" readOnly checked={selected} />
                                 <div className={styles.card_info}>
                                     <strong className={styles.card_title}>{opt.title}</strong>
-                                    {opt.isFree && <span className={styles.free_badge}>Envío gratis obligatorio</span>}
+                                    {opt.isFree && <span className={styles.free_badge}>EnvÃ­o gratis obligatorio</span>}
                                 </div>
                             </div>
                             <p className={styles.card_desc}>{opt.description}</p>
@@ -80,7 +80,7 @@ export function StepShipment() {
                                         checked={form.free_shipping}
                                         onChange={e => updateForm({ free_shipping: e.target.checked })}
                                     />
-                                    Ofrecer envío gratis al comprador (lo pagas vos)
+                                    Ofrecer envÃ­o gratis al comprador (lo pagas vos)
                                 </label>
                             )}
                         </div>
@@ -88,11 +88,11 @@ export function StepShipment() {
                 })}
             </div>
 
-            {/* Peso y dimensiones — obligatorios para me2 */}
+            {/* Peso y dimensiones â€” obligatorios para me2 */}
             {currentId === "me2" && (
                 <div className={styles.package_section}>
                     <p className={styles.package_title}>Medidas del paquete</p>
-                    <p className={styles.package_sub}>Necesarias para calcular el costo real de envío.</p>
+                    <p className={styles.package_sub}>Necesarias para calcular el costo real de envÃ­o.</p>
                     <div className={styles.package_grid}>
                         <div className={styles.field}>
                             <label>Peso <span className={styles.unit}>(g)</span></label>
@@ -149,3 +149,6 @@ export function StepShipment() {
         </div>
     );
 }
+
+
+

@@ -1,7 +1,7 @@
-import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from "../contexts/AuthContext";
+﻿import { Route, Routes } from "react-router-dom";
+import { AuthProvider } from "../context/AuthContext";
 import { PrivateRoute } from "./PrivateRoute";
-import { AppLayout } from "../layout/AppLayout/AppLayout";
+import { AppLayout } from "../components/layout/AppLayout/AppLayout";
 import { Login } from "../features/auth/components/Login/Login";
 
 export function AppRouter() {
@@ -15,3 +15,4 @@ export function AppRouter() {
         </AuthProvider>
     );
 }
+

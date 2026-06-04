@@ -1,11 +1,11 @@
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+﻿import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Loading } from '../../../../components/Loading/Loading';
 import { Modal } from '../../../../components/Modal/Modal';
 import { IMAGE_URL } from '../../../../config/api';
 import { FILTERS } from '../../../../config/product';
-import { OrderContext } from '../../../../contexts/OrderContext';
+import { OrderContext } from '../../../../context/OrderContext';
 import { ProductService } from '../../../../services/product/productService';
 import { ProductVariantService } from '../../../../services/product/productVariantService';
 import { formatPrice } from '../../../../utils/formatPrice';
@@ -65,7 +65,7 @@ export function ProductSearch() {
         if (hasVariants || mobile) {
             let batchItem = item;
             if (item._type === 'variant') {
-                // Variante directa en celular: envolver como producto sintético con una sola fila
+                // Variante directa en celular: envolver como producto sintÃ©tico con una sola fila
                 batchItem = {
                     ...item,
                     stock: 0,
@@ -198,7 +198,7 @@ export function ProductSearch() {
             <form className={styles.search_form} onSubmit={e => e.preventDefault()} ref={searchRef}>
                 <input
                     type="text"
-                    placeholder="Nombre, SKU, Código de barras"
+                    placeholder="Nombre, SKU, CÃ³digo de barras"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className={'input'}
@@ -226,7 +226,7 @@ export function ProductSearch() {
                                         <span>{item.sku}</span>
                                         {item._type === 'variant' && item.attribute_values.length > 0 && (
                                             <span className={styles.variant_attrs}>
-                                                {item.attribute_values.map(av => av.value).join(' · ')}
+                                                {item.attribute_values.map(av => av.value).join(' Â· ')}
                                             </span>
                                         )}
                                         {item._type === 'product' && item.variants.length > 0 && (
@@ -303,3 +303,4 @@ export function ProductSearch() {
         </>
     );
 }
+

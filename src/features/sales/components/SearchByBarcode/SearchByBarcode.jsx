@@ -1,9 +1,9 @@
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+﻿import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Loading } from "../../../../components/Loading/Loading";
 import { IMAGE_URL } from "../../../../config/api";
-import { OrderContext } from "../../../../contexts/OrderContext";
+import { OrderContext } from "../../../../context/OrderContext";
 import { ProductService } from "../../../../services/product/productService";
 import styles from "./SearchByBarcode.module.css";
 
@@ -105,7 +105,7 @@ export function SearchByBarcode() {
                 <input
                     type="text"
                     name="barcode"
-                    placeholder="Escanear o introducir código..."
+                    placeholder="Escanear o introducir cÃ³digo..."
                     autoFocus
                     disabled={isLoading}
                     className={styles.form_input}
@@ -146,3 +146,4 @@ export function SearchByBarcode() {
         </>
     );
 }
+

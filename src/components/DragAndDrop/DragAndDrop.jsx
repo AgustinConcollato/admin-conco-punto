@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { ImageDownloadIcon, ImageIcon } from '../../icons/icons'
+﻿import { useRef, useState } from 'react'
+import { ImageDownloadIcon, ImageIcon } from '../../assets/icons'
 import styles from './DragAndDrop.module.css'
 
 export function DragAndDrop({ setImages }) {
@@ -92,7 +92,7 @@ export function DragAndDrop({ setImages }) {
                         height={64}
                         color={"#000"}
                     />
-                    ¡Click o arrastrar la imagen acá!
+                    Â¡Click o arrastrar la imagen acÃ¡!
                 </div>}
             </span>
             <input
@@ -106,3 +106,4 @@ export function DragAndDrop({ setImages }) {
         </div>
     )
 }
+

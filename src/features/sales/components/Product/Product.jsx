@@ -1,9 +1,9 @@
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+﻿import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { IMAGE_URL } from "../../../../config/api";
-import { OrderContext } from "../../../../contexts/OrderContext";
+import { OrderContext } from "../../../../context/OrderContext";
 import { formatPrice } from "../../../../utils/formatPrice";
 import { ConfirmModal } from "../../../../components/ConfirmModal/ConfirmModal";
 import { Modal } from "../../../../components/Modal/Modal";
@@ -44,10 +44,10 @@ export function Product({ detail }) {
         setFormData(prev => {
             const newState = {
                 ...prev,
-                [name]: floatValue || value, // Usa el valor flotante o el valor original si no es un número válido
+                [name]: floatValue || value, // Usa el valor flotante o el valor original si no es un nÃºmero vÃ¡lido
             };
 
-            // Lógica de Descuento Exclusivo:
+            // LÃ³gica de Descuento Exclusivo:
             if (name === 'discount_percentage' && floatValue > 0) {
                 // Si se establece un porcentaje > 0, forzar el monto fijo a 0
                 newState.discount_fixed_amount = 0;
@@ -78,7 +78,7 @@ export function Product({ detail }) {
             } else if (fixed > 0) {
                 percent = 0;
             }
-            // Aseguramos que los valores numéricos sean válidos antes de enviar
+            // Aseguramos que los valores numÃ©ricos sean vÃ¡lidos antes de enviar
             const dataToSend = {
                 quantity: parseInt(formData.quantity),
                 unit_price: parseFloat(formData.unit_price),
@@ -86,7 +86,7 @@ export function Product({ detail }) {
                 discount_fixed_amount: parseFloat(formData.discount_fixed_amount || 0),
             };
 
-            // Llamar a la función del contexto con el ID del detalle y los datos
+            // Llamar a la funciÃ³n del contexto con el ID del detalle y los datos
             await updateProduct(detail.id, dataToSend);
             setShowModal(false); // Cerrar modal al completar
         } catch (error) {
@@ -128,7 +128,7 @@ export function Product({ detail }) {
                     </div>
                 </div>
 
-                {/* En móvil, envolvemos cada dato con una etiqueta descriptiva */}
+                {/* En mÃ³vil, envolvemos cada dato con una etiqueta descriptiva */}
                 <div className={styles.mobile_row}>
                     <span className={styles.label}>Cant:</span>
                     <span>{detail.quantity}</span>
@@ -232,7 +232,7 @@ export function Product({ detail }) {
             }
             {showConfirmRemove && (
                 <ConfirmModal
-                    message="¿Estás seguro de que quieres eliminar este producto del pedido?"
+                    message="Â¿EstÃ¡s seguro de que quieres eliminar este producto del pedido?"
                     onConfirm={remove}
                     onCancel={() => setShowConfirmRemove(false)}
                 />
