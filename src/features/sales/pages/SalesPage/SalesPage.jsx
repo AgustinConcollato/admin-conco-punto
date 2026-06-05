@@ -151,7 +151,7 @@ export function SalesPage() {
                                             }}
                                             aria-label="Limpiar cliente"
                                         >
-                                            Ã—
+                                            ×
                                         </button>
                                     )}
                                 </div>

@@ -87,7 +87,7 @@ export function ProductList({ params, handleFilterChange, filters }) {
 
                     {products && products.length > 0 ? (
                         <>
-                            <div className={styles.productGrid}>
+                            <div className={styles.product_grid}>
                                 {products.map((product) => (
                                     <Card key={product.id} product={product} />
                                 ))}

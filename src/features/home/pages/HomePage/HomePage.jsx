@@ -5,7 +5,7 @@ import styles from './HomePage.module.css';
 export function HomePage() {
     return (
         <div className={styles.page}>
-            <h2 className={styles.title}>Accesos rÃ¡pidos</h2>
+            <h2 className={styles.title}>Accesos rápidos</h2>
             <div className={styles.grid}>
                 <Link to={'/productos/nuevo/1'} className={styles.card}>
                     <ProductIcon width={36} height={36} color='currentColor' />

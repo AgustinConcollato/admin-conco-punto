@@ -64,21 +64,21 @@ export function NewSupplierPage() {
                 />
             </div>
             <div className="input_group">
-                <span>TelÃ©fono</span>
+                <span>Teléfono</span>
                 <input
                     type="text"
                     name="phone"
                     className="input"
-                    placeholder="TelÃ©fono (opcional)"
+                    placeholder="Teléfono (opcional)"
                 />
             </div>
             <div className="input_group">
-                <span>PÃ¡gina web</span>
+                <span>Página web</span>
                 <input
                     type="text"
                     name="address"
                     className="input"
-                    placeholder="PÃ¡gina web (opcional)"
+                    placeholder="Página web (opcional)"
                 />
             </div>
             <button

@@ -46,7 +46,7 @@ export function CategoryListPage() {
             setAllCategoryIds(allIds);
 
         } catch (error) {
-            console.error("Error al obtener categorÃ­as:", error);
+            console.error("Error al obtener categorías:", error);
         } finally {
             setIsLoading(false);
         }
@@ -95,9 +95,9 @@ export function CategoryListPage() {
                 .filter(cat => cat.id !== pendingDeleteId)
                 .map(cat => ({ ...cat, children: removeById(cat.children || []) }));
             setCategories(prev => removeById(prev));
-            toast.success("CategorÃ­a eliminada");
+            toast.success("Categoría eliminada");
         } catch (error) {
-            toast.error("Error al eliminar la categorÃ­a.");
+            toast.error("Error al eliminar la categoría.");
         } finally {
             setPendingDeleteId(null);
         }
@@ -120,9 +120,9 @@ export function CategoryListPage() {
             if (response && response.categories) setCategories(response.categories);
             else await getCategories();
             closeEditModal();
-            toast.success("CategorÃ­a actualizada");
+            toast.success("Categoría actualizada");
         } catch (error) {
-            toast.error("Error al actualizar la categorÃ­a.");
+            toast.error("Error al actualizar la categoría.");
         }
     };
 
@@ -134,14 +134,14 @@ export function CategoryListPage() {
 
         return (
             <li key={category.id} className={isRoot ? styles.root_item : ''}>
-                {/* Tarjeta Principal de la CategorÃ­a */}
+                {/* Tarjeta Principal de la Categoría */}
                 <div
                     className={`${styles.category_card} ${isRoot ? styles.is_root : styles.is_child}`}
                     style={{ '--level': level }}
                 >
                     <div className={styles.card_content_wrapper}>
 
-                        {/* BotÃ³n Toggle (Flecha) */}
+                        {/* Botón Toggle (Flecha) */}
                         <div className={styles.toggle_area}>
                             {hasChildren ? (
                                 <button
@@ -175,7 +175,7 @@ export function CategoryListPage() {
                             )}
                         </div>
 
-                        {/* Info Secundaria (Padre) - Se oculta en mÃ³vil por CSS */}
+                        {/* Info Secundaria (Padre) - Se oculta en móvil por CSS */}
                         <span className={styles.parent_info}>
                             {category.parent ? <><small>Padre:</small> {category.parent.name}</> : "-"}
                         </span>
@@ -198,7 +198,7 @@ export function CategoryListPage() {
                     </div>
                 </div>
 
-                {/* CajÃ³n de Hijos (Drawer) */}
+                {/* Cajón de Hijos (Drawer) */}
                 {hasChildren && isExpanded && (
                     // Nuevo contenedor visual para los hijos
                     <div className={styles.children_drawer}>
@@ -214,7 +214,7 @@ export function CategoryListPage() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h2 className={styles.title}>CategorÃ­as</h2>
+                <h2 className={styles.title}>Categorías</h2>
                 <div className={styles.header_actions}>
                     <div className={styles.expand_collapse_btns}>
                         <button className="btn btn_regular" onClick={() => setExpandedCategories(new Set(allCategoryIds))}>Expandir</button>
@@ -229,7 +229,7 @@ export function CategoryListPage() {
             <div className={styles.search_container}>
                 <input
                     type="text"
-                    placeholder="Buscar categorÃ­a..."
+                    placeholder="Buscar categoría..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className={styles.search_input}
@@ -243,10 +243,10 @@ export function CategoryListPage() {
             ) : filteredCategories.length === 0 ? (
                 <EmptyState
                     icon={faFolderOpen}
-                    message={searchTerm ? 'No se encontraron categorÃ­as con ese criterio.' : 'TodavÃ­a no hay categorÃ­as creadas.'}
+                    message={searchTerm ? 'No se encontraron categorías con ese criterio.' : 'Todavía no hay categorías creadas.'}
                 />
             ) : (
-                // En este diseÃ±o ya no necesitamos el header de tabla tradicional
+                // En este diseño ya no necesitamos el header de tabla tradicional
                 <ul className={styles.main_list}>
                     {filteredCategories.map((cat) => renderCategoryItem(cat))}
                 </ul>
@@ -271,7 +271,7 @@ export function CategoryListPage() {
 
             {pendingDeleteId && (
                 <ConfirmModal
-                    message="Â¿EstÃ¡s seguro? Se eliminarÃ¡n tambiÃ©n todas las subcategorÃ­as."
+                    message="¿Estás seguro? Se eliminarán también todas las subcategorías."
                     onConfirm={confirmDelete}
                     onCancel={() => setPendingDeleteId(null)}
                 />

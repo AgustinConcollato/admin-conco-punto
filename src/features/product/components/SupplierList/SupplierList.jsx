@@ -121,7 +121,7 @@ export function SupplierList({ suppliers, setSuppliers, errors, currentSuppliers
                                             associated ? styles.associated : '',
                                         ].filter(Boolean).join(' ')}
                                         onClick={() => addSupplier(supplier)}
-                                        title={associated ? 'Ya asociado â€” hacer click para editar' : undefined}
+                                        title={associated ? 'Ya asociado — hacer click para editar' : undefined}
                                     >
                                         {supplier.name}
                                         {associated && <span className={styles.associated_badge}>Asociado</span>}
@@ -132,7 +132,7 @@ export function SupplierList({ suppliers, setSuppliers, errors, currentSuppliers
                         <p className={styles.no_results}>
                             {searchTerm.length > 1
                                 ? 'No se encontraron proveedores que coincidan.'
-                                : 'No hay mÃ¡s proveedores disponibles.'}
+                                : 'No hay más proveedores disponibles.'}
                         </p>
                     )}
                 </ul>

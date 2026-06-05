@@ -72,13 +72,13 @@ const navItems = [
         icon: <HomeIcon width={18} height={18} color='currentColor' />,
         label: 'Inicio'
     },
-    // Ejemplo de grupo: GestiÃ³n
+    // Ejemplo de grupo: Gestión
     {
-        label: 'GestiÃ³n',
+        label: 'Gestión',
         icon: <ProductIcon width={18} height={18} color='currentColor' />,
         children: [
             { to: '/productos', label: 'Productos' },
-            { to: '/categorias', label: 'CategorÃ­as' },
+            { to: '/categorias', label: 'Categorí­as' },
         ]
     },
     {
@@ -91,9 +91,9 @@ const navItems = [
         icon: <ClientIcon width={18} height={18} color='currentColor' />,
         label: 'Clientes'
     },
-    // Ejemplo de grupo: AdministraciÃ³n
+    // Ejemplo de grupo: Administración
     {
-        label: 'AnÃ¡lisis',
+        label: 'Análisis',
         icon: <AnalyticsIcon width={18} height={18} color='currentColor' />,
         children: [
             { to: '/reportes', label: 'Reportes' },
@@ -107,7 +107,7 @@ const navItems = [
     },
     {
         to: '/mercado-libre/cuenta',
-        icon: <MercadoLibreIcon width={18} height={18}/>,
+        icon: <MercadoLibreIcon width={18} height={18} />,
         label: 'Mercado Libre'
     }
 ];
@@ -229,7 +229,7 @@ export function NavBar() {
                         <FontAwesomeIcon icon={faCircleNotch} spin /> :
                         <>
                             <FontAwesomeIcon icon={faSignOutAlt} />
-                            Cerrar sesiÃ³n
+                            Cerrar sesión
                         </>
                     }
                 </button>

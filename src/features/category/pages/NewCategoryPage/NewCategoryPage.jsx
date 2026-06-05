@@ -19,7 +19,7 @@ export function NewCategoryPage() {
             const data = await categoryService.getAll();
             setCategories(data);
         } catch (error) {
-            console.error("Error al cargar categorÃ­as:", error);
+            console.error("Error al cargar categorías:", error);
         }
     };
 
@@ -52,7 +52,7 @@ export function NewCategoryPage() {
             setParentId("");
             setErrors({});
             loadCategories();
-            toast.success("CategorÃ­a creada");
+            toast.success("Categoría creada");
 
         } catch (error) {
             setErrors(error[0]);
@@ -64,31 +64,31 @@ export function NewCategoryPage() {
     return (
         <div className={styles.page}>
             <form className={styles.form} onSubmit={handleSubmit}>
-                <h1 className="title">Agregar nueva categorÃ­a</h1>
+                <h1 className="title">Agregar nueva categoría</h1>
                 <div className='input_group'>
-                    <span>Nombre de la categorÃ­a o subcategorÃ­a</span>
+                    <span>Nombre de la categoría o subcategoría</span>
                     <input
                         className="input"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Nombre de la categorÃ­a o subcategorÃ­a"
+                        placeholder="Nombre de la categoría o subcategoría"
                     />
                     {errors.name && <p className={styles.error}>{errors.name[0]}</p>}
                 </div>
 
                 <div className='input_group'>
-                    <span>CategorÃ­a padre (opcional)</span>
+                    <span>Categoría padre (opcional)</span>
                     <select
                         className="input"
                         value={parentId}
                         onChange={(e) => setParentId(e.target.value)}
                     >
-                        <option value="">Sin categorÃ­a padre</option>
+                        <option value="">Sin categoría padre</option>
                         {flatCategories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
                                 {"".padStart(cat.level * 4, "\u00a0")}
-                                {cat.level > 0 && "â†’ "}
+                                {cat.level > 0 && "→ "}
                                 {cat.name}
                             </option>
                         ))}

@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal } from '../../../../components/Modal/Modal';
+import { downloadOrderPdf } from '../../../../utils/downloadOrderPdf';
 import { formatDate } from '../../../../utils/formatDate';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { CreatePayment } from '../../../payment/components/CreatePayment/CreatePayment';
@@ -19,14 +20,14 @@ import styles from './OrderCard.module.css';
 
 const STATUS_TRANSLATIONS = {
     'pending': 'Pendiente',
-    'processing': 'PreparaciÃ³n',
+    'processing': 'Preparación',
     'confirmed': 'Terminado',
     'shipped': 'Enviado',
     'delivered': 'Entregado',
     'cancelled': 'Cancelado',
 };
 
-export function OrderCard({ order, onDownload, onRefresh }) {
+export function OrderCard({ order, onRefresh }) {
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
@@ -40,7 +41,7 @@ export function OrderCard({ order, onDownload, onRefresh }) {
     const downloadPDF = async () => {
         setLoading(true);
         try {
-            await onDownload(order.id, clientName);
+            await downloadOrderPdf(order.id, clientName);
         } catch (error) {
             console.error(error);
         } finally {
@@ -49,7 +50,7 @@ export function OrderCard({ order, onDownload, onRefresh }) {
     };
 
     const getStatusClass = (status) => {
-        // Esto buscarÃ¡ clases como .status_pending, .status_confirmed, etc.
+        // Esto buscará clases como .status_pending, .status_confirmed, etc.
         const statusClass = styles[`status_${status.toLowerCase()}`];
         return statusClass || styles.status_default;
     };
@@ -84,33 +85,33 @@ export function OrderCard({ order, onDownload, onRefresh }) {
                 <div className={styles.sub_info}>
                     <span>Cliente: {clientName}</span>
                     <span className={styles.divider}>|</span>
-                    <span>Fecha: {formatDate(order.created_at, 'short')}</span>
+                    <span>Fecha: {formatDate(order.created_at, 'numeric', true)}</span>
                 </div>
 
                 <hr className={styles.separator} />
 
-                {/* AnÃ¡lisis Financiero */}
+                {/* Análisis Financiero */}
                 <div className={styles.section}>
-                    <h4 className={styles.section_title}>AnÃ¡lisis Financiero</h4>
+                    <h4 className={styles.section_title}>Análisis Financiero</h4>
                     <div className={styles.finance_item}>
                         <FontAwesomeIcon icon={faArrowDown} className={styles.icon_cost} />
                         <span>Costo: {formatPrice(order.total_cost)}</span>
                     </div>
                     <div className={styles.finance_item}>
                         <FontAwesomeIcon icon={faTruck} className={styles.icon_shipping} />
-                        <span>EnvÃ­o: {formatPrice(order.shipping_cost)}</span>
+                        <span>Enví­o: {formatPrice(order.shipping_cost)}</span>
                     </div>
                     <div className={styles.finance_item}>
                         <FontAwesomeIcon icon={faMoneyBillTrendUp} className={styles.icon_profit} />
                         <span>Ganancia: {formatPrice(profit)}</span>
                     </div>
                     <div className={`${styles.finance_item} ${styles.savings}`}>
-                        <span className={styles.l_connector}>â””</span>
+                        <span className={styles.l_connector}>└</span>
                         <FontAwesomeIcon icon={faPiggyBank} className={styles.icon_savings} />
-                        <span className={styles.savings_text}>*ReinversiÃ³n (10%): {formatPrice(savings)}</span>
+                        <span className={styles.savings_text}>*Reinversión (10%): {formatPrice(savings)}</span>
                     </div>
                     <div className={`${styles.finance_item} ${styles.savings}`}>
-                        <span className={styles.l_connector}>â””</span>
+                        <span className={styles.l_connector}>└</span>
                         <FontAwesomeIcon icon={faHandshake} className={styles.icon_savings} />
                         <span className={styles.savings_text}>*Ganancias a dividir: {formatPrice(profit - savings)}</span>
                     </div>
@@ -145,7 +146,7 @@ export function OrderCard({ order, onDownload, onRefresh }) {
                                             <span>
                                                 {payment.payment_method == 'cash' ? 'Efectivo' :
                                                     payment.payment_method == 'transfer' ? 'Transferencia' :
-                                                        payment.payment_method == 'credit_card' ? 'Tarjeta de crÃ©dito/dÃ©bito' :
+                                                        payment.payment_method == 'credit_card' ? 'Tarjeta de crédito/débito' :
                                                             'Cheque'
                                                 }
                                             </span>
@@ -163,7 +164,7 @@ export function OrderCard({ order, onDownload, onRefresh }) {
                     </ul>
                 </div>
 
-                {/* Botones de AcciÃ³n */}
+                {/* Botones de Acción */}
                 <div className={styles.actions}>
                     <button
                         className={"btn btn_solid"}

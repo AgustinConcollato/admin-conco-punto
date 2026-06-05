@@ -1,6 +1,7 @@
 .create_payment {
     margin-top: 30px;
     width: 300px;
+    max-width: 100%;
 }
 
 .error {

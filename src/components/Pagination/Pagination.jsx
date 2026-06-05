@@ -1,5 +1,3 @@
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Pagination.module.css';
 
 export function Pagination({ currentPage, onPageChange, lastPage }) {
@@ -26,7 +24,7 @@ export function Pagination({ currentPage, onPageChange, lastPage }) {
     return (
         <div className={styles.pagination}>
             {currentPage > 1 && (
-                <button className='btn' onClick={() => onPageChange(currentPage - 1)}><FontAwesomeIcon icon={faAngleLeft}/></button>
+                <button className='btn' onClick={() => onPageChange(currentPage - 1)}>{'<'}</button>
             )}
             <div className={styles.number_of_pages}>
                 {pageNumbers[0] > 1 && (
@@ -52,7 +50,7 @@ export function Pagination({ currentPage, onPageChange, lastPage }) {
                 )}
             </div>
             {currentPage < totalPages && (
-                <button className='btn' onClick={() => onPageChange(currentPage + 1)}><FontAwesomeIcon icon={faAngleRight}/> </button>
+                <button className='btn' onClick={() => onPageChange(currentPage + 1)}>{'>'} </button>
             )}
         </div>
     );

@@ -44,7 +44,7 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
         const cost = parseFloat(baseCost * 1.05);
 
         const suggestions = PRICE_LISTS.map(list => {
-            // FÃ³rmula: Precio de Venta = Precio de Compra / (1 - Margen de Ganancia)
+            // Fórmula: Precio de Venta = Precio de Compra / (1 - Margen de Ganancia)
             const sellingPrice = cost / (1 - list.margin);
             return {
                 list_id: list.id,
@@ -76,13 +76,13 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
 
 
         const payload = {
-            // 'suppliers' se llenarÃ¡ despuÃ©s de la lÃ³gica de fusiÃ³n.
+            // 'suppliers' se llenará después de la lógica de fusión.
             suppliers: [],
-            // Solo enviamos price_lists si updatePrice estÃ¡ activado
+            // Solo enviamos price_lists si updatePrice está activado
             price_lists: updatePrice ? suggestedPriceLists.map(list => ({
                 list_id: list.list_id,
                 price: parseFloat(list.price) || 0,
-            })) : undefined, // Si no estÃ¡ activo, se omite del payload
+            })) : undefined, // Si no está activo, se omite del payload
         };
 
 
@@ -103,7 +103,7 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
                 payload.suppliers = [...isDuplicateInCurrentSupplies, ...suppliers];
             } else {
                 throw [{
-                    suppliers: ['Selecciona algÃºn proveedor.']
+                    suppliers: ['Selecciona algún proveedor.']
                 }]
             }
 

@@ -11,7 +11,7 @@ export function EditPriceLists({ currentPriceLists, productId, onRefresh }) {
     const [errors, setErrors] = useState({});
     const productService = useMemo(() => new ProductService(), []);
 
-    // Inicializar los datos combinando la configuraciÃ³n base con los precios actuales
+    // Inicializar los datos combinando la configuración base con los precios actuales
     useEffect(() => {
         const mergedPriceLists = PRICE_LISTS.map(baseList => {
             const currentPriceItem = currentPriceLists.find(cp => cp.id === baseList.id);

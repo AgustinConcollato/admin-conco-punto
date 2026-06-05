@@ -93,10 +93,10 @@ export const AnalyticsLayout = () => {
                 </div>
             ) : data && (
                 <>
-                    {/* MÃ©tricas clave */}
+                    {/* Métricas clave */}
                     <Metrics data={data} comparison={comparison} />
 
-                    {/* GrÃ¡fico de ingresos */}
+                    {/* Gráfico de ingresos */}
                     <RevenueChart data={data.revenue_over_time || []} />
 
                     {/* Grid inferior: pagos + top productos */}
@@ -125,7 +125,7 @@ export const AnalyticsLayout = () => {
 
                         {/* Top productos */}
                         <section className={styles.section_card}>
-                            <h3 className={styles.section_title}>Top productos mÃ¡s vendidos</h3>
+                            <h3 className={styles.section_title}>Top productos más vendidos</h3>
                             {data.top_products?.length > 0 ? (
                                 <table className={styles.table}>
                                     <thead>
@@ -144,7 +144,7 @@ export const AnalyticsLayout = () => {
                                                         <div>
                                                             <p className={styles.product_name}>{p.product_name}</p>
                                                             <p className={styles.product_cat}>
-                                                                {p.categories?.length > 0 ? p.categories.join(', ') : 'Sin categorÃ­a'}
+                                                                {p.categories?.length > 0 ? p.categories.join(', ') : 'Sin categoría'}
                                                             </p>
                                                         </div>
                                                     </div>

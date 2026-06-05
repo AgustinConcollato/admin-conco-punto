@@ -13,7 +13,7 @@ import styles from './Barcodes.module.css';
 export function Barcodes({ barcodes, sku, id }) {
     const productService = useMemo(() => new ProductService(), []);
 
-    // Estado para controlar quÃ© cÃ³digo y cuÃ¡ntas copias se quieren imprimir
+    // Estado para controlar qué código y cuántas copias se quieren imprimir
     const [printData, setPrintData] = useState({ barcodeValue: '', count: 0 });
     const [showModal, setShowModal] = useState(false);
     const [pendingDeleteBarcode, setPendingDeleteBarcode] = useState(null);
@@ -39,11 +39,11 @@ export function Barcodes({ barcodes, sku, id }) {
 
             // Actualizar UI localmente
             setList(curr => curr.filter(b => (b.id || b.barcode) !== (barcode.id || barcode.barcode)));
-            setMessage('âœ“ CÃ³digo eliminado');
+            setMessage('✓ Código eliminado');
             setTimeout(() => setMessage(''), 1800);
         } catch (err) {
-            console.error('Error eliminando cÃ³digo:', err);
-            setError('No se pudo eliminar el cÃ³digo. Intenta de nuevo.');
+            console.error('Error eliminando código:', err);
+            setError('No se pudo eliminar el código. Intenta de nuevo.');
         } finally {
             setLoading(false);
             setDeletingId(null);
@@ -53,7 +53,7 @@ export function Barcodes({ barcodes, sku, id }) {
     return (
         <div className={styles.barcode_container}>
             <div className={styles.header}>
-                <h3>CÃ³digos de barras</h3>
+                <h3>Códigos de barras</h3>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     {message && <div style={{ color: '#66b819' }}><FontAwesomeIcon icon={faCheckCircle} /> {message}</div>}
                     {error && <div style={{ color: '#be3232' }}><FontAwesomeIcon icon={faExclamationCircle} /> {error}</div>}
@@ -78,7 +78,7 @@ export function Barcodes({ barcodes, sku, id }) {
                                     className="btn btn_error_regular"
                                     onClick={() => setPendingDeleteBarcode(e)}
                                     disabled={loading && deletingId === (e.id || e.barcode)}
-                                    title="Eliminar cÃ³digo de barras"
+                                    title="Eliminar código de barras"
                                 >
                                     {loading && deletingId === (e.id || e.barcode) ? (
                                         <FontAwesomeIcon icon={faCircleNotch} spin />
@@ -92,20 +92,20 @@ export function Barcodes({ barcodes, sku, id }) {
                             </div>
                         </div>
                     ) :
-                    <p>No hay cÃ³digos asignados</p>
+                    <p>No hay códigos asignados</p>
                 }
             </div>
 
             {pendingDeleteBarcode && (
                 <ConfirmModal
-                    message="Â¿Eliminar este cÃ³digo de barras?"
+                    message="¿Eliminar este código de barras?"
                     onConfirm={() => { handleDelete(pendingDeleteBarcode); setPendingDeleteBarcode(null); }}
                     onCancel={() => setPendingDeleteBarcode(null)}
                 />
             )}
 
             {showModal &&
-                <Modal onClose={() => setShowModal(false)} title={'Imprimir cÃ³digos de barras'}>
+                <Modal onClose={() => setShowModal(false)} title={'Imprimir códigos de barras'}>
                     {printData.count > 0 && printData.barcodeValue && (
                         <div className={styles.print_section}>
                             <div className='input_group'>
@@ -135,6 +135,6 @@ export function Barcodes({ barcodes, sku, id }) {
 }
 
 // Renombra tu componente Barcode actual a BarcodeGenerator
-// y Ãºsalo para mostrar individualmente (o usa el existente sin el botÃ³n de descarga)
+// y úsalo para mostrar individualmente (o usa el existente sin el botón de descarga)
 // ... (Tu componente Barcode original, renombrado a BarcodeGenerator)
 

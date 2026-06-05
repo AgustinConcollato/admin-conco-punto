@@ -36,7 +36,7 @@ export function ProductDetailsPage() {
                 }
             } catch (err) {
                 console.error("Error al cargar el producto:", err);
-                setError("OcurriÃ³ un error al intentar cargar el detalle del producto.");
+                setError("Ocurrió un error al intentar cargar el detalle del producto.");
             } finally {
                 setIsLoading(false);
             }

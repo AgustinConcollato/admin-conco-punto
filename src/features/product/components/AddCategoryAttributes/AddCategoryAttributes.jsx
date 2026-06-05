@@ -83,7 +83,7 @@ export function AddCategoryAttributes() {
         if (!product) return;
 
         if (!categories.length) {
-            setErrors({ categories: ['SeleccionÃ¡ al menos una categorÃ­a.'] });
+            setErrors({ categories: ['Seleccioná al menos una categorí­a.'] });
             return;
         }
 
@@ -118,7 +118,7 @@ export function AddCategoryAttributes() {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <h1 className="title">CategorÃ­a y Propiedades</h1>
+            <h1 className="title">Categorí­a y Propiedades</h1>
 
             {product ? (
                 <>
@@ -144,7 +144,7 @@ export function AddCategoryAttributes() {
                                         </span>
                                         {attr.type === 'select' ? (
                                             <select className="input" value={val} onChange={e => setAttrValue(attr.id, e.target.value)}>
-                                                <option value="">â€” Seleccionar â€”</option>
+                                                <option value="">— Seleccionar —</option>
                                                 {attr.options?.map(opt => (
                                                     <option key={opt.id} value={opt.value}>{opt.value}</option>
                                                 ))}
@@ -163,7 +163,7 @@ export function AddCategoryAttributes() {
                                                     checked={val === 'true'}
                                                     onChange={e => setAttrValue(attr.id, e.target.checked ? 'true' : 'false')}
                                                 />
-                                                {val === 'true' ? 'SÃ­' : 'No'}
+                                                {val === 'true' ? 'Sí' : 'No'}
                                             </label>
                                         ) : (
                                             <input

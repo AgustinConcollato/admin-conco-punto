@@ -92,3 +92,13 @@
         padding: 20px;
     }
 }
+
+@media (max-width: 360px) {
+    .container_children {
+        padding: 16px;
+    }
+
+    .header_modal {
+        gap: 10px;
+    }
+}

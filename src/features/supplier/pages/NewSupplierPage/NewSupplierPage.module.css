@@ -17,3 +17,10 @@
     position: relative;
     top: -2px;
 }
+
+@media (max-width: 360px) {
+    .page {
+        margin: 20px auto;
+        padding: 16px;
+    }
+}

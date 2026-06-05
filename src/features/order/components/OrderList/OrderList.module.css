@@ -97,7 +97,6 @@
 .select_input:focus,
 .date_inputs input:focus {
     border-color: var(--primary, #3d6caa);
-    ring: 2px rgba(49, 130, 206, 0.2);
 }
 
 /* Searchable select styles */

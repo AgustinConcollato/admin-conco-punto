@@ -65,7 +65,7 @@ export function ProductSearch() {
         if (hasVariants || mobile) {
             let batchItem = item;
             if (item._type === 'variant') {
-                // Variante directa en celular: envolver como producto sintÃ©tico con una sola fila
+                // Variante directa en celular: envolver como producto sintético con una sola fila
                 batchItem = {
                     ...item,
                     stock: 0,
@@ -198,7 +198,7 @@ export function ProductSearch() {
             <form className={styles.search_form} onSubmit={e => e.preventDefault()} ref={searchRef}>
                 <input
                     type="text"
-                    placeholder="Nombre, SKU, CÃ³digo de barras"
+                    placeholder="Nombre, SKU, Código de barras"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className={'input'}
@@ -226,7 +226,7 @@ export function ProductSearch() {
                                         <span>{item.sku}</span>
                                         {item._type === 'variant' && item.attribute_values.length > 0 && (
                                             <span className={styles.variant_attrs}>
-                                                {item.attribute_values.map(av => av.value).join(' Â· ')}
+                                                {item.attribute_values.map(av => av.value).join(' · ')}
                                             </span>
                                         )}
                                         {item._type === 'product' && item.variants.length > 0 && (

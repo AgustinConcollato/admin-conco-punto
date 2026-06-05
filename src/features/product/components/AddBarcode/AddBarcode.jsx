@@ -90,17 +90,17 @@ export function AddBarcode() {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <h1 className='title'>Agregar cÃ³digo de barras</h1>
+            <h1 className='title'>Agregar código de barras</h1>
             {product ?
                 <>
                     <ProductSummary product={product} />
 
                     {pendingBarcode && (
                         <div className={styles.alert_pending}>
-                            <p>Tienes un cÃ³digo pendiente: <strong>{pendingBarcode}</strong></p>
+                            <p>Tienes un código pendiente: <strong>{pendingBarcode}</strong></p>
                             <div className={styles.alert_buttons}>
                                 <button type="button" onClick={handleAcceptPending} className="btn btn_solid">
-                                    Usar este cÃ³digo
+                                    Usar este código
                                 </button>
                                 <button type="button" onClick={handleDiscardPending} className="btn btn_regular">
                                     Descartar
@@ -110,12 +110,12 @@ export function AddBarcode() {
                     )}
 
                     <div className="input_group">
-                        <span>CÃ³digo de barras</span>
+                        <span>Código de barras</span>
                         <input
                             type="text"
                             className="input"
                             name='barcode'
-                            placeholder='CÃ³digo de barras'
+                            placeholder='Código de barras'
                             value={barcodeValue}
                             onChange={(e) => setBarcodeValue(e.target.value)}
                             autoComplete='off'
@@ -126,18 +126,18 @@ export function AddBarcode() {
                             className={`btn btn_regular ${styles.btn_generate_barcode}`}
                             onClick={generateBarcode}
                         >
-                            Generar cÃ³digo
+                            Generar código
                         </button>
                         {errors.barcode && <p className={styles.error}>{errors.barcode[0]}</p>}
                     </div>
 
                     <label className={styles.primary_barcode}>
                         <input type="checkbox" name="is_primary" />
-                        CÃ³digo de barra principal
+                        Código de barra principal
                     </label>
 
                     <button type="submit" className="btn btn_solid" disabled={loading}>
-                        {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Agregar cÃ³digo'}
+                        {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Agregar código'}
                     </button>
                 </> :
                 <Loading />

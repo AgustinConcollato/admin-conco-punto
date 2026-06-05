@@ -1,18 +1,17 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
-import { normalizeStr } from '../../../../utils/normalizeStr';
 import { useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { Pagination } from '../../../../components/Pagination/Pagination';
 import { ClientService } from '../../../../services/client/clientService';
 import { OrderService } from '../../../../services/order/orderService';
+import { normalizeStr } from '../../../../utils/normalizeStr';
+import { DEFAULT_RANGE, RANGE_OPTIONS, buildRangeFilters } from '../../../../utils/rangeHelpers';
 import { OrderCard } from '../OrderCard/OrderCard';
-import { RANGE_OPTIONS, DEFAULT_RANGE, buildRangeFilters } from '../../../../utils/rangeHelpers';
 import styles from './OrderList.module.css';
 
 const ORDER_STATUSES_MAP = {
     '': 'Todos',
     'pending': 'Pendiente',
-    'processing': 'PreparaciÃ³n',
+    'processing': 'Preparación',
     'confirmed': 'Terminados',
     'shipped': 'Enviado',
     'delivered': 'Entregado',
@@ -106,7 +105,7 @@ export function OrderList() {
             newParams.delete(name);
         }
 
-        // LÃ³gica especial para el rango: si no es custom, borramos fechas manuales
+        // Lógica especial para el rango: si no es custom, borramos fechas manuales
         if (name === 'range' && value !== 'custom') {
             newParams.delete('start_date');
             newParams.delete('end_date');
@@ -126,34 +125,6 @@ export function OrderList() {
 
     const handleReset = () => {
         setSearchParams({ range: DEFAULT_RANGE, page: 1 });
-    };
-
-    const handleDownloadPdf = async (orderId, clientName) => {
-        try {
-            const data = await orderService.downloadPdf(orderId);
-
-            // 1. Crear un Blob a partir del arrayBuffer (suponiendo que viene de la API)
-            const blob = new Blob([data], { type: 'application/pdf' });
-
-            // 2. Crear una URL temporal para el blob
-            const url = window.URL.createObjectURL(blob);
-
-            // 3. Crear un link invisible para forzar la descarga
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `Pedido_${clientName.replace(/\s+/g, '_')}_${orderId.substring(0, 5)}.pdf`);
-
-            // 4. AÃ±adir al documento, clickear y remover
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
-
-            // 5. Limpiar la memoria
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error("Error al descargar el PDF:", error);
-            toast.error("No se pudo descargar el PDF. Intente nuevamente.");
-        }
     };
 
     return (
@@ -270,7 +241,7 @@ export function OrderList() {
                                     }}
                                     aria-label="Limpiar cliente"
                                 >
-                                    Ã—
+                                    ×
                                 </button>
                             )}
                         </div>
@@ -339,7 +310,6 @@ export function OrderList() {
                                 <OrderCard
                                     key={order.id}
                                     order={order}
-                                    onDownload={handleDownloadPdf}
                                     onRefresh={(updatedOrder) => {
                                         if (updatedOrder) {
                                             setOrders(prev => prev.map(o => o.id === updatedOrder.id ? { ...o, ...updatedOrder } : o));

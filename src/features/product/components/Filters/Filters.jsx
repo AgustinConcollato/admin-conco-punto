@@ -13,11 +13,11 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
     const supplierService = useMemo(() => new SupplierService(), []);
     const priceListService = useMemo(() => new PriceListService(), []);
 
-    // 1. FunciÃ³n recursiva para aplanar categorÃ­as y subcategorÃ­as
+    // 1. Función recursiva para aplanar categorías y subcategorías
     const flattenCategories = (categoriesList, level = 0) => {
         let flatList = [];
         categoriesList.forEach((category) => {
-            // Guardamos la categorÃ­a con su nivel de profundidad
+            // Guardamos la categoría con su nivel de profundidad
             flatList.push({ 
                 id: category.id, 
                 name: category.name, 
@@ -69,21 +69,21 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
         <div className={styles.filters}>
             <h3>Filtros</h3>
 
-            {/* BÃºsqueda */}
+            {/* Búsqueda */}
             <div className={styles.filterGroup}>
                 <label>Buscar</label>
                 <input
                     type="text"
-                    placeholder="Nombre, SKU, CÃ³digo de barras"
+                    placeholder="Nombre, SKU, Código de barras"
                     value={filters.search || ''}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     className={styles.input}
                 />
             </div>
 
-            {/* CategorÃ­a (JerÃ¡rquica) */}
+            {/* Categoría (Jerárquica) */}
             <div className={styles.filterGroup}>
-                <label>CategorÃ­a</label>
+                <label>Categoría</label>
                 <select
                     value={filters.category_id || ''}
                     onChange={(e) => handleFilterChange('category_id', e.target.value)}
@@ -92,9 +92,9 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
                     <option value="">Todas</option>
                     {flatCategoriesList.map((cat) => (
                         <option key={cat.id} value={cat.id}>
-                            {/* AÃ±ade espacios segÃºn el nivel: \u00A0 es un espacio en blanco que HTML respeta */}
+                            {/* Añade espacios según el nivel: \u00A0 es un espacio en blanco que HTML respeta */}
                             {'\u00A0'.repeat(cat.level * 3)} 
-                            {cat.level > 0 ? 'â†³ ' : ''} 
+                            {cat.level > 0 ? '↳ ' : ''} 
                             {cat.name}
                         </option>
                     ))}
@@ -120,7 +120,7 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
 
             {/* Stock */}
             <div className={styles.filterGroup}>
-                <label>Stock MÃ­nimo</label>
+                <label>Stock Mínimo</label>
                 <input
                     type="number"
                     min="0"
@@ -132,11 +132,11 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
             </div>
 
             <div className={styles.filterGroup}>
-                <label>Stock MÃ¡ximo</label>
+                <label>Stock Máximo</label>
                 <input
                     type="number"
                     min="0"
-                    placeholder="Sin lÃ­mite"
+                    placeholder="Sin límite"
                     value={filters.stock_max || ''}
                     onChange={(e) => handleFilterChange('stock_max', e.target.value)}
                     className={styles.input}
@@ -145,7 +145,7 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
 
             {/* Precio */}
             <div className={styles.filterGroup}>
-                <label>Precio MÃ­nimo</label>
+                <label>Precio Mínimo</label>
                 <input
                     type="number"
                     min="0"
@@ -158,12 +158,12 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
             </div>
 
             <div className={styles.filterGroup}>
-                <label>Precio MÃ¡ximo</label>
+                <label>Precio Máximo</label>
                 <input
                     type="number"
                     min="0"
                     step="0.01"
-                    placeholder="Sin lÃ­mite"
+                    placeholder="Sin límite"
                     value={filters.price_max || ''}
                     onChange={(e) => handleFilterChange('price_max', e.target.value)}
                     className={styles.input}
@@ -193,12 +193,12 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
                     onChange={(e) => handleFilterChange('sort_by', e.target.value)}
                     className={styles.select}
                 >
-                    <option value="created_at">Fecha de creaciÃ³n</option>
+                    <option value="created_at">Fecha de creación</option>
                     <option value="name">Nombre</option>
                     <option value="price">Precio</option>
                     <option value="stock">Stock</option>
                     <option value="sku">SKU</option>
-                    <option value="updated_at">Fecha de actualizaciÃ³n</option>
+                    <option value="updated_at">Fecha de actualización</option>
                 </select>
             </div>
 

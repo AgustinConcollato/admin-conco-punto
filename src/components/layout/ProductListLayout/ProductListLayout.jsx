@@ -1,9 +1,9 @@
-﻿import { useSearchParams } from 'react-router-dom';
+﻿import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Filters } from '../../../features/product/components/Filters/Filters';
 import { ProductList } from '../../../features/product/components/ProductList/ProductList';
 import { useGetFilters } from '../../../features/product/hooks/useGetFilters';
 import styles from './ProductListLayout.module.css';
-import { useEffect } from 'react';
 
 export function ProductListLayout() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -13,7 +13,7 @@ export function ProductListLayout() {
     const handleFilterChange = (key, value) => {
         const newParams = new URLSearchParams(searchParams);
 
-        // Si cambia un filtro (excepto pÃ¡gina), volver a la pÃ¡gina 1
+        // Si cambia un filtro (excepto página), volver a la página 1
         if (key !== 'page') {
             newParams.delete('page');
         }

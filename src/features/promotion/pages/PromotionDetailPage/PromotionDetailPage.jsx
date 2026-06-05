@@ -37,7 +37,7 @@ export function PromotionDetailPage() {
                     <FontAwesomeIcon icon={faArrowLeft} />
                 </Link>
                 <h1 className={styles.header_title}>
-                    {promotion ? promotion.name : 'PromociÃ³n'}
+                    {promotion ? promotion.name : 'Promoción'}
                 </h1>
             </div>
 

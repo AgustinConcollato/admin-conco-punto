@@ -3,7 +3,7 @@ import { CategoryService } from "../../../../services/category/categoryService";
 import { Loading } from "../../../../components/Loading/Loading";
 import styles from "./CategoryList.module.css";
 
-const LEVEL_LABELS = ["SeleccionÃ¡ una categorÃ­a", "SeleccionÃ¡ una subcategorÃ­a", "SeleccionÃ¡ una opciÃ³n"];
+const LEVEL_LABELS = ["Seleccioná una categorí­a", "Seleccioná una subcategoría", "Seleccioná una opción"];
 
 export function CategoryList({ setCategories, selectedIds = null, onDeepestCategoryChange }) {
     const [categoryList, setCategoryList] = useState(null);
@@ -68,10 +68,7 @@ export function CategoryList({ setCategories, selectedIds = null, onDeepestCateg
             return;
         }
         const last = path[path.length - 1];
-        const hasChildren = last.children?.length > 0;
-        if (!hasChildren) {
-            setCategories(path.map(c => c.id));
-        }
+        setCategories(path.map(c => c.id));
         notifyRef.current?.(last);
     }, [path]);
 
@@ -101,7 +98,7 @@ export function CategoryList({ setCategories, selectedIds = null, onDeepestCateg
                             >
                                 {cat.name}
                             </button>
-                            {i < path.length - 1 && <span className={styles.crumb_sep}>â€º</span>}
+                            {i < path.length - 1 && <span className={styles.crumb_sep}>›</span>}
                         </span>
                     ))}
                     <button type="button" className={styles.change_btn} onClick={resetPath}>
@@ -125,7 +122,7 @@ export function CategoryList({ setCategories, selectedIds = null, onDeepestCateg
                             >
                                 <span className={styles.option_name}>{cat.name}</span>
                                 {cat.children?.length > 0 && (
-                                    <span className={styles.option_arrow}>â€º</span>
+                                    <span className={styles.option_arrow}>›</span>
                                 )}
                             </button>
                         ))}

@@ -16,15 +16,7 @@ export function Categories({ categories, productId, onRefresh, disabled = false 
         <>
             <div className={styles.categories_container}>
                 <div className={styles.header}>
-                    <h3>CategorÃ­as</h3>
-                    {/* <button
-                        className='btn btn_regular'
-                        onClick={() => !disabled && setIsEditing(true)}
-                        disabled={disabled}
-                        title={disabled ? 'La categorÃ­a no puede modificarse una vez asignada' : undefined}
-                    >
-                        Editar
-                    </button> */}
+                    <h3>Categorías</h3>
                 </div>
 
                 {categories && categories.length > 0 ? (
@@ -37,26 +29,16 @@ export function Categories({ categories, productId, onRefresh, disabled = false 
                     </div>
                 ) : (
                     <p className={styles.no_data}>
-                        Sin categorÃ­as asignadas. <Link to={`/productos/nuevo/2/${productId}`}>Asignar</Link>
+                        Sin categorí­as asignadas. <Link to={`/productos/nuevo/2/${productId}`}>Asignar</Link>
                     </p>
                 )}
 
                 <div className={styles.alert}>
-                    La categorÃ­a no se puede cambiar una vez asignada al producto
-                    {/* Si te equivocaste de categorÃ­a, podÃ©s volver a publicar el producto desde aquÃ­. */}
-                    {/* Eliminaremos esta publicaciÃ³n, junto con sus visitas y ventas. */}
+                    La categorí­a no se puede cambiar una vez asignada al producto
+                    {/* Si te equivocaste de categoría, podés volver a publicar el producto desde aquí. */}
+                    {/* Eliminaremos esta publicación, junto con sus visitas y ventas. */}
                 </div>
             </div>
-
-            {isEditing && (
-                <Modal onClose={() => setIsEditing(false)} title={'Editar categorÃ­as'}>
-                    <EditCategories
-                        productId={productId}
-                        currentCategoryIds={categories.map(cat => cat.id)}
-                        onRefresh={handleSuccess}
-                    />
-                </Modal>
-            )}
         </>
     );
 }

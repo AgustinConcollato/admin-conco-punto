@@ -31,7 +31,7 @@ export function EditInfo({ product, onSuccess }) {
             onSuccess(response);
         } catch (error) {
             console.error("Error al guardar:", error);
-            toast.error("No se pudo guardar la informaciÃ³n.");
+            toast.error("No se pudo guardar la información.");
         } finally {
             setIsSaving(false);
         }
@@ -61,7 +61,7 @@ export function EditInfo({ product, onSuccess }) {
             </div>
 
             <div className={'input_group'}>
-                <span>DescripciÃ³n</span>
+                <span>Descripción</span>
                 <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}

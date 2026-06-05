@@ -69,7 +69,7 @@ export function Variants({ productId, productSku }) {
     const getAttrValue = (variant, attrId, attrType) => {
         const val = variant.attribute_values?.find(av => av.category_attribute_id === attrId)?.value;
         if (!val) return null;
-        if (attrType === 'boolean') return val === 'true' ? 'SÃ­' : 'No';
+        if (attrType === 'boolean') return val === 'true' ? 'Sí' : 'No';
         return val;
     };
 
@@ -84,19 +84,19 @@ export function Variants({ productId, productSku }) {
                 </div>
 
                 {isLoading ? (
-                    <p className={styles.state_text}>Cargandoâ€¦</p>
+                    <p className={styles.state_text}>Cargando…</p>
                 ) : variants.length === 0 && categoryAttributes.length === 0 ? (
                     <p className={styles.state_text}>
-                        Esta categorÃ­a no tiene atributos. DefinÃ­ atributos en la categorÃ­a primero.
+                        Esta categoría no tiene atributos. Definí atributos en la categoría primero.
                     </p>
                 ) : variants.length === 0 ? (
-                    <p className={styles.state_text}>Sin variantes. HacÃ© click en "Agregar" para crear la primera.</p>
+                    <p className={styles.state_text}>Sin variantes. Hacé click en "Agregar" para crear la primera.</p>
                 ) : (
                     <div className={styles.cards_grid}>
                         {variants.map(variant => (
                             <div key={variant.id} className={`${styles.variant_card} ${!variant.is_active ? styles.inactive : ''}`}>
 
-                                {/* Thumbnail si tiene imÃ¡genes */}
+                                {/* Thumbnail si tiene imágenes */}
                                 {variant.images?.length > 0 && (
                                     <div className={styles.card_thumb} onClick={() => setImagesVariant(variant)}>
                                         <img
@@ -169,7 +169,7 @@ export function Variants({ productId, productSku }) {
             {imagesVariant && (
                 <Modal
                     onClose={() => setImagesVariant(null)}
-                    title={`Fotos${imagesVariant.sku ? ` â€” ${imagesVariant.sku}` : ''}`}
+                    title={`Fotos${imagesVariant.sku ? ` — ${imagesVariant.sku}` : ''}`}
                 >
                     <VariantImages
                         productId={productId}
@@ -194,7 +194,7 @@ export function Variants({ productId, productSku }) {
 
             {pendingDeleteId && (
                 <ConfirmModal
-                    message="Â¿Eliminar esta variante? Se perderÃ¡n sus datos y barcodes asociados."
+                    message="¿Eliminar esta variante? Se perderán sus datos y barcodes asociados."
                     onConfirm={confirmDelete}
                     onCancel={() => setPendingDeleteId(null)}
                 />

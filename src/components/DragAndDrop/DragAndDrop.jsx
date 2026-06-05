@@ -92,7 +92,7 @@ export function DragAndDrop({ setImages }) {
                         height={64}
                         color={"#000"}
                     />
-                    Â¡Click o arrastrar la imagen acÃ¡!
+                    ¡Click o arrastrar la imagen acá!
                 </div>}
             </span>
             <input

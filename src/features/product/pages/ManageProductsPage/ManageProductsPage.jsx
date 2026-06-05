@@ -26,7 +26,7 @@ export function ManageProductsPage() {
     const navigate = useNavigate();
     const productService = useMemo(() => new ProductService(), []);
 
-    // Buscar producto por cÃ³digo de barras
+    // Buscar producto por código de barras
     const searchByBarcode = async (code) => {
         setIsLoading(true);
         setError(null);
@@ -37,14 +37,14 @@ export function ManageProductsPage() {
             setScannedProduct(foundProduct);
             setBarcode("");
         } catch (err) {
-            setError("El cÃ³digo de barras no es de ningÃºn producto");
+            setError("El código de barras no es de ningún producto");
             setScannedProduct(null);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Manejar cambio en el input de cÃ³digo de barras
+    // Manejar cambio en el input de código de barras
     useEffect(() => {
         if (barcode.trim().length >= 1 && !isLoading) {
             const timeoutId = setTimeout(() => {
@@ -56,7 +56,7 @@ export function ManageProductsPage() {
 
     }, [barcode]);
 
-    // Buscar productos para asociar cÃ³digo de barras
+    // Buscar productos para asociar código de barras
     const searchProducts = async (term) => {
         if (!term.trim() || term.length < 2) {
             setSearchResults([]);
@@ -100,7 +100,7 @@ export function ManageProductsPage() {
         }
     };
 
-    // Asociar cÃ³digo de barras a producto existente
+    // Asociar código de barras a producto existente
     const handleAssociateBarcode = async (productId) => {
         if (!barcode.trim()) return;
 
@@ -118,7 +118,7 @@ export function ManageProductsPage() {
             setSearchResults([]);
             setError(null);
         } catch (err) {
-            console.error("Error al asociar cÃ³digo de barras:", err);
+            console.error("Error al asociar código de barras:", err);
         } finally {
             setIsAssociating(false);
         }
@@ -135,7 +135,7 @@ export function ManageProductsPage() {
         barcodeInputRef.current?.focus();
     };
 
-    // Buscar productos cuando cambia el tÃ©rmino de bÃºsqueda
+    // Buscar productos cuando cambia el término de búsqueda
     useEffect(() => {
         if (showAssociateModal) {
             const timeoutId = setTimeout(() => {
@@ -170,7 +170,7 @@ export function ManageProductsPage() {
                         type="text"
                         value={barcode}
                         onChange={(e) => setBarcode(e.target.value)}
-                        placeholder="Escanear o introducir cÃ³digo de barras..."
+                        placeholder="Escanear o introducir código de barras..."
                         className="input"
                         autoFocus
                         disabled={isLoading}
@@ -195,7 +195,7 @@ export function ManageProductsPage() {
                 {error && !scannedProduct && barcode.trim().length >= 1 && (
                     <div className={styles.error_message}>
                         <p>{error}</p>
-                        <h3>Â¿Que hacer con el cÃ³digo "{barcode}"?</h3>
+                        <h3>¿Que hacer con el código "{barcode}"?</h3>
                         <div className={styles.actions}>
                             <button
                                 className="btn btn_regular"
@@ -300,7 +300,7 @@ export function ManageProductsPage() {
                 </Modal>
             )}
 
-            {/* Modal para asociar cÃ³digo de barras a producto existente */}
+            {/* Modal para asociar código de barras a producto existente */}
             {showAssociateModal && (
                 <Modal
                     onClose={() => {
@@ -308,17 +308,17 @@ export function ManageProductsPage() {
                         setSearchTerm("");
                         setSearchResults([]);
                     }}
-                    title="Asociar CÃ³digo de Barras a Producto Existente"
+                    title="Asociar Código de Barras a Producto Existente"
                 >
                     <div className={styles.associate_form}>
                         <div className="input_group">
-                            <span>CÃ³digo de Barras</span>
+                            <span>Código de Barras</span>
                             <input
                                 type="text"
                                 className="input"
                                 value={barcode}
                                 onChange={(e) => setBarcode(e.target.value)}
-                                placeholder="CÃ³digo de barras a asociar"
+                                placeholder="Código de barras a asociar"
                             />
                         </div>
                         <div className="input_group">

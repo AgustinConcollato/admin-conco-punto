@@ -13,7 +13,7 @@ export function AddImagesModal({ productId, onClose, onUpdate }) {
     const [errors, setErrors] = useState({});
     const productService = useMemo(() => new ProductService(), []);
 
-    // â”€â”€ Drag & Drop reordenar previews â”€â”€
+    // ── Drag & Drop reordenar previews ──
     const handleDragStart = (e, index) => {
         setDraggingIndex(index);
         e.dataTransfer.effectAllowed = "move";
@@ -42,11 +42,11 @@ export function AddImagesModal({ productId, onClose, onUpdate }) {
 
     const handleUploadImages = async () => {
         if (imagesToUpload.length === 0) {
-            toast.warning('SeleccionÃ¡ al menos una imagen para subir.');
+            toast.warning('Seleccioná al menos una imagen para subir.');
             return;
         }
         if (!productId) {
-            toast.error('No se encontrÃ³ el ID del producto.');
+            toast.error('No se encontró el ID del producto.');
             return;
         }
 
@@ -66,7 +66,7 @@ export function AddImagesModal({ productId, onClose, onUpdate }) {
 
     return (
         <div className={styles.add_image_modal}>
-            <p className={styles.description}>SeleccionÃ¡ una o varias imÃ¡genes. PodÃ©s reordenarlas arrastrando antes de subir.</p>
+            <p className={styles.description}>Seleccioná una o varias imágenes. Podés reordenarlas arrastrando antes de subir.</p>
 
             <DragAndDrop setImages={setImagesToUpload} />
 
@@ -100,7 +100,7 @@ export function AddImagesModal({ productId, onClose, onUpdate }) {
 
             {errors.images && <p className={styles.error}>{errors.images[0]}</p>}
 
-            <p className={styles.file_info}>MÃ¡x. 2MB por archivo (JPG, PNG, WEBP).</p>
+            <p className={styles.file_info}>Máx. 2MB por archivo (JPG, PNG, WEBP).</p>
 
             <button
                 className="btn btn_solid"

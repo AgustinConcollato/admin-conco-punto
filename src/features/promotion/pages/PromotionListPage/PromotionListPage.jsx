@@ -84,10 +84,10 @@ export function PromotionListPage() {
             await promotionService.delete(pendingDeleteId);
             setPromotions(prev => prev.filter(p => p.id !== pendingDeleteId));
             setPaginator(prev => prev ? { ...prev, total: Math.max(0, (prev.total || 1) - 1) } : prev);
-            toast.success("PromociÃ³n eliminada");
+            toast.success("Promoción eliminada");
         } catch (error) {
-            console.error("Error al eliminar promociÃ³n:", error);
-            toast.error("No se pudo eliminar la promociÃ³n.");
+            console.error("Error al eliminar promoción:", error);
+            toast.error("No se pudo eliminar la promoción.");
         } finally {
             setPendingDeleteId(null);
         }
@@ -103,7 +103,7 @@ export function PromotionListPage() {
             <div className={styles.header}>
                 <h2 className={styles.title}>Promociones</h2>
                 <button className="btn btn_primary" onClick={openCreateModal}>
-                    <FontAwesomeIcon icon={faPlus} /> Nueva promociÃ³n
+                    <FontAwesomeIcon icon={faPlus} /> Nueva promoción
                 </button>
             </div>
 
@@ -120,7 +120,7 @@ export function PromotionListPage() {
                                 <th>Tipo</th>
                                 <th>Valor</th>
                                 <th>Tope</th>
-                                <th>MÃ­n. unidades</th>
+                                <th>Mín. unidades</th>
                                 <th>Vigencia</th>
                                 <th>Activa</th>
                                 <th>Acciones</th>
@@ -148,12 +148,12 @@ export function PromotionListPage() {
                                             </Link>
                                         </td>
                                         <td data-label="Tope"><Link to={`/promociones/${promo.id}`}>{promo.max_discount_amount ? `$ ${promo.max_discount_amount}` : "-"}</Link></td>
-                                        <td data-label="MÃ­n. uds."><Link to={`/promociones/${promo.id}`}>{promo.min_quantity}</Link></td>
-                                        <td data-label="Vigencia"><Link to={`/promociones/${promo.id}`}>{formatDate(promo.starts_at)} â€“ {formatDate(promo.ends_at)}</Link></td>
+                                        <td data-label="Mín. uds."><Link to={`/promociones/${promo.id}`}>{promo.min_quantity}</Link></td>
+                                        <td data-label="Vigencia"><Link to={`/promociones/${promo.id}`}>{formatDate(promo.starts_at)} – {formatDate(promo.ends_at)}</Link></td>
                                         <td data-label="Activa">
                                             <Link to={`/promociones/${promo.id}`}>
                                                 <span className={promo.is_active ? styles.badge_active : styles.badge_inactive}>
-                                                    {promo.is_active ? "SÃ­" : "No"}
+                                                    {promo.is_active ? "Sí" : "No"}
                                                 </span>
                                             </Link>
                                         </td>
@@ -190,7 +190,7 @@ export function PromotionListPage() {
             {showFormModal && (
                 <Modal
                     onClose={() => closeFormModal()}
-                    title={editingPromotion ? "Editar promociÃ³n" : "Nueva promociÃ³n"}
+                    title={editingPromotion ? "Editar promoción" : "Nueva promoción"}
                 >
                     <CreatePromotion
                         editingPromotion={editingPromotion}
@@ -201,7 +201,7 @@ export function PromotionListPage() {
 
             {pendingDeleteId && (
                 <ConfirmModal
-                    message="Â¿Seguro que deseas eliminar esta promociÃ³n? Esta acciÃ³n no se puede deshacer."
+                    message="¿Seguro que deseas eliminar esta promoción? Esta acción no se puede deshacer."
                     onConfirm={confirmDelete}
                     onCancel={() => setPendingDeleteId(null)}
                 />

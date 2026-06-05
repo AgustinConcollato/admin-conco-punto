@@ -4,7 +4,7 @@
 
 /* Contenedor principal */
 .main_wrapper {
-    width: 600px;
+    width: 100%;
     max-width: 600px;
     margin: 40px auto 0;
 }
@@ -173,5 +173,18 @@
     background-color: #fff;
     cursor: pointer;
     width: min-content;
+}
+
+@media (max-width: 480px) {
+    .product_content {
+        flex-direction: column;
+    }
+
+    .product_image {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        align-self: center;
+    }
 }
 

@@ -52,18 +52,18 @@ export function Login() {
                 <input
                     type="text"
                     name='email'
-                    placeholder='Correo electrÃ³nico'
+                    placeholder='Correo electrónico'
                     onChange={handleInputChange}
                     value={'bazarshopmayorista@gmail.com'}
                     hidden
                 />
                 <div className='input_group'>
-                    <span>ContraseÃ±a</span>
+                    <span>Contraseña</span>
                     <input
                         className='input'
                         type={inputType}
                         name='password'
-                        placeholder='ContraseÃ±a'
+                        placeholder='Contraseña'
                         onChange={handleInputChange}
                     />
                     {errors.password && errors.password.map((msg, i) => (
@@ -71,7 +71,7 @@ export function Login() {
                     ))}
                     <label>
                         <input type="checkbox" onChange={() => setInputType(e => e == 'password' ? 'text' : 'password')} />
-                        <span>Mostrar contraseÃ±a</span>
+                        <span>Mostrar contraseña</span>
                     </label>
                 </div>
                 <button

@@ -125,20 +125,20 @@ export function Card({ product, categories: allCategories }) {
                                 onError={(e) => { e.target.src = '/not-image.jpg'; }}
                             />
 
-                            {/* Solo mostrar flechas si hay mÃ¡s de una imagen */}
+                            {/* Solo mostrar flechas si hay más de una imagen */}
                             {images.length > 1 && (
                                 <div className={styles.image_nav}>
                                     <button
                                         className={styles.nav_arrow_left}
                                         onClick={prevImage}
                                     >
-                                        <span> â€¹ </span>
+                                        <span>  ‹  </span>
                                     </button>
                                     <button
                                         className={styles.nav_arrow_right}
                                         onClick={nextImage}
                                     >
-                                        <span> â€º </span>
+                                        <span>  ›  </span>
                                     </button>
                                     <div className={styles.image_counter}>
                                         {currentImageIndex + 1} / {images.length}
@@ -219,7 +219,7 @@ export function Card({ product, categories: allCategories }) {
                                                         <span className={styles.preview_attrs}>
                                                             {attrs.map(av =>
                                                                 `${av.category_attribute?.name ?? ''}: ${av.value}`
-                                                            ).join(' Â· ')}
+                                                            ).join(' · ')}
                                                         </span>
                                                     ) : (
                                                         <span className={styles.preview_sku}>{v.sku || `#${v.id}`}</span>
@@ -291,7 +291,7 @@ export function Card({ product, categories: allCategories }) {
                                         <Barcode value={barcode} code={product.sku} />
                                     </div>
                                 ) :
-                                <Link to={`/productos/nuevo/4/${product.id}`}>Agregar cÃ³digo de barras</Link>
+                                <Link to={`/productos/nuevo/4/${product.id}`}>Agregar código de barras</Link>
                         }
                     </div>
                 }
@@ -319,7 +319,7 @@ export function Card({ product, categories: allCategories }) {
                                 <li onClick={() => editProduct('status')}>Estado</li>
                             }
                             <li onClick={() => editProduct('image')}>Imagenes</li>
-                            <li onClick={() => editProduct('category')}>CategorÃ­as</li>
+                            {categories && categories.length == 0 && <li><Link to={`/productos/nuevo/2/${product.id}`}>Categoría</Link></li>}
                         </ul>
                     </div>
                 }
@@ -384,13 +384,13 @@ export function Card({ product, categories: allCategories }) {
                     <AddImagesModal
                         productId={product.id}
                         onClose={() => setEdit(null)}
-                        onUpdate={setImages} // Pasamos la funciÃ³n de recarga
+                        onUpdate={setImages} // Pasamos la función de recarga
                     />
                 </Modal>
             )}
 
             {edit === 'category' && (
-                <Modal onClose={() => setEdit(null)} title={'Editar categorÃ­as'}>
+                <Modal onClose={() => setEdit(null)} title={'Editar categorías'}>
                     <EditCategories
                         productId={product.id}
                         currentCategoryIds={categories.map(cat => cat.id)}

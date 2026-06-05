@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from './NavBarMobile.module.css';
 
-// 1. Definimos los items aquÃ­ (o los importamos)
+// 1. Definimos los items aquí (o los importamos)
 const mainNavItems = [
     { to: "/productos", icon: <ProductIcon width={22} height={22} color="currentColor" />, label: "Productos" },
     { to: "/pedidos", icon: <OrderIcon width={22} height={22} color="currentColor" />, label: "Pedidos" },
@@ -27,7 +27,7 @@ const clientItem = { to: "/clientes", icon: <ClientIcon width={22} height={22} c
 const extraNavItems = [
     { to: "/", icon: <HomeIcon width={18} height={18} />, label: "Inicio" },
     // { to: "/caja", icon: <WalletIcon width={18} height={18} />, label: "Caja" },
-    { to: "/categorias", icon: <CategoryIcon width={18} height={18} />, label: "CategorÃ­as" },
+    { to: "/categorias", icon: <CategoryIcon width={18} height={18} />, label: "Categorí­as" },
     { to: "/promociones", icon: <CalendarIcon width={18} height={18} />, label: "Promos" },
     { to: "/reportes", icon: <AnalyticsIcon width={18} height={18} />, label: "Reportes" },
     { to: "/pagos", icon: <PaymentIcon width={18} height={18} />, label: "Pagos" },
@@ -77,7 +77,7 @@ export function NavBarMobile() {
                     </NavLink>
                 ))}
 
-                {/* BOTÃ“N NUEVO (Central - Este suele ser estÃ¡tico) */}
+                {/* BOTÓN NUEVO (Central - Este suele ser estático) */}
                 <div className={styles.tab_item_special}>
                     <button onClick={() => setShowNew(!showNew)} className={styles.btn_new}>
                         <FontAwesomeIcon icon={faPlus} />
@@ -92,19 +92,19 @@ export function NavBarMobile() {
                     )}
                 </div>
 
-                {/* 3. El item de Clientes (para mantener simetrÃ­a con el botÃ³n "MÃ¡s") */}
+                {/* 3. El item de Clientes (para mantener simetrí­a con el botón "Más") */}
                 <NavLink to={clientItem.to} className={({ isActive }) => isActive ? styles.tab_active : styles.tab_item}>
                     {clientItem.icon}
                     <span>{clientItem.label}</span>
                 </NavLink>
 
-                {/* BOTÃ“N MÃS */}
+                {/* BOTÓN MÁS */}
                 <button
                     className={showMore ? styles.tab_active : styles.tab_item}
                     onClick={() => setShowMore(!showMore)}
                 >
                     <FontAwesomeIcon icon={faBars} style={{ fontSize: '20px' }} />
-                    <span>MÃ¡s</span>
+                    <span>Más</span>
                 </button>
 
                 {showMore && (
@@ -117,7 +117,7 @@ export function NavBarMobile() {
                         ))}
                         <hr />
                         <button className={styles.logout_btn}>
-                            <FontAwesomeIcon icon={faSignOutAlt} /> Cerrar SesiÃ³n
+                            <FontAwesomeIcon icon={faSignOutAlt} /> Cerrar Sesión
                         </button>
                     </div>
                 )}

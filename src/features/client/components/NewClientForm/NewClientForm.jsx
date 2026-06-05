@@ -68,8 +68,8 @@ export function NewClientForm() {
                     {errors.name && <p className={styles.error}>{errors.name[0]}</p>}
                 </div>
                 <div className="input_group">
-                    <span>Correo electrÃ³nico (opcional)</span>
-                    <input className="input" type="email" name="email" placeholder="Correo electrÃ³nico (opcional)" />
+                    <span>Correo electrónico (opcional)</span>
+                    <input className="input" type="email" name="email" placeholder="Correo electrónico (opcional)" />
                     {errors.email && <p className={styles.error}>{errors.email[0]}</p>}
                 </div>
                 <div className="input_group">

@@ -27,12 +27,12 @@ export function EditStatus({ currentStatus, productId, onRefresh, onCancel }) {
     return (
         <div className={styles.modal_body}>
             <p>
-                Â¿EstÃ¡s seguro de que deseas <strong>{currentStatus === 'published' ? 'archivar' : 'publicar'}</strong> este producto?
+                ¿Estás seguro de que deseas <strong>{currentStatus === 'published' ? 'archivar' : 'publicar'}</strong> este producto?
             </p>
             <p className={styles.modal_description}>
                 {currentStatus === 'published'
-                    ? 'El producto dejarÃ¡ de estar visible en la tienda.'
-                    : 'El producto volverÃ¡ a estar disponible para los clientes.'}
+                    ? 'El producto dejará de estar visible en la tienda.'
+                    : 'El producto volverá a estar disponible para los clientes.'}
             </p>
 
             <button

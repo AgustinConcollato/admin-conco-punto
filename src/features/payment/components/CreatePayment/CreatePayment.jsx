@@ -8,7 +8,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 const PAYMENT_METHODS = [
     { value: 'cash', label: 'Efectivo' },
     { value: 'transfer', label: 'Transferencia Bancaria' },
-    { value: 'credit_card', label: 'Tarjeta de CrÃ©dito' },
+    { value: 'credit_card', label: 'Tarjeta de Crédito' },
     { value: 'check', label: 'Cheque' },
 ];
 
@@ -24,7 +24,7 @@ export function CreatePayment({ orderId, balanceDue, onSuccess = null }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ValidaciÃ³n bÃ¡sica
+        // Validación básica
         if (amountPaid <= 0) {
             setError("El monto a pagar debe ser mayor a cero.");
             return;
@@ -69,13 +69,13 @@ export function CreatePayment({ orderId, balanceDue, onSuccess = null }) {
                         onChange={(e) => setAmountPaid(parseFloat(e.target.value))}
                         step="0.01"
                         min="0"
-                        max={balanceDue} // MÃ¡ximo el saldo pendiente
+                        max={balanceDue} // Máximo el saldo pendiente
                     />
                     {error.amount && <p className={styles.error}>{error.amount[0]}</p>}
                 </div>
 
                 <div className='input_group'>
-                    <span>MÃ©todo de Pago:</span>
+                    <span>Método de Pago:</span>
                     <select
                         className='input'
                         value={paymentMethod}
@@ -90,7 +90,7 @@ export function CreatePayment({ orderId, balanceDue, onSuccess = null }) {
                     {error.payment_method && <p className={styles.error}>{error.payment_method[0]}</p>}
                 </div>
 
-                {/* <label>ID de TransacciÃ³n (Opcional):</label>
+                {/* <label>ID de Transacción (Opcional):</label>
                 <input
                     type="text"
                     value={transactionId}

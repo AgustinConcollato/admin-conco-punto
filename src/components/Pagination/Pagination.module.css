@@ -29,3 +29,23 @@
     color: #fff;
     background: var(--primary, #3d6caa);
 }
+
+@media (max-width: 485px) {
+    .pagination {
+        gap: 5px;
+    }
+    
+    .pagination button {
+        height: 25px;
+        font-size: 10px;
+    }
+    
+    .number_of_pages button {
+        width: 20px;
+    }
+    
+    .number_of_pages span {
+        padding: 0;
+        font-size: 12px;
+    }
+}

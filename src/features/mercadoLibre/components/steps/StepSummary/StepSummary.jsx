@@ -11,7 +11,7 @@ function Row({ label, value, step, onEdit }) {
     return (
         <div className={styles.row}>
             <span className={styles.row_label}>{label}</span>
-            <span className={styles.row_value}>{value || <em className={styles.empty}>â€”</em>}</span>
+            <span className={styles.row_value}>{value || <em className={styles.empty}>—</em>}</span>
             <button type="button" className={styles.edit_btn} onClick={() => onEdit(step)}>
                 <FontAwesomeIcon icon={faPen} />
             </button>
@@ -34,13 +34,13 @@ export function StepSummary() {
 
     const listingName = listingTypes.find(t => t.id === form.listing_type_id)?.name ?? form.listing_type_id;
     const shippingLabel = form.shipping_mode === "me2"
-        ? `Mercado EnvÃ­os${form.free_shipping ? " (gratis al comprador)" : ""}`
-        : form.shipping_mode === "not_specified" ? "Retiro en persona" : "EnvÃ­o propio";
+        ? `Mercado Envíos${form.free_shipping ? " (gratis al comprador)" : ""}`
+        : form.shipping_mode === "not_specified" ? "Retiro en persona" : "Envío propio";
 
     return (
         <div>
-            <h3 className={styles.title}>RevisÃ¡ antes de publicar</h3>
-            <p className={styles.subtitle}>VerificÃ¡ que todo estÃ© correcto. PodÃ©s editar cualquier secciÃ³n.</p>
+            <h3 className={styles.title}>Revisá antes de publicar</h3>
+            <p className={styles.subtitle}>Verificá que todo esté correcto. Podés editar cualquier sección.</p>
 
             {/* Fotos preview */}
             {form.selectedImages.length > 0 && (
@@ -65,15 +65,15 @@ export function StepSummary() {
 
             {/* Datos */}
             <div className={styles.table}>
-                <Row label="CategorÃ­a"     value={form.category_name}                      step="categoria"   onEdit={goToStep} />
-                <Row label="CondiciÃ³n"     value={form.condition === "new" ? "Nuevo" : "Usado"} step="condicion" onEdit={goToStep} />
-                <Row label="TÃ­tulo"        value={form.title}                               step="descripcion" onEdit={goToStep} />
+                <Row label="Categoría"     value={form.category_name}                      step="categoria"   onEdit={goToStep} />
+                <Row label="Condición"     value={form.condition === "new" ? "Nuevo" : "Usado"} step="condicion" onEdit={goToStep} />
+                <Row label="Título"        value={form.title}                               step="descripcion" onEdit={goToStep} />
                 <Row label="Stock"         value={form.available_quantity}                  step="media"       onEdit={goToStep} />
                 <Row label="SKU"           value={form.sku}                                 step="media"       onEdit={goToStep} />
-                <Row label="CÃ³d. barras"   value={form.barcode}                             step="media"       onEdit={goToStep} />
+                <Row label="Cód. barras"   value={form.barcode}                             step="media"       onEdit={goToStep} />
                 <Row label="Precio"        value={`$ ${parseFloat(form.price || 0).toLocaleString("es-AR", { minimumFractionDigits: 2 })}`} step="precio" onEdit={goToStep} />
                 <Row label="Tipo pub."     value={listingName}                              step="precio"      onEdit={goToStep} />
-                <Row label="EnvÃ­o"         value={shippingLabel}                            step="envio"       onEdit={goToStep} />
+                <Row label="Envío"         value={shippingLabel}                            step="envio"       onEdit={goToStep} />
                 {form.billable_weight && (
                     <Row label="Peso paquete" value={`${form.billable_weight}g`}            step="envio"       onEdit={goToStep} />
                 )}

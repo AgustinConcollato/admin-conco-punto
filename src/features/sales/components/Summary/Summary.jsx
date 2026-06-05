@@ -15,13 +15,13 @@ import styles from "./Summary.module.css";
 const PAYMENT_METHODS = [
     { value: 'cash', label: 'Efectivo' },
     { value: 'transfer', label: 'Transferencia Bancaria' },
-    { value: 'credit_card', label: 'Tarjeta de CrÃ©dito' },
+    { value: 'credit_card', label: 'Tarjeta de Crédito' },
     { value: 'check', label: 'Cheque' },
 ];
 
 export const ORDER_STATUSES = [
     { value: 'pending', label: 'Pendiente' },
-    { value: 'processing', label: 'En PreparaciÃ³n' },
+    { value: 'processing', label: 'En Preparación' },
     { value: 'confirmed', label: 'Terminado' },
     { value: 'shipped', label: 'Enviado' },
     { value: 'delivered', label: 'Entregado' },
@@ -30,7 +30,7 @@ export const ORDER_STATUSES = [
 
 const LOGISTICS_STEPS = [
     { value: 'pending', label: 'Pendiente' },
-    { value: 'processing', label: 'PreparaciÃ³n' },
+    { value: 'processing', label: 'Preparación' },
     { value: 'confirmed', label: 'Listo' },
     { value: 'shipped', label: 'Enviado' },
     { value: 'delivered', label: 'Entregado' },
@@ -47,7 +47,7 @@ export function Summary() {
     const [loading, setLoading] = useState(false);
     const [confirmCancel, setConfirmCancel] = useState(false);
 
-    if (!order) return <p>No se encontrÃ³ informaciÃ³n de la orden.</p>;
+    if (!order) return <p>No se encontró información de la orden.</p>;
 
     const isPaid = order.balance_due <= 0;
     const totalItems = order.details.reduce((sum, d) => sum + d.quantity, 0);
@@ -74,7 +74,7 @@ export function Summary() {
         <>
             <div className={styles.order_summary_card}>
 
-                {/* â”€â”€ Cliente â”€â”€ */}
+                {/* ── Cliente ── */}
                 {order.client && (
                     <div className={styles.section}>
                         <p className={styles.section_label}>Cliente</p>
@@ -90,18 +90,18 @@ export function Summary() {
                         )}
                         {order.client.phone && (
                             <div className={styles.row}>
-                                <span className={styles.row_label}>TelÃ©fono</span>
+                                <span className={styles.row_label}>Teléfono</span>
                                 <span className={styles.row_value}>{order.client.phone}</span>
                             </div>
                         )}
                     </div>
                 )}
 
-                {/* â”€â”€ Productos â”€â”€ */}
+                {/* ── Productos ── */}
                 <div className={styles.section}>
                     <p className={styles.section_label}>Productos</p>
                     <div className={styles.row}>
-                        <span className={styles.row_label}>Ãtems distintos</span>
+                        <span className={styles.row_label}>Ítems distintos</span>
                         <span className={styles.row_value}>{order.details.length}</span>
                     </div>
                     <div className={styles.row}>
@@ -110,7 +110,7 @@ export function Summary() {
                     </div>
                 </div>
 
-                {/* â”€â”€ Precios â”€â”€ */}
+                {/* ── Precios ── */}
                 <div className={styles.section}>
                     <p className={styles.section_label}>Resumen de precios</p>
                     <div className={styles.row}>
@@ -127,7 +127,7 @@ export function Summary() {
                         </div>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.row_label}>Costo de envÃ­o</span>
+                        <span className={styles.row_label}>Costo de envío</span>
                         <div className={styles.row_value_group}>
                             <span className={styles.row_value}>{formatPrice(order.shipping_cost)}</span>
                             <button className={styles.edit_link} onClick={() => setEditShippingCost(true)}>Editar</button>
@@ -139,7 +139,7 @@ export function Summary() {
                     </div>
                 </div>
 
-                {/* â”€â”€ Estado financiero â”€â”€ */}
+                {/* ── Estado financiero ── */}
                 {order.details.length > 0 && (
                     <div className={styles.section}>
                         <p className={styles.section_label}>Estado financiero</p>
@@ -169,9 +169,9 @@ export function Summary() {
                     </div>
                 )}
 
-                {/* â”€â”€ Estado logÃ­stico â”€â”€ */}
+                {/* ── Estado logístico ── */}
                 <div className={styles.section}>
-                    <p className={styles.section_label}>Estado logÃ­stico</p>
+                    <p className={styles.section_label}>Estado logístico</p>
 
                     {order.status === 'cancelled' ? (
                         <p className={`${styles.outcome_banner} ${styles.outcome_cancelled}`}>Pedido cancelado</p>
@@ -179,7 +179,7 @@ export function Summary() {
                         const stepIndex = LOGISTICS_STEPS.findIndex(s => s.value === order.status);
                         return (
                             <div className={styles.stepper}>
-                                {/* Track plano: dot â†’ connector â†’ dot â†’ connector â†’ dot */}
+                                {/* Track plano: dot → connector → dot → connector → dot */}
                                 <div className={styles.stepper_track}>
                                     {LOGISTICS_STEPS.map((step, i) => {
                                         const isDone = i < stepIndex;
@@ -212,7 +212,7 @@ export function Summary() {
                     <div className={styles.actions_container}>
                         {order.status === 'pending' && (
                             <button className="btn btn_solid" onClick={() => updateStatus('processing')} disabled={loading}>
-                                {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Aceptar y empezar preparaciÃ³n'}
+                                {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Aceptar y empezar preparación'}
                             </button>
                         )}
                         {(order.status === 'processing' && order.details.length > 0) && (
@@ -236,7 +236,7 @@ export function Summary() {
                             </button>
                         )}
                         {order.status === 'delivered' && (
-                            <p className={`${styles.outcome_banner} ${styles.outcome_success}`}>Pedido completado con Ã©xito</p>
+                            <p className={`${styles.outcome_banner} ${styles.outcome_success}`}>Pedido completado con éxito</p>
                         )}
                     </div>
                 </div>
@@ -259,7 +259,7 @@ export function Summary() {
                 </Modal>
             )}
             {editShippingCost && (
-                <Modal onClose={() => setEditShippingCost(false)} title="Editar costo de envÃ­o">
+                <Modal onClose={() => setEditShippingCost(false)} title="Editar costo de envío">
                     <EditShippingCost
                         orderId={order.id}
                         currentCost={order.shipping_cost}
@@ -269,7 +269,7 @@ export function Summary() {
             )}
             {confirmCancel && (
                 <ConfirmModal
-                    message="Â¿EstÃ¡s seguro de que quieres cancelar este pedido?"
+                    message="¿Estás seguro de que quieres cancelar este pedido?"
                     onConfirm={() => { updateStatus('cancelled'); setConfirmCancel(false); }}
                     onCancel={() => setConfirmCancel(false)}
                 />

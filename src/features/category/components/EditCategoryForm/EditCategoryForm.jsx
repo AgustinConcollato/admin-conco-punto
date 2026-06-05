@@ -17,7 +17,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
     const categoryService = useMemo(() => new CategoryService(), []);
 
     useEffect(() => {
-        // Si se pasan categorÃ­as como prop, usarlas directamente
+        // Si se pasan categorías como prop, usarlas directamente
         if (propCategories && propCategories.length > 0) {
             setCategories(propCategories);
             return;
@@ -30,7 +30,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
                 const data = await categoryService.getAll();
                 setCategories(data);
             } catch (error) {
-                console.error("Error al cargar categorÃ­as:", error);
+                console.error("Error al cargar categorías:", error);
             } finally {
                 setIsLoadingCategories(false);
             }
@@ -39,7 +39,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
         loadCategories();
     }, [propCategories]);
 
-    // FunciÃ³n recursiva para encontrar una categorÃ­a por ID en el Ã¡rbol
+    // Función recursiva para encontrar una categoría por ID en el árbol
     const findCategoryInTree = (items, id) => {
         for (const item of items) {
             if (item.id === id) {
@@ -53,7 +53,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
         return null;
     };
 
-    // FunciÃ³n para obtener todos los IDs de descendientes de una categorÃ­a
+    // Función para obtener todos los IDs de descendientes de una categoría
     const getDescendantIds = (category) => {
         const ids = [category.id];
         if (category.children && category.children.length > 0) {
@@ -64,7 +64,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
         return ids;
     };
 
-    // Obtener todos los IDs a excluir (la categorÃ­a actual y todos sus descendientes)
+    // Obtener todos los IDs a excluir (la categoría actual y todos sus descendientes)
     const excludeIds = useMemo(() => {
         if (categories.length === 0) return [category.id];
 
@@ -75,7 +75,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
         return [category.id];
     }, [categories, category.id]);
 
-    // FunciÃ³n para aplanar todas las categorÃ­as primero, luego filtrar
+    // Función para aplanar todas las categorías primero, luego filtrar
     const flattenCategories = (items, level = 0) => {
         const flattened = [];
         for (const cat of items) {
@@ -87,7 +87,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
         return flattened;
     };
 
-    // Primero aplanar todas las categorÃ­as, luego filtrar las excluidas
+    // Primero aplanar todas las categorías, luego filtrar las excluidas
     const allFlatCategories = flattenCategories(categories, 0);
     const flatCategories = allFlatCategories.filter(cat => !excludeIds.includes(cat.id));
 
@@ -130,9 +130,9 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
             </div>
 
             <div className={'input_group'}>
-                <span htmlFor="parent_id">CategorÃ­a padre (opcional)</span>
+                <span htmlFor="parent_id">Categoría padre (opcional)</span>
                 {isLoadingCategories ? (
-                    <p>Cargando categorÃ­as...</p>
+                    <p>Cargando categorías...</p>
                 ) : (
                     <select
                         className='input'
@@ -140,11 +140,11 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
                         value={formData.parent_id || ''}
                         onChange={handleChange}
                     >
-                        <option value="">Sin categorÃ­a padre</option>
+                        <option value="">Sin categoría padre</option>
                         {flatCategories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
                                 {"".padStart(cat.level * 4, "\u00a0")}
-                                {cat.level > 0 && "â†’ "}
+                                {cat.level > 0 && "→ "}
                                 {cat.name}
                             </option>
                         ))}

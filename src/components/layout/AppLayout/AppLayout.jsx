@@ -10,6 +10,7 @@ import { HomePage } from '../../../features/home/pages/HomePage/HomePage';
 import { ManageProductsPage } from '../../../features/product/pages/ManageProductsPage/ManageProductsPage';
 import { NewCategoryPage } from '../../../features/category/pages/NewCategoryPage/NewCategoryPage';
 import { NewClientPage } from '../../../features/client/pages/NewClientPage/NewClientPage';
+import { ClientDetailPage } from '../../../features/client/pages/ClientDetailPage/ClientDetailPage';
 import { NewProductPage } from '../../../features/product/pages/NewProductPage/NewProductPage';
 import { NewSupplierPage } from '../../../features/supplier/pages/NewSupplierPage/NewSupplierPage';
 import { OrderPage } from '../../../features/order/pages/OrderPage/OrderPage';
@@ -51,7 +52,7 @@ export function AppLayout() {
 
                     <Route path="/clientes" element={<ClientListPage />} />
                     <Route path="/clientes/nuevo" element={<NewClientPage />} />
-                    <Route path="/clientes/detalle/:id" element={'detalle'} />
+                    <Route path="/clientes/detalle/:id" element={<ClientDetailPage />} />
 
                     <Route path="/ventas" element={<SalesPage />} />
                     <Route path="/ventas/:id" element={<SalesPage />} />

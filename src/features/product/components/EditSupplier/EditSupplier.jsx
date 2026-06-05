@@ -187,7 +187,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
                 <>
                     {form.purchase_price &&
                         <div className={styles.delivery_price}>
-                            <h3>Precio de compra con envÃ­o aprox.</h3>
+                            <h3>Precio de compra con envío aprox.</h3>
                             <p>
                                 {formatPrice(parseFloat(form.purchase_price) || 0)} + {formatPrice((parseFloat(form.purchase_price) * 1.05) - parseFloat(form.purchase_price))} = {formatPrice(parseFloat(form.purchase_price) * 1.05)}
                             </p>

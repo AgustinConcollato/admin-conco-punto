@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { PRICE_LISTS } from '../../../../config/priceList';
 import styles from './EditClientForm.module.css';
 
-// Componente que irÃ¡ dentro del Modal
+// Componente que irá dentro del Modal
 export function EditClientForm({ client, onSave, onCancel }) {
 
     const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ export function EditClientForm({ client, onSave, onCancel }) {
 
     const [isSaving, setIsSaving] = useState(false);
 
-    // Manejador genÃ©rico para todos los inputs
+    // Manejador genérico para todos los inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -59,7 +59,7 @@ export function EditClientForm({ client, onSave, onCancel }) {
             </div>
 
             <div className={'input_group'}>
-                <span htmlFor="phone">TelÃ©fono</span>
+                <span htmlFor="phone">Teléfono</span>
                 <input
                     className='input'
                     type="text"

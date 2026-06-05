@@ -15,6 +15,12 @@ export class ClientService {
         });
     }
 
+    async getById(id) {
+        return apiRequest(`/clients/${id}`, {
+            method: "GET"
+        });
+    }
+
     async update(id, data) {
         return apiRequest(`/clients/${id}`, {
             method: "PUT",

@@ -21,7 +21,7 @@ export function StepMedia() {
 
     return (
         <div>
-            <h3 className={styles.title}>Fotos, stock e identificaciÃ³n</h3>
+            <h3 className={styles.title}>Fotos, stock e identificación</h3>
 
             {/* Fotos */}
             <section className={styles.section}>
@@ -35,7 +35,7 @@ export function StepMedia() {
                 {product?.images?.length === 0 ? (
                     <div className={styles.no_images}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        El producto no tiene imÃ¡genes cargadas.
+                        El producto no tiene imágenes cargadas.
                     </div>
                 ) : (
                     <div className={styles.photos_grid}>
@@ -69,7 +69,7 @@ export function StepMedia() {
 
             {/* Stock y datos */}
             <section className={styles.section}>
-                <p className={styles.section_label}>Stock e identificaciÃ³n</p>
+                <p className={styles.section_label}>Stock e identificación</p>
                 <div className={styles.fields_grid}>
                     <div className={styles.field}>
                         <label>Stock a publicar <span className={styles.required}>*</span></label>
@@ -91,16 +91,16 @@ export function StepMedia() {
                             type="text"
                             value={form.sku}
                             onChange={e => updateForm({ sku: e.target.value })}
-                            placeholder="CÃ³digo interno del producto"
+                            placeholder="Código interno del producto"
                         />
                     </div>
                 </div>
             </section>
 
-            {/* Variantes â€” placeholder futuro */}
+            {/* Variantes — placeholder futuro */}
             <div className={styles.variants_placeholder}>
                 <FontAwesomeIcon icon={faInfoCircle} />
-                <span>La opciÃ³n de <strong>variantes</strong> estarÃ¡ disponible prÃ³ximamente.</span>
+                <span>La opción de <strong>variantes</strong> estará disponible próximamente.</span>
             </div>
 
             <StepNav

@@ -20,16 +20,16 @@ export function Images({ images: initialImages, productId }) {
     const isModalOpen = currentIndex !== null;
     const productService = useMemo(() => new ProductService(), []);
 
-    // â”€â”€ GalerÃ­a â”€â”€
+    // ── Galería ──
     const goToNext = () => setCurrentIndex((currentIndex + 1) % images.length);
     const goToPrev = () => setCurrentIndex((currentIndex - 1 + images.length) % images.length);
     const closeModal = () => setCurrentIndex(null);
     const currentImage = isModalOpen ? images[currentIndex] : null;
 
-    // â”€â”€ Eliminar â”€â”€
+    // ── Eliminar ──
     const handleDelete = (imageId) => {
         if (images.length <= 1) {
-            toast.warning('No se puede eliminar la Ãºnica imagen del producto.');
+            toast.warning('No se puede eliminar la única imagen del producto.');
             return;
         }
         setPendingDeleteId(imageId);
@@ -47,7 +47,7 @@ export function Images({ images: initialImages, productId }) {
         }
     };
 
-    // â”€â”€ Drag & Drop reordenar â”€â”€
+    // ── Drag & Drop reordenar ──
     const handleDragStart = (e, id) => {
         setDraggingId(id);
         e.dataTransfer.effectAllowed = "move";
@@ -82,7 +82,7 @@ export function Images({ images: initialImages, productId }) {
         try {
             await productService.reorderImages({ positions }, productId);
         } catch (error) {
-            console.error("Error al reordenar imÃ¡genes:", error);
+            console.error("Error al reordenar imágenes:", error);
             setImages(initialImages);
         }
     };
@@ -91,7 +91,7 @@ export function Images({ images: initialImages, productId }) {
         <>
             <div className={styles.images_section}>
                 <div className={styles.header}>
-                    <h3>ImÃ¡genes</h3>
+                    <h3>Imágenes</h3>
                     <button className="btn btn_regular" onClick={() => setIsAdding(true)}>
                         + Agregar
                     </button>
@@ -153,7 +153,7 @@ export function Images({ images: initialImages, productId }) {
             )}
 
             {isAdding && (
-                <Modal onClose={() => setIsAdding(false)} title="Agregar imÃ¡genes">
+                <Modal onClose={() => setIsAdding(false)} title="Agregar imágenes">
                     <AddImagesModal
                         productId={productId}
                         onClose={() => setIsAdding(false)}
@@ -164,7 +164,7 @@ export function Images({ images: initialImages, productId }) {
 
             {pendingDeleteId && (
                 <ConfirmModal
-                    message="Â¿EstÃ¡s seguro de que querÃ©s eliminar esta imagen?"
+                    message="¿Estás seguro de que querés eliminar esta imagen?"
                     onConfirm={confirmDelete}
                     onCancel={() => setPendingDeleteId(null)}
                 />

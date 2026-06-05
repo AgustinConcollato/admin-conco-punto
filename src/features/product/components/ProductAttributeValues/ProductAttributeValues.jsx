@@ -86,7 +86,7 @@ export function ProductAttributeValues({ productId, deepestCategoryId, initialAt
                                 {editing ? (
                                     attr.type === 'select' ? (
                                         <select className="input" value={val} onChange={e => setVal(attr.id, e.target.value)}>
-                                            <option value="">â€” Seleccionar â€”</option>
+                                            <option value="">— Seleccionar —</option>
                                             {attr.options?.map(opt => (
                                                 <option key={opt.id} value={opt.value}>{opt.value}</option>
                                             ))}
@@ -105,7 +105,7 @@ export function ProductAttributeValues({ productId, deepestCategoryId, initialAt
                                                 checked={val === 'true'}
                                                 onChange={e => setVal(attr.id, e.target.checked ? 'true' : 'false')}
                                             />
-                                            {val === 'true' ? 'SÃ­' : 'No'}
+                                            {val === 'true' ? 'Sí' : 'No'}
                                         </label>
                                     ) : (
                                         <input
@@ -119,8 +119,8 @@ export function ProductAttributeValues({ productId, deepestCategoryId, initialAt
                                 ) : (
                                     <span className={styles.attr_value}>
                                         {attr.type === 'boolean'
-                                            ? (val === 'true' ? 'SÃ­' : 'No')
-                                            : val || <span className={styles.empty_val}>â€”</span>}
+                                            ? (val === 'true' ? 'Sí' : 'No')
+                                            : val || <span className={styles.empty_val}>—</span>}
                                     </span>
                                 )}
                             </div>

@@ -53,7 +53,7 @@ export function AddPrices() {
         const cost = parseFloat(baseCost * 1.05);
 
         const suggestions = PRICE_LISTS.map(list => {
-            // FÃ³rmula: Precio de Venta = Precio de Compra / (1 - Margen de Ganancia)
+            // Fórmula: Precio de Venta = Precio de Compra / (1 - Margen de Ganancia)
             const sellingPrice = cost / (1 - list.margin);
             return {
                 list_id: list.id,
@@ -189,7 +189,7 @@ export function AddPrices() {
                 </> :
                 <Loading />
             }
-            {product && <Link to={`/productos/nuevo/4/${product.id}`} className="btn btn_regular">Agregar CÃ³digo de Barras</Link>}
+            {product && <Link to={`/productos/nuevo/4/${product.id}`} className="btn btn_regular">Agregar Código de Barras</Link>}
         </form>
     );
 }

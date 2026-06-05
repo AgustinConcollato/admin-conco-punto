@@ -17,7 +17,7 @@ export function Info({ product }) {
         <>
             <div className={styles.info_container}>
                 <div className={styles.header}>
-                    <h3>InformaciÃ³n</h3>
+                    <h3>Información</h3>
                     <button onClick={() => setIsEditing(true)} className="btn btn_regular">
                         Editar
                     </button>
@@ -34,9 +34,9 @@ export function Info({ product }) {
                 </div>
 
                 <div className={styles.info_detail}>
-                    <span>DescripciÃ³n:</span>
+                    <span>Descripción:</span>
                     <pre className={styles.description_pre}>
-                        {currentProduct.description || 'No tiene descripciÃ³n'}
+                        {currentProduct.description || 'No tiene descripción'}
                     </pre>
                 </div>
             </div>

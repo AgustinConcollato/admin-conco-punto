@@ -105,7 +105,7 @@ export function SearchByBarcode() {
                 <input
                     type="text"
                     name="barcode"
-                    placeholder="Escanear o introducir cÃ³digo..."
+                    placeholder="Escanear o introducir código..."
                     autoFocus
                     disabled={isLoading}
                     className={styles.form_input}

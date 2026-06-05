@@ -77,12 +77,12 @@ export function PaymentPage() {
             newParams.delete(name);
         }
 
-        // Si cambio un filtro (que no sea paginaciÃ³n), vuelvo a la pÃ¡gina 1
+        // Si cambio un filtro (que no sea paginación), vuelvo a la página 1
         if (name !== 'page') {
             newParams.set('page', '1');
         }
 
-        // LÃ³gica de rango: si no es custom, borramos fechas manuales
+        // Lógica de rango: si no es custom, borramos fechas manuales
         if (name === 'range' && value !== 'custom') {
             newParams.delete('start_date');
             newParams.delete('end_date');
@@ -156,7 +156,7 @@ export function PaymentPage() {
                 </div>
 
                 <div className={styles.filter_group}>
-                    <label>MÃ©todo de pago</label>
+                    <label>Método de pago</label>
                     <select
                         value={filters.payment_method}
                         onChange={(e) => handleFilterChange('payment_method', e.target.value)}
@@ -204,7 +204,7 @@ export function PaymentPage() {
                                 }}
                                 aria-label="Limpiar cliente"
                             >
-                                Ã—
+                                ×
                             </button>
                         )}
 

@@ -29,9 +29,9 @@ export function VariantImages({ productId, variant, onImagesUpdated }) {
             setImages(newImages);
             onImagesUpdated?.(variant.id, newImages);
             setFilesToUpload([]);
-            toast.success('ImÃ¡genes subidas');
+            toast.success('Imágenes subidas');
         } catch {
-            toast.error('Error al subir imÃ¡genes.');
+            toast.error('Error al subir imágenes.');
         } finally {
             setUploading(false);
         }
@@ -57,7 +57,7 @@ export function VariantImages({ productId, variant, onImagesUpdated }) {
 
     return (
         <div className={styles.container}>
-            {/* ImÃ¡genes actuales */}
+            {/* Imágenes actuales */}
             {images.length > 0 && (
                 <div className={styles.current_images}>
                     {images.map(img => (
@@ -105,7 +105,7 @@ export function VariantImages({ productId, variant, onImagesUpdated }) {
 
             {pendingDeleteId && (
                 <ConfirmModal
-                    message="Â¿Eliminar esta imagen de la variante?"
+                    message="¿Eliminar esta imagen de la variante?"
                     onConfirm={confirmDelete}
                     onCancel={() => setPendingDeleteId(null)}
                 />

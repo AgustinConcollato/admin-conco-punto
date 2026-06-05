@@ -127,3 +127,14 @@
     font-size: 0.9rem;
 }
 
+@media (max-width: 360px) {
+    .root {
+        padding: 1rem 0.75rem 3rem;
+        gap: 1rem;
+    }
+
+    .content {
+        padding: 1.25rem 1rem;
+    }
+}
+

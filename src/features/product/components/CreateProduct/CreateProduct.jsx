@@ -51,11 +51,11 @@ export function CreateProduct() {
             formData.append('image_positions[]', i);
         });
 
-        // categories required by backend â€” send empty array, will be filled in step 2
+        // categories required by backend — send empty array, will be filled in step 2
         // but backend validates categories as required, so we need at least a placeholder
         // Actually we need to relax the categories validation OR send them here
         // For now: categories will be synced in step 2, so we pass a dummy value
-        // Better: remove categories required from step 1 validation â€” handled in step 2
+        // Better: remove categories required from step 1 validation — handled in step 2
 
         try {
             const product = await productService.createProduct(formData);
@@ -111,8 +111,8 @@ export function CreateProduct() {
             </div>
 
             <div className="input_group">
-                <span>DescripciÃ³n</span>
-                <textarea className="input" name="description" placeholder="DescripciÃ³n" />
+                <span>Descripción</span>
+                <textarea className="input" name="description" placeholder="Descripción" />
             </div>
 
             <div className="input_group">

@@ -7,7 +7,7 @@ import styles from "./NewProductPage.module.css";
 
 const STEPS = [
     { num: 1, label: 'Datos' },
-    { num: 2, label: 'CategorÃ­a' },
+    { num: 2, label: 'Categoría' },
     { num: 3, label: 'Precios' },
     { num: 4, label: 'Barras' },
     { num: 5, label: 'Variantes' },
@@ -26,7 +26,7 @@ export function NewProductPage() {
     return (
         <div className={styles.page}>
             <div className={styles.stepper}>
-                {/* Track: dot â†’ connector â†’ dot â†’ connector â†’ dot */}
+                {/* Track: dot → connector → dot → connector → dot */}
                 <div className={styles.stepper_track}>
                     {STEPS.map((s, i) => {
                         const isDone = currentStep > s.num;

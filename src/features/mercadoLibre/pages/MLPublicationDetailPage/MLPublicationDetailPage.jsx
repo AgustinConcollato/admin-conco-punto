@@ -21,25 +21,25 @@ const STATUS_BADGE = {
     active: { label: "Activa", cls: styles.badge_active },
     paused: { label: "Pausada", cls: styles.badge_paused },
     closed: { label: "Cerrada", cls: styles.badge_closed },
-    under_review: { label: "En revisiÃ³n", cls: styles.badge_review },
+    under_review: { label: "En revisión", cls: styles.badge_review },
     inactive: { label: "Inactiva", cls: styles.badge_closed },
 };
 
 const LISTING_TYPE_LABEL = {
     gold_pro: "Premium",
-    gold_special: "ClÃ¡sica",
+    gold_special: "Clásica",
     free: "Gratuita",
 };
 
 const CAMPAIGN_TAGS = ['3x_campaign', '9x_campaign', '12x_campaign', 'pcj-co-funded'];
 
 const ALL_CUOTAS_OPTIONS = [
-    { value: 'none', listing: 'gold_special', tag: null, label: 'Sin cuotas sin interÃ©s (solo bancos)' },
-    { value: 'pcj-co-funded', listing: 'gold_special', tag: 'pcj-co-funded', label: '3-12 cuotas con interÃ©s bajo' },
-    { value: '3x', listing: 'gold_pro', tag: '3x_campaign', label: '3 cuotas sin interÃ©s' },
-    { value: '6x', listing: 'gold_pro', tag: null, label: '6 cuotas sin interÃ©s (recomendado)' },
-    { value: '9x', listing: 'gold_pro', tag: '9x_campaign', label: '9 cuotas sin interÃ©s' },
-    { value: '12x', listing: 'gold_pro', tag: '12x_campaign', label: '12 cuotas sin interÃ©s' },
+    { value: 'none', listing: 'gold_special', tag: null, label: 'Sin cuotas sin interés (solo bancos)' },
+    { value: 'pcj-co-funded', listing: 'gold_special', tag: 'pcj-co-funded', label: '3-12 cuotas con interés bajo' },
+    { value: '3x', listing: 'gold_pro', tag: '3x_campaign', label: '3 cuotas sin interés' },
+    { value: '6x', listing: 'gold_pro', tag: null, label: '6 cuotas sin interés (recomendado)' },
+    { value: '9x', listing: 'gold_pro', tag: '9x_campaign', label: '9 cuotas sin interés' },
+    { value: '12x', listing: 'gold_pro', tag: '12x_campaign', label: '12 cuotas sin interés' },
 ];
 
 function getCurrentCuotasValue(pub) {
@@ -62,7 +62,7 @@ function parseBillableWeight(dimensions) {
     return Number.isFinite(w) && w > 0 ? w : null;
 }
 
-// â”€â”€â”€ Fee Breakdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Fee Breakdown ────────────────────────────────────────────────────────────
 function FeeBreakdown({ price, cuotasValue, categoryId, billableWeight }) {
     const mlService = useMemo(() => new MercadoLibreService(), []);
     const [apiData, setApiData] = useState(null);
@@ -117,7 +117,7 @@ function FeeBreakdown({ price, cuotasValue, categoryId, billableWeight }) {
     );
 }
 
-// â”€â”€â”€ Editable field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Editable field ───────────────────────────────────────────────────────────
 function EditableField({ label, value, type = "text", onSave, saving, prefix, onDraftChange }) {
     const [editing, setEditing] = useState(false);
     const [draft, setDraft] = useState(value);
@@ -166,7 +166,7 @@ function EditableField({ label, value, type = "text", onSave, saving, prefix, on
                 <div className={styles.ef_row}>
                     <span className={styles.ef_value}>
                         {prefix && <span className={styles.ef_prefix_static}>{prefix} </span>}
-                        {value ?? <em className={styles.ef_empty}>â€”</em>}
+                        {value ?? <em className={styles.ef_empty}>—</em>}
                     </span>
                     <button className={styles.ef_edit} onClick={() => { setDraft(value); setEditing(true); }}>
                         <FontAwesomeIcon icon={faEdit} />
@@ -177,7 +177,7 @@ function EditableField({ label, value, type = "text", onSave, saving, prefix, on
     );
 }
 
-// â”€â”€â”€ Editable select â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Editable select ──────────────────────────────────────────────────────────
 function EditableSelect({ label, value, options, onSave, saving, disabled, onDraftChange }) {
     const [editing, setEditing] = useState(false);
     const [draft, setDraft] = useState(value);
@@ -227,7 +227,7 @@ function EditableSelect({ label, value, options, onSave, saving, disabled, onDra
     );
 }
 
-// â”€â”€â”€ Alertas ML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Alertas ML ───────────────────────────────────────────────────────────────
 function CausesSection({ causes }) {
     if (!causes?.length) return null;
     return (
@@ -244,7 +244,7 @@ function CausesSection({ causes }) {
     );
 }
 
-// â”€â”€â”€ PÃ¡gina principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Página principal ─────────────────────────────────────────────────────────
 export function MLPublicationDetailPage() {
     const mlService = useMemo(() => new MercadoLibreService(), []);
     const { mlItemId } = useParams();
@@ -268,7 +268,7 @@ export function MLPublicationDetailPage() {
             const data = await mlService.getPublication(mlItemId);
             setPub(data);
         } catch (e) {
-            setError(e.message ?? "No se pudo cargar la publicaciÃ³n.");
+            setError(e.message ?? "No se pudo cargar la publicación.");
         } finally {
             setLoading(false);
         }
@@ -330,7 +330,7 @@ export function MLPublicationDetailPage() {
             await ACTIONS[action]?.();
             await load();
         } catch (e) {
-            setSaveError(e.message ?? "Error al ejecutar la acciÃ³n.");
+            setSaveError(e.message ?? "Error al ejecutar la acción.");
         } finally {
             setActionLoading(false);
             setPendingClose(false);
@@ -361,7 +361,7 @@ export function MLPublicationDetailPage() {
     return (
         <div className={styles.page}>
 
-            {/* â”€â”€ Header â”€â”€ */}
+            {/* ── Header ── */}
             <div className={styles.header}>
                 <button className={styles.btn_back} onClick={() => window.history.back() || navigate('/mercado-libre/publicaciones')}>
                     <FontAwesomeIcon icon={faArrowLeft} />
@@ -401,7 +401,7 @@ export function MLPublicationDetailPage() {
 
             <div className={styles.grid}>
 
-                {/* â”€â”€ Columna izquierda â”€â”€ */}
+                {/* ── Columna izquierda ── */}
                 <div className={styles.col_left}>
                     <PublicationImages
                         pictures={pub.pictures}
@@ -426,20 +426,20 @@ export function MLPublicationDetailPage() {
                             </span>
                         </div>
                         <div className={styles.stat_row}>
-                            <span className={styles.stat_lbl}>CondiciÃ³n</span>
+                            <span className={styles.stat_lbl}>Condición</span>
                             <span className={styles.stat_val}>{pub.condition === "new" ? "Nuevo" : "Usado"}</span>
                         </div>
                         {pub.shipping?.mode && (
                             <div className={styles.stat_row}>
-                                <span className={styles.stat_lbl}>EnvÃ­o</span>
+                                <span className={styles.stat_lbl}>Envío</span>
                                 <span className={styles.stat_val}>
-                                    {pub.shipping.mode === "me2" ? "Mercado EnvÃ­os" : pub.shipping.mode}
-                                    {pub.shipping.free_shipping && " Â· Gratis"}
+                                    {pub.shipping.mode === "me2" ? "Mercado Envíos" : pub.shipping.mode}
+                                    {pub.shipping.free_shipping && " · Gratis"}
                                 </span>
                             </div>
                         )}
                         <div className={styles.stat_row}>
-                            <span className={styles.stat_lbl}>CategorÃ­a</span>
+                            <span className={styles.stat_lbl}>Categoría</span>
                             <code className={styles.stat_code}>{pub.category_id}</code>
                         </div>
                         {pub.date_created && (
@@ -455,7 +455,7 @@ export function MLPublicationDetailPage() {
                     </div>
                 </div>
 
-                {/* â”€â”€ Columna derecha â”€â”€ */}
+                {/* ── Columna derecha ── */}
                 <div className={styles.col_right}>
 
                     {/* Precio y comisiones */}
@@ -483,10 +483,10 @@ export function MLPublicationDetailPage() {
                     {/* Datos editables */}
                     <div className={styles.card}>
                         <p className={styles.card_title}>
-                            <FontAwesomeIcon icon={faEdit} /> InformaciÃ³n de la publicaciÃ³n
+                            <FontAwesomeIcon icon={faEdit} /> Información de la publicación
                         </p>
                         <EditableField
-                            label="TÃ­tulo"
+                            label="Título"
                             value={pub.title}
                             onSave={v => save("title", v)}
                             saving={saving === "title"}
@@ -499,7 +499,7 @@ export function MLPublicationDetailPage() {
                             saving={saving === "available_quantity"}
                         />
                         <EditableSelect
-                            label="Cuotas sin interÃ©s"
+                            label="Cuotas sin interés"
                             value={getCurrentCuotasValue(pub)}
                             options={ALL_CUOTAS_OPTIONS}
                             onSave={saveCuotas}
@@ -538,7 +538,7 @@ export function MLPublicationDetailPage() {
 
             {pendingClose && (
                 <ConfirmModal
-                    message="Â¿Cerrar esta publicaciÃ³n? Esta acciÃ³n no se puede revertir."
+                    message="¿Cerrar esta publicación? Esta acción no se puede revertir."
                     onConfirm={() => executeAction("close")}
                     onCancel={() => setPendingClose(false)}
                 />

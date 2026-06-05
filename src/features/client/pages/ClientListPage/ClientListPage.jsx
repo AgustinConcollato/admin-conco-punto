@@ -1,4 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { normalizeStr } from '../../../../utils/normalizeStr';
 import { toast } from "react-toastify";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
@@ -95,7 +96,7 @@ export function ClientListPage() {
             <div className={styles.search_container}>
                 <input
                     type="text"
-                    placeholder="Buscar por nombre, email o telÃ©fono..."
+                    placeholder="Buscar por nombre, email o teléfono..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className={styles.search_input}
@@ -107,7 +108,7 @@ export function ClientListPage() {
             ) : filteredClients.length === 0 ? (
                 <EmptyState
                     icon={faUsers}
-                    message={searchTerm ? 'No se encontraron clientes con ese criterio.' : 'TodavÃ­a no hay clientes cargados.'}
+                    message={searchTerm ? 'No se encontraron clientes con ese criterio.' : 'Todaví­a no hay clientes cargados.'}
                 />
             ) : (
                 <div className={styles.table_wrapper}>
@@ -116,7 +117,7 @@ export function ClientListPage() {
                             <tr>
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>TelÃ©fono</th>
+                                <th>Teléfono</th>
                                 <th>Lista</th>
                                 <th>Opciones</th>
                             </tr>
@@ -126,9 +127,12 @@ export function ClientListPage() {
                                 <tr key={client.id}>
                                     <td data-label="Nombre">{client.name}</td>
                                     <td data-label="Email">{client.email || 'Sin email'}</td>
-                                    <td data-label="TelÃ©fono">{client.phone || 'Sin telÃ©fono'}</td>
+                                    <td data-label="Teléfono">{client.phone || 'Sin teléfono'}</td>
                                     <td data-label="Lista">{client.price_list?.name || 'General'}</td>
                                     <td data-label="Opciones" className={styles.options_cell}>
+                                        <Link to={`/clientes/detalle/${client.id}`} className="btn btn_regular">
+                                            Ver detalle
+                                        </Link>
                                         <button className="btn btn_regular" onClick={() => handleEdit(client)}>
                                             Editar
                                         </button>
@@ -155,7 +159,7 @@ export function ClientListPage() {
 
             {pendingDeleteId && (
                 <ConfirmModal
-                    message="Â¿EstÃ¡s seguro de que quieres eliminar este cliente? Esta acciÃ³n no se puede deshacer."
+                    message="¿Estás seguro de que quieres eliminar este cliente? Esta acción no se puede deshacer."
                     onConfirm={confirmDelete}
                     onCancel={() => setPendingDeleteId(null)}
                 />

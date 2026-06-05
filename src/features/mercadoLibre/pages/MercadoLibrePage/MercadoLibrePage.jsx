@@ -63,7 +63,7 @@ export function MercadoLibrePage() {
             const { url } = await mlService.getAuthUrl();
             window.location.href = url;
         } catch (e) {
-            toast.error("No se pudo obtener la URL de autorizaciÃ³n.");
+            toast.error("No se pudo obtener la URL de autorización.");
         }
     };
 
@@ -85,7 +85,7 @@ export function MercadoLibrePage() {
             <div className={styles.header}>
                 <div>
                     <h2 className={styles.title}>Mercado Libre</h2>
-                    <p className={styles.subtitle}>PublicÃ¡ y gestionÃ¡ tus productos en el marketplace</p>
+                    <p className={styles.subtitle}>Publicá y gestioná tus productos en el marketplace</p>
                 </div>
             </div>
 
@@ -114,7 +114,7 @@ export function MercadoLibrePage() {
                     />
                     {profile && (
                         <div className={styles.hint}>
-                            <p>âœ“ Tu cuenta estÃ¡ vinculada. PodÃ©s ir a <Link className={styles.link_btn} to={"/productos?stock_min=1"}>Publicar producto</Link> para subir productos a ML.</p>
+                            <p>✓ Tu cuenta está vinculada. Podés ir a <Link className={styles.link_btn} to={"/productos?stock_min=1"}>Publicar producto</Link> para subir productos a ML.</p>
                         </div>
                     )}
                 </div>
@@ -124,7 +124,7 @@ export function MercadoLibrePage() {
                 <div className={styles.tab_content}>
                     {!profile && !profileLoading ? (
                         <div className={styles.no_account}>
-                            <p>NecesitÃ¡s vincular tu cuenta de Mercado Libre primero.</p>
+                            <p>Necesitás vincular tu cuenta de Mercado Libre primero.</p>
                             <Link className="btn btn_solid" to={"/mercado-libre/cuenta"}>
                                 Ir a Mi cuenta
                             </Link>
@@ -136,7 +136,7 @@ export function MercadoLibrePage() {
             )}
             {showDisconnectConfirm && (
                 <ConfirmModal
-                    message="Â¿Desvincular tu cuenta de Mercado Libre? PerderÃ¡s acceso a la gestiÃ³n de publicaciones."
+                    message="¿Desvincular tu cuenta de Mercado Libre? Perderás acceso a la gestión de publicaciones."
                     onConfirm={handleDisconnect}
                     onCancel={() => setShowDisconnectConfirm(false)}
                 />

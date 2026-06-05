@@ -23,7 +23,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
     const service = useMemo(() => new ProductVariantService(), []);
     const productService = useMemo(() => new ProductService(), []);
 
-    // Si categoryAttributes estÃ¡ vacÃ­o pero la variante ya tiene valores,
+    // Si categoryAttributes está vacío pero la variante ya tiene valores,
     // derivar los atributos del category_attribute anidado en cada valor
     const effectiveAttrs = categoryAttributes.length > 0
         ? categoryAttributes
@@ -77,7 +77,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
         }));
     };
 
-    // â”€â”€ Images â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Images ──────────────────────────────────────────────────────────────
 
     const removeNewFile = (index) => {
         setNewImageFiles(prev => prev.filter((_, i) => i !== index));
@@ -104,13 +104,13 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
         return response.images ?? [];
     };
 
-    // â”€â”€ Barcodes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Barcodes ─────────────────────────────────────────────────────────────
 
     const handleAddPendingBarcode = () => {
         const val = barcodeInput.trim().toUpperCase();
         if (!val) return;
         if (pendingBarcodes.includes(val) || existingBarcodes.some(b => b.barcode === val)) {
-            toast.error('Ese cÃ³digo ya estÃ¡ en la lista.');
+            toast.error('Ese código ya está en la lista.');
             return;
         }
         setPendingBarcodes(prev => [...prev, val]);
@@ -128,7 +128,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
             prev.filter(b => b.id !== barcodeId);
             setExistingBarcodes(prev => prev.filter(b => b.id !== barcodeId));
         } catch {
-            toast.error('Error al eliminar el cÃ³digo de barras.');
+            toast.error('Error al eliminar el código de barras.');
         } finally {
             setDeletingBarcodeId(null);
         }
@@ -148,7 +148,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
         return uploaded;
     };
 
-    // â”€â”€ Submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Submit ───────────────────────────────────────────────────────────────
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -248,7 +248,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
                                 </span>
                                 {attr.type === 'select' ? (
                                     <select className="input" value={val} onChange={e => setAttrValue(attr.id, e.target.value)}>
-                                        <option value="">â€” Seleccionar â€”</option>
+                                        <option value="">— Seleccionar —</option>
                                         {attr.options?.map(opt => (
                                             <option key={opt.id} value={opt.value}>{opt.value}</option>
                                         ))}
@@ -267,7 +267,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
                                             checked={val === 'true'}
                                             onChange={e => setAttrValue(attr.id, e.target.checked ? 'true' : 'false')}
                                         />
-                                        {val === 'true' ? 'SÃ­' : 'No'}
+                                        {val === 'true' ? 'Sí' : 'No'}
                                     </label>
                                 ) : (
                                     <input
@@ -286,7 +286,7 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
 
             {/* Barcodes section */}
             <div className={styles.barcodes_section}>
-                <p className={styles.attrs_label}>CÃ³digos de barras <small className={styles.optional}>(opcional)</small></p>
+                <p className={styles.attrs_label}>Códigos de barras <small className={styles.optional}>(opcional)</small></p>
 
                 {existingBarcodes.map(bc => (
                     <div key={bc.id} className={styles.barcode_row}>
