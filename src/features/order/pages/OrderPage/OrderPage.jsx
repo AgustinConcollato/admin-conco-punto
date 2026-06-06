@@ -1,8 +1,8 @@
-﻿import { OrderLayout } from "../../../../components/layout/OrderLayout/OrderLayout";
+﻿import { OrderList } from "../../components/OrderList/OrderList";
 
 export const OrderPage = () => {
     return (
-        <OrderLayout />
+        <OrderList />
     );
 };
 

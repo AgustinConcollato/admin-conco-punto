@@ -1,0 +1,116 @@
+.actions {
+    position: relative;
+    display: inline-flex;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn_action {
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-surface, #fff);
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.btn_action:hover {
+    border-color: var(--primary, #3d6caa);
+    background: rgba(61, 108, 170, 0.06);
+}
+
+/* Popover (menú edición / código de barras) */
+.popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 300;
+    min-width: 220px;
+    max-width: 280px;
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 10px);
+    box-shadow: var(--shadow-elevated, 0 8px 24px rgba(0, 0, 0, 0.12));
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: auto;
+}
+
+.btn_close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-surface, #fff);
+    box-shadow: var(--shadow-card);
+}
+
+.menu_title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.menu_list {
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+    background-color: var(--color-bg, #f8fafc);
+    border-radius: var(--radius-sm, 6px);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.menu_list li {
+    padding: 7px 5px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+    cursor: pointer;
+    transition: transform 0.3s, color 0.15s;
+}
+
+.menu_list li:hover {
+    transform: translateX(8px);
+    color: var(--primary, #3d6caa);
+}
+
+.menu_list li:last-child {
+    border: none;
+}
+
+.menu_list a {
+    color: var(--primary, #3d6caa);
+}
+
+.container_barcode {
+    margin: 6px 0;
+}
+
+.container_barcode img {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+}
+
+.popover > a {
+    color: var(--primary, #3d6caa);
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
+    border-radius: var(--radius-sm, 8px);
+    background: rgba(61, 108, 170, 0.08);
+}

@@ -1,21 +1,43 @@
-﻿import { useEffect, useMemo, useState } from "react";
-import { faBox, faPlus } from "@fortawesome/free-solid-svg-icons";
+﻿import { faBorderAll, faBox, faList, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmptyState } from "../../../../components/EmptyState/EmptyState";
-import { Loading } from "../../../../components/Loading/Loading";
 import { Pagination } from "../../../../components/Pagination/Pagination";
 import { ProductService } from "../../../../services/product/productService";
 import { Card } from "../Card/Card";
+import { ProductTable } from "../ProductTable/ProductTable";
 import styles from './ProductList.module.css';
 
-export function ProductList({ params, handleFilterChange, filters }) {
+export function ProductList({ params, handleFilterChange, filters, onSortChange }) {
 
     const [loading, setLoading] = useState(true);
     const [pagination, setPagination] = useState(null);
     const [products, setProducts] = useState(null);
+    const [viewMode, setViewMode] = useState(() => localStorage.getItem('productsViewMode') ?? 'cards');
+    const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
 
     const productService = useMemo(() => new ProductService(), []);
+
+    useEffect(() => {
+        localStorage.setItem('productsViewMode', viewMode);
+    }, [viewMode]);
+
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
+    const effectiveView = isMobile ? 'cards' : viewMode;
+
+    const handleSort = (key) => {
+        const currentBy = filters.sort_by;
+        const currentOrder = filters.sort_order || 'asc';
+        const nextOrder = currentBy === key ? (currentOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+        onSortChange(key, nextOrder);
+    };
 
     const loadProducts = async () => {
         setLoading(true);
@@ -59,16 +81,30 @@ export function ProductList({ params, handleFilterChange, filters }) {
     return (
         <div className={styles.content}>
             {loading ? (
-                <div className={styles.skeleton_grid}>
-                    {Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} className={styles.skeleton_card}>
-                            <div className={styles.skeleton_img} />
-                            <div className={styles.skeleton_line} style={{ width: '80%', marginTop: '12px' }} />
-                            <div className={styles.skeleton_line} style={{ width: '50%', marginTop: '8px' }} />
-                            <div className={styles.skeleton_line} style={{ width: '65%', marginTop: '8px' }} />
-                        </div>
-                    ))}
-                </div>
+                effectiveView === 'table' ? (
+                    <div className={styles.skeleton_table}>
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <div key={i} className={styles.skeleton_table_row}>
+                                <div className={styles.skeleton_thumb} />
+                                <div className={styles.skeleton_line} style={{ flex: 2 }} />
+                                <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                                <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                                <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className={styles.skeleton_grid}>
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <div key={i} className={styles.skeleton_card}>
+                                <div className={styles.skeleton_img} />
+                                <div className={styles.skeleton_line} style={{ width: '80%', marginTop: '12px' }} />
+                                <div className={styles.skeleton_line} style={{ width: '50%', marginTop: '8px' }} />
+                                <div className={styles.skeleton_line} style={{ width: '65%', marginTop: '8px' }} />
+                            </div>
+                        ))}
+                    </div>
+                )
             ) : (
                 <>
                     <div className={styles.header}>
@@ -80,18 +116,48 @@ export function ProductList({ params, handleFilterChange, filters }) {
                                 </p>
                             )}
                         </div>
-                        <Link to="/productos/nuevo/1" className="btn btn_solid">
-                            <FontAwesomeIcon icon={faPlus} /> Nuevo
-                        </Link>
+                        <div className={styles.header_actions}>
+                            {!isMobile && (
+                                <div className={styles.view_toggle}>
+                                    <button
+                                        className={`${styles.toggle_btn} ${viewMode === 'cards' ? styles.toggle_active : ''}`}
+                                        onClick={() => setViewMode('cards')}
+                                        aria-label="Ver como tarjetas"
+                                    >
+                                        <FontAwesomeIcon icon={faBorderAll} />
+                                    </button>
+                                    <button
+                                        className={`${styles.toggle_btn} ${viewMode === 'table' ? styles.toggle_active : ''}`}
+                                        onClick={() => setViewMode('table')}
+                                        aria-label="Ver como tabla"
+                                    >
+                                        <FontAwesomeIcon icon={faList} />
+                                    </button>
+                                </div>
+                            )}
+                            <Link to="/productos/nuevo/1" className="btn btn_solid">
+                                <FontAwesomeIcon icon={faPlus} /> Nuevo
+                            </Link>
+                        </div>
                     </div>
 
                     {products && products.length > 0 ? (
                         <>
-                            <div className={styles.product_grid}>
-                                {products.map((product) => (
-                                    <Card key={product.id} product={product} />
-                                ))}
-                            </div>
+                            {effectiveView === 'table' ? (
+                                <ProductTable
+                                    products={products}
+                                    sortBy={filters.sort_by}
+                                    sortOrder={filters.sort_order || 'asc'}
+                                    onSort={handleSort}
+                                    onUpdated={loadProducts}
+                                />
+                            ) : (
+                                <div className={styles.product_grid}>
+                                    {products.map((product) => (
+                                        <Card key={product.id} product={product} />
+                                    ))}
+                                </div>
+                            )}
 
                             {pagination && pagination.last_page > 1 && (
                                 <Pagination
