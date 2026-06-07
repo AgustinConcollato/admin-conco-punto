@@ -20,6 +20,7 @@
     background: var(--color-surface, #fff);
     box-shadow: var(--shadow-card);
     transition: border-color 0.15s, background 0.15s;
+    outline: none;
 }
 
 .btn_action:hover {
@@ -27,90 +28,61 @@
     background: rgba(61, 108, 170, 0.06);
 }
 
-/* Popover (menú edición / código de barras) */
-.popover {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    z-index: 300;
-    min-width: 220px;
-    max-width: 280px;
-    background: var(--color-surface, #fff);
-    border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: var(--radius-md, 10px);
-    box-shadow: var(--shadow-elevated, 0 8px 24px rgba(0, 0, 0, 0.12));
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    cursor: auto;
+.btn_action:focus-visible {
+    outline: 1px solid var(--primary);
 }
 
-.btn_close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
+/* Edit menu (dentro del Modal) */
+.edit_menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 6px);
+    background: var(--color-bg, #f8fafc);
+    overflow: hidden;
+}
+
+.edit_menu li {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
     cursor: pointer;
-    height: 25px;
-    width: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    border: 1px solid var(--color-border, #e2e8f0);
-    background: var(--color-surface, #fff);
-    box-shadow: var(--shadow-card);
-}
-
-.menu_title {
-    font-weight: 600;
+    transition: background 0.12s, color 0.12s;
     font-size: 14px;
 }
 
-.menu_list {
-    padding: 10px;
-    margin: 0;
-    list-style: none;
-    background-color: var(--color-bg, #f8fafc);
-    border-radius: var(--radius-sm, 6px);
-    border: 1px solid var(--color-border, #e2e8f0);
+.edit_menu li:last-child {
+    border-bottom: none;
 }
 
-.menu_list li {
-    padding: 7px 5px;
-    border-bottom: 1px solid var(--color-border, #e2e8f0);
-    cursor: pointer;
-    transition: transform 0.3s, color 0.15s;
-}
-
-.menu_list li:hover {
-    transform: translateX(8px);
+.edit_menu li:hover {
+    background: rgba(61, 108, 170, 0.06);
     color: var(--primary, #3d6caa);
 }
 
-.menu_list li:last-child {
-    border: none;
-}
-
-.menu_list a {
+.edit_menu a {
     color: var(--primary, #3d6caa);
+    text-decoration: none;
 }
 
-.container_barcode {
-    margin: 6px 0;
+/* Barcode (dentro del Modal) */
+.barcode_item {
+    margin: 8px 0;
 }
 
-.container_barcode img {
+.barcode_item img {
     display: block;
     margin: auto;
     max-width: 100%;
 }
 
-.popover > a {
-    color: var(--primary, #3d6caa);
-    font-size: 14px;
+.add_barcode_link {
+    display: block;
     text-align: center;
-    padding: 10px;
+    padding: 12px;
+    color: var(--primary, #3d6caa);
     border-radius: var(--radius-sm, 8px);
     background: rgba(61, 108, 170, 0.08);
+    text-decoration: none;
+    font-size: 14px;
 }

@@ -9,10 +9,11 @@ export class ClientService {
         });
     }
 
-    async getAll() {
-        return apiRequest('/clients', {
-            method: "GET"
-        });
+    async getAll(params = {}) {
+        const qs = new URLSearchParams(
+            Object.fromEntries(Object.entries(params).filter(([, v]) => v !== '' && v != null))
+        ).toString();
+        return apiRequest(`/clients${qs ? `?${qs}` : ''}`, { method: 'GET' });
     }
 
     async getById(id) {

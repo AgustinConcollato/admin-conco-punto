@@ -46,7 +46,8 @@ export function SalesPage() {
     const getClients = async () => {
 
         try {
-            setClients(await clientService.getAll());
+            const response = await clientService.getAll({ per_page: 100 });
+            setClients(response.data ?? []);
         } catch (error) {
             console.log(error)
         }

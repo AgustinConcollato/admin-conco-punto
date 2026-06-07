@@ -32,39 +32,6 @@
     gap: 12px;
 }
 
-.view_toggle {
-    display: flex;
-    gap: 4px;
-    background: var(--color-bg, #f8fafc);
-    border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: var(--radius-sm, 8px);
-    padding: 3px;
-}
-
-.toggle_btn {
-    width: 36px;
-    height: 34px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    color: var(--color-text-muted, #64748b);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    transition: background 0.15s, color 0.15s;
-}
-
-.toggle_btn:hover {
-    color: var(--primary, #3d6caa);
-}
-
-.toggle_active {
-    background: var(--color-surface, #fff);
-    color: var(--primary, #3d6caa);
-    box-shadow: var(--shadow-sm);
-}
 
 .product_grid {
     display: grid;

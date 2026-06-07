@@ -1,9 +1,12 @@
-﻿import { faBorderAll, faBox, faList, faPlus } from "@fortawesome/free-solid-svg-icons";
+﻿import { faBox, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmptyState } from "../../../../components/EmptyState/EmptyState";
 import { Pagination } from "../../../../components/Pagination/Pagination";
+import { ViewToggle } from "../../../../components/ViewToggle/ViewToggle";
+import { useMediaQuery } from "../../../../hooks/useMediaQuery";
+import { useViewMode } from "../../../../hooks/useViewMode";
 import { ProductService } from "../../../../services/product/productService";
 import { Card } from "../Card/Card";
 import { ProductTable } from "../ProductTable/ProductTable";
@@ -14,21 +17,10 @@ export function ProductList({ params, handleFilterChange, filters, onSortChange 
     const [loading, setLoading] = useState(true);
     const [pagination, setPagination] = useState(null);
     const [products, setProducts] = useState(null);
-    const [viewMode, setViewMode] = useState(() => localStorage.getItem('productsViewMode') ?? 'cards');
-    const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
+    const [viewMode, setViewMode] = useViewMode('productsViewMode');
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const productService = useMemo(() => new ProductService(), []);
-
-    useEffect(() => {
-        localStorage.setItem('productsViewMode', viewMode);
-    }, [viewMode]);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
 
     const effectiveView = isMobile ? 'cards' : viewMode;
 
@@ -117,24 +109,7 @@ export function ProductList({ params, handleFilterChange, filters, onSortChange 
                             )}
                         </div>
                         <div className={styles.header_actions}>
-                            {!isMobile && (
-                                <div className={styles.view_toggle}>
-                                    <button
-                                        className={`${styles.toggle_btn} ${viewMode === 'cards' ? styles.toggle_active : ''}`}
-                                        onClick={() => setViewMode('cards')}
-                                        aria-label="Ver como tarjetas"
-                                    >
-                                        <FontAwesomeIcon icon={faBorderAll} />
-                                    </button>
-                                    <button
-                                        className={`${styles.toggle_btn} ${viewMode === 'table' ? styles.toggle_active : ''}`}
-                                        onClick={() => setViewMode('table')}
-                                        aria-label="Ver como tabla"
-                                    >
-                                        <FontAwesomeIcon icon={faList} />
-                                    </button>
-                                </div>
-                            )}
+                            {!isMobile && <ViewToggle value={viewMode} onChange={setViewMode} />}
                             <Link to="/productos/nuevo/1" className="btn btn_solid">
                                 <FontAwesomeIcon icon={faPlus} /> Nuevo
                             </Link>
@@ -149,7 +124,11 @@ export function ProductList({ params, handleFilterChange, filters, onSortChange 
                                     sortBy={filters.sort_by}
                                     sortOrder={filters.sort_order || 'asc'}
                                     onSort={handleSort}
-                                    onUpdated={loadProducts}
+                                    onUpdated={(productId, partial) => {
+                                        setProducts(prev => prev.map(p =>
+                                            p.id === productId ? { ...p, ...partial } : p
+                                        ));
+                                    }}
                                 />
                             ) : (
                                 <div className={styles.product_grid}>

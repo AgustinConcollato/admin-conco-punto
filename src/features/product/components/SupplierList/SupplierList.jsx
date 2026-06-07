@@ -41,6 +41,7 @@ export function SupplierList({ suppliers, setSuppliers, errors, currentSuppliers
             supplier_id: supplier.id,
             name: supplier.name,
             purchase_price: existing?.pivot?.purchase_price ?? '',
+            freight_percent: existing?.pivot?.freight_percent ?? 5,
             supplier_product_url: existing?.pivot?.supplier_product_url ?? '',
         };
 
@@ -170,6 +171,22 @@ export function SupplierList({ suppliers, setSuppliers, errors, currentSuppliers
                                 />
                                 {getSupplierError(errorIndex, 'purchase_price') && (
                                     <p className={styles.error}>{getSupplierError(errorIndex, 'purchase_price')}</p>
+                                )}
+                            </div>
+                            <div className="input_group">
+                                <span>Flete de compra (%)</span>
+                                <input
+                                    type="number"
+                                    placeholder="% de flete (ej: 5)"
+                                    value={supplier.freight_percent}
+                                    onChange={(e) => handleChange(supplier.supplier_id, 'freight_percent', e.target.value)}
+                                    step="0.1"
+                                    min="0"
+                                    max="100"
+                                    className="input"
+                                />
+                                {getSupplierError(errorIndex, 'freight_percent') && (
+                                    <p className={styles.error}>{getSupplierError(errorIndex, 'freight_percent')}</p>
                                 )}
                             </div>
                             <div className="input_group">

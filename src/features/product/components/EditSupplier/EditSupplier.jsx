@@ -15,6 +15,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
 
     const [form, setForm] = useState({
         purchase_price: supplier?.pivot?.purchase_price ?? '',
+        freight_percent: supplier?.pivot?.freight_percent ?? 5,
         supplier_product_url: supplier?.pivot?.supplier_product_url ?? ''
     });
     const [errors, setErrors] = useState({});
@@ -41,8 +42,8 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
         }
     };
 
-    const calculateSuggestedPrices = (baseCost) => {
-        const cost = parseFloat(baseCost * 1.05);
+    const calculateSuggestedPrices = (baseCost, freightPercent = 5) => {
+        const cost = parseFloat(baseCost * (1 + freightPercent / 100));
         const suggestions = PRICE_LISTS.map(list => {
             const sellingPrice = cost / (1 - list.margin);
             return {
@@ -80,6 +81,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
             suppliers: suppliers.map((s, index) => ({
                 supplier_id: s.id,
                 purchase_price: index === selectedIndex ? parseFloat(form.purchase_price) || 0 : s?.pivot?.purchase_price,
+                freight_percent: index === selectedIndex ? parseFloat(form.freight_percent) ?? 5 : s?.pivot?.freight_percent ?? 5,
                 supplier_product_url: index === selectedIndex ? form.supplier_product_url || null : s?.pivot?.supplier_product_url
             })),
             price_lists: updatePrice && suggestedPriceLists ? suggestedPriceLists.map(list => ({
@@ -109,6 +111,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
             .map(s => ({
                 supplier_id: s.id,
                 purchase_price: s.pivot.purchase_price,
+                freight_percent: s.pivot.freight_percent ?? 5,
                 supplier_product_url: s.pivot.supplier_product_url
             }));
 
@@ -129,6 +132,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
         if (supplier) {
             setForm({
                 purchase_price: supplier.pivot.purchase_price,
+                freight_percent: supplier.pivot.freight_percent ?? 5,
                 supplier_product_url: supplier.pivot.supplier_product_url || ''
             });
             setErrors({});
@@ -142,8 +146,8 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
     useEffect(() => {
         if (!updatePrice) return;
         if (form.purchase_price === '' || isNaN(parseFloat(form.purchase_price))) return;
-        calculateSuggestedPrices(parseFloat(form.purchase_price));
-    }, [form.purchase_price, updatePrice]);
+        calculateSuggestedPrices(parseFloat(form.purchase_price), parseFloat(form.freight_percent ?? 5));
+    }, [form.purchase_price, form.freight_percent, updatePrice]);
 
     return (
         <form onSubmit={handleUpdate} className={styles.form}>
@@ -159,6 +163,22 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
                 />
                 {errors[`suppliers.${selectedIndex}.purchase_price`] &&
                     <p className={styles.error}>{errors[`suppliers.${selectedIndex}.purchase_price`][0]}</p>
+                }
+            </div>
+            <div className="input_group">
+                <span>Flete de compra (%)</span>
+                <input
+                    type="number"
+                    name="freight_percent"
+                    className="input"
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    value={form.freight_percent}
+                    onChange={handleChange}
+                />
+                {errors[`suppliers.${selectedIndex}.freight_percent`] &&
+                    <p className={styles.error}>{errors[`suppliers.${selectedIndex}.freight_percent`][0]}</p>
                 }
             </div>
             <div className="input_group">
@@ -189,7 +209,11 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
                         <div className={styles.delivery_price}>
                             <h3>Precio de compra con envío aprox.</h3>
                             <p>
-                                {formatPrice(parseFloat(form.purchase_price) || 0)} + {formatPrice((parseFloat(form.purchase_price) * 1.05) - parseFloat(form.purchase_price))} = {formatPrice(parseFloat(form.purchase_price) * 1.05)}
+                                {(() => {
+                                    const base = parseFloat(form.purchase_price) || 0;
+                                    const pct = parseFloat(form.freight_percent ?? 5) / 100;
+                                    return `${formatPrice(base)} + ${formatPrice(base * pct)} = ${formatPrice(base * (1 + pct))}`;
+                                })()}
                             </p>
                         </div>
                     }

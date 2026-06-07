@@ -1,16 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash, faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { Badge } from '../../../../components/Badge/Badge';
+import { segmentBadge } from '../../../../constants/badges';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { formatDate } from '../../../../utils/formatDate';
 import styles from './ClientTable.module.css';
-
-const SEGMENT_LABELS = {
-    nuevo: 'Nuevo',
-    recurrente: 'Recurrente',
-    inactivo: 'Inactivo',
-    sin_pedidos: 'Sin pedidos',
-};
 
 const COLUMNS = [
     { key: 'name', label: 'Nombre', align: 'left' },
@@ -55,13 +50,14 @@ export function ClientTable({ clients, sortConfig, onSort, onEdit, onDelete }) {
                                 </span>
                             </th>
                         ))}
+                        <th>Estados</th>
                         <th className={styles.right}>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {clients.map(client => {
                         const stats = client.stats ?? {};
-                        const segment = stats.segment ?? 'sin_pedidos';
+                        const segment = segmentBadge(stats.segment ?? 'sin_pedidos');
                         const hasDebt = parseFloat(stats.balance_due) > 0;
 
                         return (
@@ -75,9 +71,7 @@ export function ClientTable({ clients, sortConfig, onSort, onEdit, onDelete }) {
                                     {client.email && <span className={styles.sub}>{client.email}</span>}
                                 </td>
                                 <td>
-                                    <span className={`${styles.segment_badge} ${styles[`segment_${segment}`]}`}>
-                                        {SEGMENT_LABELS[segment] ?? segment}
-                                    </span>
+                                    <Badge tone={segment.tone}>{segment.label}</Badge>
                                 </td>
                                 <td className={styles.right}>{stats.total_orders ?? 0}</td>
                                 <td className={styles.right}>{formatPrice(stats.total_spent ?? 0)}</td>
@@ -86,6 +80,19 @@ export function ClientTable({ clients, sortConfig, onSort, onEdit, onDelete }) {
                                 </td>
                                 <td className={styles.right}>
                                     {stats.last_order_at ? formatDate(stats.last_order_at, 'short') : '—'}
+                                </td>
+                                <td>
+                                    <div className={styles.status_counts}>
+                                        <Badge tone={stats.pending_count ? 'amber' : 'gray'}>
+                                            Pend: {stats.pending_count ?? 0}
+                                        </Badge>
+                                        <Badge tone={stats.processing_count ? 'blue' : 'gray'}>
+                                            Proc: {stats.processing_count ?? 0}
+                                        </Badge>
+                                        <Badge tone={stats.confirmed_count ? 'green' : 'gray'}>
+                                            Term: {stats.confirmed_count ?? 0}
+                                        </Badge>
+                                    </div>
                                 </td>
                                 <td className={styles.right}>
                                     <div className={styles.actions}>

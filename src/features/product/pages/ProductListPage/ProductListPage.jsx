@@ -38,6 +38,7 @@ export function ProductListPage() {
     };
 
     useEffect(() => {
+        document.title = 'Lista de productos'
         window.scrollTo({
             top: 0,
             behavior: 'smooth'

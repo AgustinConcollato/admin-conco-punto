@@ -1,4 +1,4 @@
-import { faBarcode, faPen, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBarcode, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -37,8 +37,11 @@ export function ProductActions({ product, onUpdated }) {
     }, [product]);
 
     const stop = (e) => {
-        e.preventDefault();
         e.stopPropagation();
+        // Solo evitar navegación para clicks del DOM real (no de portales como Modal)
+        if (e.currentTarget.contains(e.target)) {
+            e.preventDefault();
+        }
     };
 
     const editProduct = (type) => {
@@ -106,41 +109,36 @@ export function ProductActions({ product, onUpdated }) {
             </div>
 
             {barcodeVisible && (
-                <div className={styles.popover}>
-                    <button className={styles.btn_close} onClick={() => setBarcodeVisible(false)}>
-                        <FontAwesomeIcon icon={faXmark} />
-                    </button>
-                    {product.barcodes && product.barcodes.length > 0 ? (
+                <Modal onClose={() => setBarcodeVisible(false)} title="Códigos de barras">
+                    {product.barcodes?.length > 0 ? (
                         product.barcodes.map(({ barcode }, i) => (
-                            <div className={styles.container_barcode} key={i}>
+                            <div key={i} className={styles.barcode_item}>
                                 <Barcode value={barcode} code={product.sku} />
                             </div>
                         ))
                     ) : (
-                        <Link to={`/productos/nuevo/4/${product.id}`}>Agregar código de barras</Link>
+                        <Link to={`/productos/nuevo/4/${product.id}`} className={styles.add_barcode_link}>
+                            Agregar código de barras
+                        </Link>
                     )}
-                </div>
+                </Modal>
             )}
 
             {showMenuEdit && (
-                <div className={styles.popover}>
-                    <button className={styles.btn_close} onClick={() => setShowMenuEdit(false)}>
-                        <FontAwesomeIcon icon={faXmark} />
-                    </button>
-                    <span className={styles.menu_title}>Editar</span>
-                    <ul className={styles.menu_list}>
+                <Modal onClose={() => setShowMenuEdit(false)} title={`Editar — ${product.name}`}>
+                    <ul className={styles.edit_menu}>
                         <li onClick={() => editProduct('info')}>Info principal</li>
                         <li onClick={() => editProduct('priceLists')}>Lista de precios</li>
                         <li onClick={() => editProduct('supplier')}>Proveedor</li>
                         {(status === 'archived' || status === 'published') && (
                             <li onClick={() => editProduct('status')}>Estado</li>
                         )}
-                        <li onClick={() => editProduct('image')}>Imagenes</li>
-                        {categories && categories.length === 0 && (
+                        <li onClick={() => editProduct('image')}>Imágenes</li>
+                        {categories?.length === 0 && (
                             <li><Link to={`/productos/nuevo/2/${product.id}`}>Categoría</Link></li>
                         )}
                     </ul>
-                </div>
+                </Modal>
             )}
 
             {edit === 'info' && (

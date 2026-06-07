@@ -9,7 +9,6 @@ import { MonthlyComparison } from "../../../../features/analytics/componentes/Mo
 import { RevenueChart } from "../../../../features/analytics/componentes/RevenueChart/RevenueChart";
 import { PaymentList } from "../../../../features/payment/components/PaymentList/PaymentList";
 import { AnalyticsService } from "../../../../services/analytics/analyticsService";
-import { ClientService } from "../../../../services/client/clientService";
 import { formatPrice } from "../../../../utils/formatPrice";
 import styles from './AnalyticsPage.module.css';
 
@@ -23,7 +22,6 @@ const PAYMENT_STATUS_LABELS = {
 export const AnalyticsPage = () => {
 
     const analyticsService = useMemo(() => new AnalyticsService(), []);
-    const clientService = useMemo(() => new ClientService(), []);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -31,11 +29,9 @@ export const AnalyticsPage = () => {
     const [comparison, setComparison] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [clients, setClients] = useState([]);
 
     const [filters, setFilters] = useState(() => ({
         range: searchParams.get('range') || DEFAULT_RANGE,
-        client_id: searchParams.get('client_id') || '',
         start_date: searchParams.get('start_date') || '',
         end_date: searchParams.get('end_date') || ''
     }));
@@ -62,20 +58,11 @@ export const AnalyticsPage = () => {
 
     useEffect(() => {
         loadData(filters);
-        (async () => {
-            try {
-                const res = await clientService.getAll();
-                setClients(res || []);
-            } catch (err) {
-                console.warn('No se pudieron cargar clientes', err);
-            }
-        })();
     }, []);
 
     useEffect(() => {
         const params = new URLSearchParams();
         if (filters.range) params.set('range', filters.range);
-        if (filters.client_id) params.set('client_id', filters.client_id);
         if (filters.start_date) params.set('start_date', filters.start_date);
         if (filters.end_date) params.set('end_date', filters.end_date);
         setSearchParams(params);
@@ -85,7 +72,7 @@ export const AnalyticsPage = () => {
     return (
         <div className={styles.container}>
             <h2 className="title">Reportes</h2>
-            <Filters filters={filters} setFilters={setFilters} loadData={loadData} clients={clients} />
+            <Filters filters={filters} setFilters={setFilters} loadData={loadData} />
 
             {error && <p className={styles.error}>{error}</p>}
 
@@ -99,7 +86,10 @@ export const AnalyticsPage = () => {
                     <Metrics data={data} comparison={comparison} />
 
                     {/* Gráfico de ingresos */}
-                    <RevenueChart data={data.revenue_over_time || []} />
+                    <RevenueChart
+                        data={data.revenue_over_time || []}
+                        ordersData={data.orders_over_time || []}
+                    />
 
                     {/* Grid inferior: pagos + top productos */}
                     <div className={styles.bottom_grid}>

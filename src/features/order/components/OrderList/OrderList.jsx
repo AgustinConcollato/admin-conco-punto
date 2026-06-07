@@ -50,8 +50,8 @@ export function OrderList() {
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const clients = await clientService.getAll();
-                setClients(clients);
+                const res = await clientService.getAll({ per_page: 100 });
+                setClients(res.data ?? []);
             } catch (error) { console.error("Error clientes:", error); }
         };
         fetchClients();

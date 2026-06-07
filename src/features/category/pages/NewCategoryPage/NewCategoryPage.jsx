@@ -24,7 +24,11 @@ export function NewCategoryPage() {
     };
 
     useEffect(() => {
-
+        document.title = 'Nueva categoría'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
         loadCategories();
     }, []);
 

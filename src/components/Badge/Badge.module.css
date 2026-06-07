@@ -1,0 +1,17 @@
+.badge {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 2px 9px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tone_gray   { background: #f1f5f9; color: #64748b; }
+.tone_blue   { background: #dbeafe; color: #1d4ed8; }
+.tone_green  { background: #dcfce7; color: #15803d; }
+.tone_amber  { background: #fef9c3; color: #854d0e; }
+.tone_orange { background: #ffedd5; color: #c2410c; }
+.tone_red    { background: #fee2e2; color: #b91c1c; }
+.tone_indigo { background: #e0e7ff; color: #3730a3; }
+.tone_purple { background: #f3e8ff; color: #7e22ce; }

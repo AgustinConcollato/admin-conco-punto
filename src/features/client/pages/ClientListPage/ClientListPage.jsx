@@ -1,101 +1,50 @@
-﻿import { useEffect, useMemo, useState } from "react";
-import { normalizeStr } from '../../../../utils/normalizeStr';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { faUsers, faBorderAll, faList } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { ConfirmModal } from "../../../../components/ConfirmModal/ConfirmModal";
 import { EmptyState } from "../../../../components/EmptyState/EmptyState";
-import { Loading } from "../../../../components/Loading/Loading";
 import { Modal } from "../../../../components/Modal/Modal";
+import { Pagination } from "../../../../components/Pagination/Pagination";
+import { ViewToggle } from "../../../../components/ViewToggle/ViewToggle";
+import { useMediaQuery } from "../../../../hooks/useMediaQuery";
+import { useViewMode } from "../../../../hooks/useViewMode";
 import { ClientService } from "../../../../services/client/clientService";
 import { ClientCard } from "../../components/ClientCard/ClientCard";
 import { ClientTable } from "../../components/ClientTable/ClientTable";
 import { EditClientForm } from "../../components/EditClientForm/EditClientForm";
 import styles from './ClientListPage.module.css';
 
-const SEGMENT_ORDER = { nuevo: 0, recurrente: 1, inactivo: 2, sin_pedidos: 3 };
-
-function compareClients(a, b, key) {
-    const sa = a.stats ?? {};
-    const sb = b.stats ?? {};
-    switch (key) {
-        case 'name':
-            return (a.name ?? '').localeCompare(b.name ?? '');
-        case 'segment':
-            return (SEGMENT_ORDER[sa.segment] ?? 9) - (SEGMENT_ORDER[sb.segment] ?? 9);
-        case 'last_order_at': {
-            const ta = sa.last_order_at ? new Date(sa.last_order_at).getTime() : -Infinity;
-            const tb = sb.last_order_at ? new Date(sb.last_order_at).getTime() : -Infinity;
-            return ta - tb;
-        }
-        default:
-            return (Number(sa[key]) || 0) - (Number(sb[key]) || 0);
-    }
-}
+const DEBOUNCE_MS = 300;
 
 export function ClientListPage() {
     const [clients, setClients] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [pagination, setPagination] = useState(null);
+    const [page, setPage] = useState(1);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingClient, setEditingClient] = useState(null);
     const [pendingDeleteId, setPendingDeleteId] = useState(null);
-    const [viewMode, setViewMode] = useState(() => localStorage.getItem('clientsViewMode') ?? 'cards');
+    const [viewMode, setViewMode] = useViewMode('clientsViewMode');
     const [sortConfig, setSortConfig] = useState({ key: 'name', dir: 'asc' });
-    const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px)').matches);
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const clientService = useMemo(() => new ClientService(), []);
+    const debounceTimer = useRef(null);
 
-    useEffect(() => {
-        localStorage.setItem('clientsViewMode', viewMode);
-    }, [viewMode]);
+    const effectiveView = isMobile ? 'cards' : viewMode;
 
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 768px)');
-        const handler = (e) => setIsMobile(e.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
-
-    const getClients = async () => {
-        setIsLoading(true);
-        try {
-            const data = await clientService.getAll();
-            setClients(data);
-        } catch (error) {
-            console.error("Error al obtener clientes:", error);
-        } finally {
-            setIsLoading(false);
-        }
+    // Debounce búsqueda
+    const handleSearchChange = (e) => {
+        const val = e.target.value;
+        setSearchTerm(val);
+        clearTimeout(debounceTimer.current);
+        debounceTimer.current = setTimeout(() => {
+            setDebouncedSearch(val);
+            setPage(1);
+        }, DEBOUNCE_MS);
     };
-
-    useEffect(() => {
-        getClients();
-    }, []);
-
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const filteredClients = useMemo(() => {
-        if (!searchTerm) return clients;
-        const lowerCaseSearch = normalizeStr(searchTerm.trim());
-        return clients.filter(client => {
-            const name = normalizeStr(client.name);
-            const email = normalizeStr(client.email);
-            const phone = client.phone || '';
-            return name.includes(lowerCaseSearch) || email.includes(lowerCaseSearch) || phone.includes(lowerCaseSearch);
-        });
-    }, [clients, searchTerm]);
-
-    const sortedClients = useMemo(() => {
-        const arr = [...filteredClients];
-        arr.sort((a, b) => {
-            const cmp = compareClients(a, b, sortConfig.key);
-            return sortConfig.dir === 'asc' ? cmp : -cmp;
-        });
-        return arr;
-    }, [filteredClients, sortConfig]);
 
     const handleSort = (key) => {
         setSortConfig(prev =>
@@ -103,9 +52,35 @@ export function ClientListPage() {
                 ? { key, dir: prev.dir === 'asc' ? 'desc' : 'asc' }
                 : { key, dir: 'asc' }
         );
+        setPage(1);
     };
 
-    const effectiveView = isMobile ? 'cards' : viewMode;
+    const getClients = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const data = await clientService.getAll({
+                search: debouncedSearch,
+                sort_by: sortConfig.key,
+                sort_order: sortConfig.dir,
+                per_page: 20,
+                page,
+            });
+            setClients(data.data ?? []);
+            setPagination({
+                current_page: data.current_page ?? 1,
+                last_page: data.last_page ?? 1,
+                total: data.total ?? 0,
+            });
+        } catch (error) {
+            console.error("Error al obtener clientes:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [clientService, debouncedSearch, sortConfig, page]);
+
+    useEffect(() => {
+        getClients();
+    }, [getClients]);
 
     const handleEdit = (client) => {
         setEditingClient(client);
@@ -135,13 +110,43 @@ export function ClientListPage() {
         if (!pendingDeleteId) return;
         try {
             await clientService.delete(pendingDeleteId);
-            setClients(prev => prev.filter(c => c.id !== pendingDeleteId));
+            getClients();
             toast.success("Cliente eliminado");
         } catch (error) {
             toast.error("Hubo un error al intentar eliminar el cliente.");
         } finally {
             setPendingDeleteId(null);
         }
+    };
+
+    const renderSkeleton = () => {
+        if (effectiveView === 'table') {
+            return (
+                <div className={styles.skeleton_table}>
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className={styles.skeleton_table_row}>
+                            <div className={styles.skeleton_line} style={{ flex: 2 }} />
+                            <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                            <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                            <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                            <div className={styles.skeleton_line} style={{ flex: 1 }} />
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+        return (
+            <div className={styles.skeleton_grid}>
+                {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className={styles.skeleton_card}>
+                        <div className={styles.skeleton_line} style={{ width: '60%' }} />
+                        <div className={styles.skeleton_line} style={{ width: '80%', marginTop: 10 }} />
+                        <div className={styles.skeleton_line} style={{ width: '50%', marginTop: 8 }} />
+                        <div className={styles.skeleton_line} style={{ width: '100%', marginTop: 12, height: 40 }} />
+                    </div>
+                ))}
+            </div>
+        );
     };
 
     return (
@@ -159,34 +164,19 @@ export function ClientListPage() {
                     />
                 </div>
 
-                <div className={styles.view_toggle}>
-                    <button
-                        className={`${styles.toggle_btn} ${viewMode === 'cards' ? styles.toggle_active : ''}`}
-                        onClick={() => setViewMode('cards')}
-                        aria-label="Ver como tarjetas"
-                    >
-                        <FontAwesomeIcon icon={faBorderAll} />
-                    </button>
-                    <button
-                        className={`${styles.toggle_btn} ${viewMode === 'table' ? styles.toggle_active : ''}`}
-                        onClick={() => setViewMode('table')}
-                        aria-label="Ver como tabla"
-                    >
-                        <FontAwesomeIcon icon={faList} />
-                    </button>
-                </div>
+                {!isMobile && <ViewToggle value={viewMode} onChange={setViewMode} />}
             </div>
 
             {isLoading ? (
-                <Loading />
-            ) : filteredClients.length === 0 ? (
+                renderSkeleton()
+            ) : clients.length === 0 ? (
                 <EmptyState
                     icon={faUsers}
-                    message={searchTerm ? 'No se encontraron clientes con ese criterio.' : 'Todaví­a no hay clientes cargados.'}
+                    message={debouncedSearch ? 'No se encontraron clientes con ese criterio.' : 'Todavía no hay clientes cargados.'}
                 />
             ) : effectiveView === 'table' ? (
                 <ClientTable
-                    clients={sortedClients}
+                    clients={clients}
                     sortConfig={sortConfig}
                     onSort={handleSort}
                     onEdit={handleEdit}
@@ -194,7 +184,7 @@ export function ClientListPage() {
                 />
             ) : (
                 <div className={styles.cards_grid}>
-                    {sortedClients.map(client => (
+                    {clients.map(client => (
                         <ClientCard
                             key={client.id}
                             client={client}
@@ -203,6 +193,14 @@ export function ClientListPage() {
                         />
                     ))}
                 </div>
+            )}
+
+            {!isLoading && pagination && pagination.last_page > 1 && (
+                <Pagination
+                    currentPage={pagination.current_page}
+                    lastPage={pagination.last_page}
+                    onPageChange={(p) => setPage(p)}
+                />
             )}
 
             {showEditModal && editingClient && (
@@ -225,6 +223,3 @@ export function ClientListPage() {
         </div>
     );
 }
-
-
-

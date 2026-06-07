@@ -180,35 +180,6 @@
     flex-wrap: wrap;
 }
 
-/* Segment badges */
-
-.segment_badge {
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.segment_nuevo {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-.segment_recurrente {
-    background: #dcfce7;
-    color: #15803d;
-}
-
-.segment_inactivo {
-    background: #ffedd5;
-    color: #c2410c;
-}
-
-.segment_sin_pedidos {
-    background: #f1f5f9;
-    color: #64748b;
-}
-
 /* Secondary metrics row */
 
 .secondary_metrics {
@@ -392,49 +363,35 @@
     font-weight: 500;
 }
 
+/* Top products — two-column layout */
+
+.top_products_columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.top_products_col_label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 8px 4px;
+}
+
+@media (max-width: 768px) {
+    .top_products_columns {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Status badges */
 
 .status_badges_row {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-}
-
-.status_badge {
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.82rem;
-    font-weight: 600;
-}
-
-.status_pending {
-    background: #fef9c3;
-    color: #854d0e;
-}
-
-.status_processing {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-.status_confirmed {
-    background: #e0e7ff;
-    color: #3730a3;
-}
-
-.status_shipped {
-    background: #f3e8ff;
-    color: #7e22ce;
-}
-
-.status_delivered {
-    background: #dcfce7;
-    color: #15803d;
-}
-
-.status_cancelled {
-    background: #fee2e2;
-    color: #b91c1c;
 }
 
 /* Chart tooltip */

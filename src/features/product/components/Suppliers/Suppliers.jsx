@@ -19,6 +19,8 @@ export function Suppliers({ suppliers, productId, onRefresh }) {
         setSelectedSupplier(supplier);
     }
 
+    const freightPerUnit = (price, percentage) => formatPrice((price * percentage) / 100);
+
     return (
         <>
             <div className={styles.suppliers_container} >
@@ -36,7 +38,14 @@ export function Suppliers({ suppliers, productId, onRefresh }) {
                         <div key={e.id} className={styles.supplier} onClick={() => handleSelectSupplier(e)}>
                             <div>
                                 <p>{e.name}:</p>
-                                <span>{formatPrice(e.pivot.purchase_price)}</span>
+                                <span className={styles.purchase_price}>
+                                    <span className={styles.price_main}>
+                                        {formatPrice(e.pivot.purchase_price)} + {freightPerUnit(e.pivot.purchase_price, e.pivot.freight_percent)} = {formatPrice(e.pivot.purchase_price * (1 + e.pivot.freight_percent / 100))}
+                                    </span>
+                                    <span className={styles.price_tooltip}>
+                                        Envio {e.pivot.freight_percent}% = {freightPerUnit(e.pivot.purchase_price, e.pivot.freight_percent)}
+                                    </span>
+                                </span>
                             </div>
                             {e.pivot.supplier_product_url &&
                                 <div>

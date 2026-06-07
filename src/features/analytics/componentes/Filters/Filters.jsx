@@ -1,24 +1,10 @@
-import { RANGE_OPTIONS, DEFAULT_RANGE } from '../../../../utils/rangeHelpers';
+import { RANGE_OPTIONS } from '../../../../utils/rangeHelpers';
 import styles from './Filters.module.css';
 
-export function Filters({ filters, setFilters, loadData, clients }) {
+export function Filters({ filters, setFilters, loadData }) {
     return (
         <form className={styles.filters_form} onSubmit={(e) => e.preventDefault()}>
             <div className={styles.filters}>
-                <div>
-                    <label>Cliente</label>
-                    <select value={filters.client_id || ''} onChange={(e) => {
-                        const next = { ...filters, client_id: e.target.value };
-                        setFilters(next);
-                        loadData(next);
-                    }}>
-                        <option value="">Todos los clientes</option>
-                        {clients.map(c => (
-                            <option key={c.id} value={c.id}>{c.name || c.full_name || c.email || c.id}</option>
-                        ))}
-                    </select>
-                </div>
-
                 <div className={styles.range_buttons}>
                     <label>Período</label>
                     <div className={styles.buttons_group}>
@@ -42,6 +28,13 @@ export function Filters({ filters, setFilters, loadData, clients }) {
                                 {label}
                             </button>
                         ))}
+                        <button type="button" className={styles.clear_button} onClick={() => {
+                            const newFilters = { range: 'month', client_id: '', start_date: '', end_date: '' };
+                            setFilters(newFilters);
+                            loadData(newFilters);
+                        }}>
+                            Limpiar filtros
+                        </button>
                     </div>
                 </div>
                 {filters.range === 'custom' && (
@@ -58,7 +51,7 @@ export function Filters({ filters, setFilters, loadData, clients }) {
                 )}
             </div>
 
-            <div className={styles.filter_buttons}>
+            {/* <div className={styles.filter_buttons}>
                 <button type="button" className={styles.clear_button} onClick={() => {
                     const newFilters = { range: 'month', client_id: '', start_date: '', end_date: '' };
                     setFilters(newFilters);
@@ -66,7 +59,7 @@ export function Filters({ filters, setFilters, loadData, clients }) {
                 }}>
                     Limpiar filtros
                 </button>
-            </div>
+            </div> */}
         </form>
     )
 }   

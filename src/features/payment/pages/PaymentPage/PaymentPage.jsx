@@ -48,8 +48,8 @@ export function PaymentPage() {
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const res = await clientService.getAll();
-                setClients(res || []);
+                const res = await clientService.getAll({ per_page: 100 });
+                setClients(res.data ?? []);
             } catch (e) {
                 setClients([]);
             }

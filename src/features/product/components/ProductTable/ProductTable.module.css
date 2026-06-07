@@ -152,31 +152,3 @@
     color: var(--color-text, #1e293b);
 }
 
-.status_badge {
-    border-radius: 20px;
-    padding: 2px 9px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    background: #f1f5f9;
-    color: #64748b;
-}
-
-.status_published {
-    background: #dcfce7;
-    color: #15803d;
-}
-
-.status_archived {
-    background: #ffedd5;
-    color: #c2410c;
-}
-
-.status_incomplete {
-    background: #fee2e2;
-    color: #b91c1c;
-}
-
-.status_draft {
-    background: #e0e7ff;
-    color: #3730a3;
-}

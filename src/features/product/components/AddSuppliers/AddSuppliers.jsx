@@ -39,9 +39,9 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
         }
     };
 
-    const calculateSuggestedPrices = (baseCost) => {
+    const calculateSuggestedPrices = (baseCost, freightPercent = 5) => {
 
-        const cost = parseFloat(baseCost * 1.05);
+        const cost = parseFloat(baseCost * (1 + freightPercent / 100));
 
         const suggestions = PRICE_LISTS.map(list => {
             // Fórmula: Precio de Venta = Precio de Compra / (1 - Margen de Ganancia)
@@ -93,9 +93,10 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
             if (suppliers.length != 0) {
                 isDuplicateInCurrentSupplies = currentSuppliers.map(s => {
                     return {
-                        supplier_id: s.id, // Usamos el ID del proveedor
-                        purchase_price: s.pivot.purchase_price, // Tomamos el precio del pivot
-                        supplier_product_url: s.pivot.supplier_product_url, // Tomamos la URL del pivot
+                        supplier_id: s.id,
+                        purchase_price: s.pivot.purchase_price,
+                        freight_percent: s.pivot.freight_percent ?? 5,
+                        supplier_product_url: s.pivot.supplier_product_url,
                     }
                 })
 
@@ -126,7 +127,7 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
 
     useEffect(() => {
         setErrors({});
-        suppliers.length > 0 && calculateSuggestedPrices(suppliers[0].purchase_price);
+        suppliers.length > 0 && calculateSuggestedPrices(suppliers[0].purchase_price, suppliers[0].freight_percent ?? 5);
     }, [suppliers]);
 
     useEffect(() => {
@@ -158,7 +159,11 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
                                 <div className={styles.delivery_price}>
                                     <h3>Precio de compra con envio aprox.</h3>
                                     <p>
-                                        {formatPrice(suppliers[0].purchase_price || 0)} + {formatPrice(suppliers[0].purchase_price * 1.05 - suppliers[0].purchase_price)} = {formatPrice(suppliers[0].purchase_price * 1.05)}
+                                        {(() => {
+                                            const base = parseFloat(suppliers[0].purchase_price || 0);
+                                            const pct = parseFloat(suppliers[0].freight_percent ?? 5) / 100;
+                                            return `${formatPrice(base)} + ${formatPrice(base * pct)} = ${formatPrice(base * (1 + pct))}`;
+                                        })()}
                                     </p>
                                 </div>
                             }

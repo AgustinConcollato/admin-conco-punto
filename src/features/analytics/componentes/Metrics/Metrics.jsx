@@ -43,10 +43,10 @@ export function Metrics({ data, comparison }) {
     const label = data?.comparison_label || null;
 
     const keyCards = [
-        { label: 'Total facturado', value: formatPrice(data.total_revenue), compKey: 'total_revenue', isMonetary: true },
-        { label: 'Ganancia neta', value: formatPrice(data.net_profit), compKey: 'net_profit', isMonetary: true },
+        { label: 'Total facturado', value: formatPrice(data.total_revenue), compKey: 'total_revenue', accent: 'blue', isMonetary: true },
+        { label: 'Cobrado en período', value: formatPrice(data.total_collected_in_period ?? 0), accent: 'green', isMonetary: true },
+        { label: 'Ganancia según facturación', value: formatPrice(data.net_profit), compKey: 'net_profit', isMonetary: true },
         { label: 'Total de pedidos', value: data.orders_count, compKey: 'orders_count', isMonetary: false },
-        { label: 'Ticket promedio', value: formatPrice(data.average_order_value) },
     ];
 
     const secondaryRows = [
@@ -54,6 +54,7 @@ export function Metrics({ data, comparison }) {
         { label: 'Costo mercadería', value: formatPrice(data.total_cost) },
         { label: 'Envíos cobrados', value: formatPrice(data.shipping_cost) },
         { label: 'Reinversión (10%)', value: formatPrice(data.reinvestment_amount) },
+        { label: 'Ticket promedio', value: formatPrice(data.average_order_value) },
         { label: 'Margen bruto', value: `${data.gross_margin_percent}%` },
     ];
 
@@ -61,7 +62,15 @@ export function Metrics({ data, comparison }) {
         <div className={styles.wrapper}>
             <div className={styles.key_cards}>
                 {keyCards.map((card) => (
-                    <div key={card.label} className={styles.card}>
+                    <div
+                        key={card.label}
+                        className={`${styles.card} 
+                        ${card.accent === 'green' ?
+                                styles.card_green :
+                                card.accent === 'blue' ? styles.card_blue :
+                                    ''}
+                            ` }
+                    >
                         <p className={styles.card_label}>{card.label}</p>
                         <p className={styles.card_value}>{card.value}</p>
                         {card.compKey && (

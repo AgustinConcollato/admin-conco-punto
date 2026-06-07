@@ -10,10 +10,12 @@
     margin: 0 auto;
     max-width: 1024px;
     width: 100%;
+    position: relative;
 }
 
 .filters {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     align-items: end;
 }
@@ -60,15 +62,13 @@
 }
 
 .clear_button {
-    padding: 10px 12px;
-    margin-top: 20px;
+    padding: 0.45rem 0.75rem;
     background: var(--color-bg, #f8fafc);
     color: var(--color-error);
     border: none;
     border-radius: var(--radius-sm, 8px);
     cursor: pointer;
-    font-size: 14px;
-    height: 41px;
+    font-size: 0.8rem;
     transition: background 0.3s;
 }
 
@@ -208,5 +208,3 @@
         font-size: 14px;
     }
 }
-
-

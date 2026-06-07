@@ -26,6 +26,7 @@ export function SearchByBarcode() {
             const purchasePrice = supplierItem
                 ? parseFloat(supplierItem.pivot.purchase_price)
                 : unitPrice - (unitPrice * (order.price_list_id === 1 ? 0.3 : 0.45));
+            const freightPercent = supplierItem ? parseFloat(supplierItem.pivot.freight_percent ?? 5) : 5;
 
             const productDataForOrder = {
                 product_id: product.id,
@@ -33,6 +34,7 @@ export function SearchByBarcode() {
                 quantity: 1,
                 unit_price: unitPrice,
                 purchase_price: purchasePrice,
+                freight_percent: freightPercent,
             };
 
             await addProduct(productDataForOrder);

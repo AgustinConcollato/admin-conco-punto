@@ -2,16 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { IMAGE_URL } from '../../../../config/api';
+import { Badge } from '../../../../components/Badge/Badge';
+import { productStatusBadge } from '../../../../constants/badges';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { ProductActions } from '../ProductActions/ProductActions';
 import styles from './ProductTable.module.css';
-
-const STATUS_LABELS = {
-    published: 'Publicado',
-    archived: 'Archivado',
-    incomplete: 'Incompleto',
-    draft: 'Borrador',
-};
 
 const COLUMNS = [
     { key: 'name', label: 'Producto', align: 'left', sortable: true },
@@ -108,12 +103,16 @@ export function ProductTable({ products, sortBy, sortOrder, onSort, onUpdated })
                                     ) : '—'}
                                 </td>
                                 <td>
-                                    <span className={`${styles.status_badge} ${styles[`status_${status}`] ?? ''}`}>
-                                        {STATUS_LABELS[status] ?? status}
-                                    </span>
+                                    {(() => {
+                                        const s = productStatusBadge(status);
+                                        return <Badge tone={s.tone}>{s.label}</Badge>;
+                                    })()}
                                 </td>
                                 <td className={styles.right} onClick={(e) => e.stopPropagation()}>
-                                    <ProductActions product={product} onUpdated={onUpdated} />
+                                    <ProductActions
+                                        product={product}
+                                        onUpdated={(partial) => onUpdated(product.id, partial)}
+                                    />
                                 </td>
                             </tr>
                         );

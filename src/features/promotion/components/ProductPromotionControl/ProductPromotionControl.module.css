@@ -7,10 +7,22 @@
     align-items: center;
     border-radius: 50%;
     border: 1px solid var(--color-border, #e2e8f0);
+    background: var(--color-surface, #fff);
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.15s, background 0.15s;
 }
 
 .trigger_icon_active {
     color: var(--primary, #3d6caa);
+}
+
+.trigger_icon:hover {
+    border-color: var(--primary, #3d6caa);
+    background: rgba(61, 108, 170, 0.06);
+}
+
+.trigger_icon:focus-visible {
+    outline: 1px solid var(--primary);
 }
 
 .inline_container {

@@ -48,9 +48,9 @@ export function AddPrices() {
         }
     };
 
-    const calculateSuggestedPrices = (baseCost) => {
+    const calculateSuggestedPrices = (baseCost, freightPercent = 5) => {
 
-        const cost = parseFloat(baseCost * 1.05);
+        const cost = parseFloat(baseCost * (1 + freightPercent / 100));
 
         const suggestions = PRICE_LISTS.map(list => {
             // Fórmula: Precio de Venta = Precio de Compra / (1 - Margen de Ganancia)
@@ -88,6 +88,7 @@ export function AddPrices() {
         suppliers.forEach((supplier, i) => {
             formData.append(`suppliers[${i}][supplier_id]`, supplier.supplier_id);
             formData.append(`suppliers[${i}][purchase_price]`, supplier.purchase_price);
+            formData.append(`suppliers[${i}][freight_percent]`, supplier.freight_percent ?? 5);
             formData.append(`suppliers[${i}][supplier_product_url]`, supplier.supplier_product_url || '');
         });
 
@@ -121,7 +122,7 @@ export function AddPrices() {
     }
 
     useEffect(() => {
-        suppliers.length > 0 && calculateSuggestedPrices(suppliers[0].purchase_price);
+        suppliers.length > 0 && calculateSuggestedPrices(suppliers[0].purchase_price, suppliers[0].freight_percent ?? 5);
     }, [suppliers]);
 
     useEffect(() => {
@@ -157,7 +158,11 @@ export function AddPrices() {
                         <div className={styles.delivery_price}>
                             <h3>Precio de compra con envio aprox.</h3>
                             <p>
-                                {formatPrice(suppliers[0].purchase_price || 0)} + {formatPrice(suppliers[0].purchase_price * 1.05 - suppliers[0].purchase_price)} = {formatPrice(suppliers[0].purchase_price * 1.05)}
+                                {(() => {
+                                    const base = parseFloat(suppliers[0].purchase_price || 0);
+                                    const pct = parseFloat(suppliers[0].freight_percent ?? 5) / 100;
+                                    return `${formatPrice(base)} + ${formatPrice(base * pct)} = ${formatPrice(base * (1 + pct))}`;
+                                })()}
                             </p>
                         </div>
                     }

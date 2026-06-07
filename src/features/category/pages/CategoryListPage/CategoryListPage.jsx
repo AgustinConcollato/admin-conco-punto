@@ -53,6 +53,12 @@ export function CategoryListPage() {
     };
 
     useEffect(() => {
+        document.title = 'Categorías'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+
         getCategories();
     }, []);
 

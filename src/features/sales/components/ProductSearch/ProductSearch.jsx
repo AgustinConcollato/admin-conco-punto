@@ -135,6 +135,7 @@ export function ProductSearch() {
             const purchasePrice = supplierItem
                 ? parseFloat(supplierItem.pivot?.purchase_price)
                 : unitPrice - (unitPrice * (order.price_list_id === 1 ? 0.3 : 0.45));
+            const freightPercent = supplierItem ? parseFloat(supplierItem.pivot?.freight_percent ?? 5) : 5;
 
             const orderData = {
                 product_id: item.product_id,
@@ -142,6 +143,7 @@ export function ProductSearch() {
                 quantity,
                 unit_price: unitPrice,
                 purchase_price: purchasePrice,
+                freight_percent: freightPercent,
             };
 
             await addProduct(orderData);

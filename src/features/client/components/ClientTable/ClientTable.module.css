@@ -94,31 +94,11 @@
     font-weight: 700;
 }
 
-.segment_badge {
-    border-radius: 20px;
-    padding: 2px 9px;
-    font-size: 0.7rem;
-    font-weight: 600;
-}
-
-.segment_nuevo {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-.segment_recurrente {
-    background: #dcfce7;
-    color: #15803d;
-}
-
-.segment_inactivo {
-    background: #ffedd5;
-    color: #c2410c;
-}
-
-.segment_sin_pedidos {
-    background: #f1f5f9;
-    color: #64748b;
+.status_counts {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 4px;
 }
 
 .actions {

@@ -1,20 +1,15 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Badge } from '../../../../components/Badge/Badge';
+import { segmentBadge } from '../../../../constants/badges';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { formatDate } from '../../../../utils/formatDate';
 import styles from './ClientCard.module.css';
 
-const SEGMENT_LABELS = {
-    nuevo: 'Nuevo',
-    recurrente: 'Recurrente',
-    inactivo: 'Inactivo',
-    sin_pedidos: 'Sin pedidos',
-};
-
 export function ClientCard({ client, onEdit, onDelete }) {
     const stats = client.stats ?? {};
-    const segment = stats.segment ?? 'sin_pedidos';
+    const segment = segmentBadge(stats.segment ?? 'sin_pedidos');
     const hasDebt = parseFloat(stats.balance_due) > 0;
 
     const handleEdit = (e) => {
@@ -42,9 +37,7 @@ export function ClientCard({ client, onEdit, onDelete }) {
 
             <div className={styles.header}>
                 <h3 className={styles.name}>{client.name}</h3>
-                <span className={`${styles.segment_badge} ${styles[`segment_${segment}`]}`}>
-                    {SEGMENT_LABELS[segment] ?? segment}
-                </span>
+                <Badge tone={segment.tone}>{segment.label}</Badge>
             </div>
 
             <div className={styles.chips}>
@@ -53,6 +46,18 @@ export function ClientCard({ client, onEdit, onDelete }) {
                 {client.price_list && (
                     <span className={`${styles.chip} ${styles.chip_list}`}>{client.price_list.name}</span>
                 )}
+            </div>
+
+            <div className={styles.status_counts}>
+                <Badge tone={stats.pending_count ? 'amber' : 'gray'}>
+                    Pendientes: {stats.pending_count ?? 0}
+                </Badge>
+                <Badge tone={stats.processing_count ? 'blue' : 'gray'}>
+                    En proceso: {stats.processing_count ?? 0}
+                </Badge>
+                <Badge tone={stats.confirmed_count ? 'green' : 'gray'}>
+                    Terminados: {stats.confirmed_count ?? 0}
+                </Badge>
             </div>
 
             <div className={styles.stats}>
