@@ -34,6 +34,11 @@ export function MercadoLibrePage() {
     }, [location.search]);
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         loadProfile();
     }, []);
 

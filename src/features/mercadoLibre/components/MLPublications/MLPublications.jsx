@@ -1,10 +1,11 @@
 import {
     faCircleNotch, faExternalLinkAlt,
-    faPause, faPlay, faTimes, faEye
+    faEye,
+    faPause, faPlay, faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ConfirmModal } from "../../../../components/ConfirmModal/ConfirmModal";
 import { MercadoLibreService } from "../../../../services/mercadoLibre/mercadoLibreService";
@@ -24,7 +25,6 @@ const STATUS_BADGE = {
 
 export function MLPublications() {
     const mlService = useMemo(() => new MercadoLibreService(), []);
-    const navigate = useNavigate();
     const [status, setStatus] = useState("active");
     const [publications, setPublications] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -47,7 +47,10 @@ export function MLPublications() {
         }
     };
 
-    useEffect(() => { load(status); }, [status]);
+    useEffect(() => {
+        document.title = 'Mis publicaciones en Mercado Libre';
+        load(status);
+    }, [status]);
 
     const handlePause = async (id) => {
         setActionLoading(id);
@@ -164,7 +167,7 @@ export function MLPublications() {
                     })}
                 </div>
             )}
-        {pendingCloseId && (
+            {pendingCloseId && (
                 <ConfirmModal
                     message="¿Cerrar esta publicación? Esta acción no se puede revertir."
                     onConfirm={confirmClose}

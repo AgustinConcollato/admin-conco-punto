@@ -1,8 +1,18 @@
 ﻿import { Link } from 'react-router-dom';
 import { ClientIcon, OrderIcon, ProductIcon, SuppliersIcon } from '../../../../assets/icons';
 import styles from './HomePage.module.css';
+import { useEffect } from 'react';
 
 export function HomePage() {
+
+    useEffect(() => {
+        document.title = 'Panel administrativo Conco y Punto - Inicio'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, []);
+
     return (
         <div className={styles.page}>
             <h2 className={styles.title}>Accesos rápidos</h2>

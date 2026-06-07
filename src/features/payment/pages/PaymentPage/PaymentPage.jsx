@@ -46,6 +46,12 @@ export function PaymentPage() {
     }), [searchParams]);
 
     useEffect(() => {
+        document.title = 'Pagos'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+        
         const fetchClients = async () => {
             try {
                 const res = await clientService.getAll({ per_page: 100 });

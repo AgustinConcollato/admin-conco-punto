@@ -1,8 +1,13 @@
 import { faCheckCircle, faCircleNotch, faExternalLinkAlt, faTimesCircle, faUnlink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./MLAccountStatus.module.css";
+import { useEffect } from "react";
 
 export function MLAccountStatus({ profile, loading, onConnect, onDisconnect, disconnecting }) {
+
+    useEffect(() => {
+        document.title = 'Perfil Mercado Libre';
+    }, []);
 
     if (loading) {
         return (

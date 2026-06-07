@@ -30,7 +30,11 @@ export function SalesLayout({ orderId }) {
 
     useEffect(() => {
         getOrder(orderId);
-    }, [orderId])
+    }, [orderId]);
+
+    useEffect(() => {
+        document.title = order ? 'Pedido de ' + order?.client?.name : 'Pedido';
+    }, [order])
 
     return (
         <div className={styles.layout}>

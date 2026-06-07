@@ -52,6 +52,12 @@ export function PromotionListPage() {
     };
 
     useEffect(() => {
+        document.title = 'Promociones';
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         loadPromotions();
     }, []);
 

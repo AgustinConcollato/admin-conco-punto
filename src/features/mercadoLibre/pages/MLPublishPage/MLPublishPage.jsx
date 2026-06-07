@@ -6,6 +6,7 @@ import { StepShipment } from "../../../../features/mercadoLibre/components/steps
 import { StepMedia } from "../../../../features/mercadoLibre/components/steps/StepMedia/StepMedia";
 import { StepPrice } from "../../../../features/mercadoLibre/components/steps/StepPrice/StepPrice";
 import { StepSummary } from "../../../../features/mercadoLibre/components/steps/StepSummary/StepSummary";
+import { useEffect } from "react";
 
 const STEP_COMPONENTS = {
     categoria:    StepCategory,
@@ -21,6 +22,16 @@ export function MLPublishPage() {
     const { step, productId } = useParams();
 
     const Component = STEP_COMPONENTS[step];
+
+    useEffect(() => {
+        document.title = 'Publicando en Mercado Libre';
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+    }, []);
+
 
     if (!Component) {
         return <Navigate to={`/mercado-libre/publicar/${productId}/categoria`} replace />;

@@ -86,7 +86,12 @@ export function SalesPage() {
     };
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
         if (!id) {
+            document.title = 'Nuevo pedido y pedidos en proceso';
             getClients();
             setPendingOrders(null);
             getPendingsOrders();

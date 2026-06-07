@@ -46,8 +46,12 @@ export function ProductDetailsPage() {
     }, [id]);
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, []);
+        document.title = product ? product.name : 'Detalle del producto'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, [product]);
 
     if (isLoading) {
         return (

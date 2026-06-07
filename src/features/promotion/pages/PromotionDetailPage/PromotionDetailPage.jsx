@@ -27,8 +27,17 @@ export function PromotionDetailPage() {
     };
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         getPromotion();
     }, []);
+
+    useEffect(() => {
+        document.title = promotion ? promotion.name : 'Promo';
+    }, [promotion]);
 
     return (
         <div className={styles.page}>

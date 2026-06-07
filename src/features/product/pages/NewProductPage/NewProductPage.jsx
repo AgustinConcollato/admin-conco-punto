@@ -18,6 +18,12 @@ export function NewProductPage() {
     const currentStep = parseInt(step) || 1;
 
     useEffect(() => {
+        document.title = 'Cargar nuevo producto'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+
         return () => {
             sessionStorage.removeItem('product');
         }

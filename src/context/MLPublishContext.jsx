@@ -78,7 +78,7 @@ export function MLPublishProvider({ children }) {
                     title: data.name ?? "",
                     available_quantity: data.stock ?? "",
                     sku: data.sku ?? "",
-                    barcode: data.barcodes?.[0].barcode ?? "",
+                    barcode: data.barcodes?.[0]?.barcode ?? "",
                     selectedImages: data.images?.map(img => img.path) ?? [],
                     price: data.price_lists?.find(e => e.id === 2)?.pivot?.price ?? "",
                 }));

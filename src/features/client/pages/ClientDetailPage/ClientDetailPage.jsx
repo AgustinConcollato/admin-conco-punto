@@ -63,6 +63,15 @@ export function ClientDetailPage() {
     };
 
     useEffect(() => {
+        document.title = client ? 'Cliente ' + client.name : 'Detalle del cliente'
+    }, [client]);
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+
         loadClient();
     }, [id]);
 

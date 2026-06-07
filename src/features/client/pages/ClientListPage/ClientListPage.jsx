@@ -79,6 +79,12 @@ export function ClientListPage() {
     }, [clientService, debouncedSearch, sortConfig, page]);
 
     useEffect(() => {
+        document.title = 'Lista de clientes'
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+
         getClients();
     }, [getClients]);
 
