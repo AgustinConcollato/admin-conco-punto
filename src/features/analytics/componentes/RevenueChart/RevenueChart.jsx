@@ -98,23 +98,23 @@ export function RevenueChart({ data = [], ordersData = [] }) {
                             type="monotone"
                             dataKey="collected"
                             name="Cobrado"
-                            stroke="#3d6caa"
+                            stroke="#16a34a"
                             strokeWidth={2}
                             fill="url(#collectedGrad)"
                             dot={false}
-                            activeDot={{ r: 4, fill: '#3d6caa' }}
+                            activeDot={{ r: 4, fill: '#16a34a' }}
                             connectNulls
                         />
                         <Area
                             type="monotone"
                             dataKey="billed"
                             name="Facturado"
-                            stroke="#16a34a"
+                            stroke="#3d6caa"
                             strokeWidth={2}
                             strokeDasharray="5 3"
                             fill="url(#billedGrad)"
                             dot={false}
-                            activeDot={{ r: 4, fill: '#16a34a' }}
+                            activeDot={{ r: 4, fill: '#3d6caa' }}
                             connectNulls
                         />
                     </AreaChart>
