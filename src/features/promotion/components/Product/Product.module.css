@@ -98,6 +98,85 @@
     color: var(--color-success, #66b819);
 }
 
+/* ── Override conditions section ── */
+.overrides_section {
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.overrides_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.overrides_title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.overrides_label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted, #64748b);
+}
+
+.edit_btn {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+}
+
+.badge_override {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--color-primary-light, #eff6ff);
+    color: var(--color-primary, #2563eb);
+    border: 1px solid var(--color-primary, #2563eb);
+}
+
+.badge_inherited {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--color-bg, #f8fafc);
+    color: var(--color-text-muted, #64748b);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.overrides_summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.override_chip {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--color-primary-light, #eff6ff);
+    color: var(--color-primary, #2563eb);
+    font-weight: 600;
+}
+
+.override_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background: var(--color-bg, #f8fafc);
+    border-radius: var(--radius-sm, 8px);
+    border: 1px solid var(--color-border, #e2e8f0);
+}
+
 @media (max-width: 480px) {
     .header {
         flex-wrap: wrap;

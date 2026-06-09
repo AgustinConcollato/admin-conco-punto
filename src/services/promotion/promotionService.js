@@ -76,15 +76,15 @@ export class PromotionService {
     /**
      * Reemplaza los productos asociados a una promoción.
      * @param {string} promotionId
-     * @param {string[]} productIds
+     * @param {Array<{id: string, discount_type?: string, discount_value?: number, max_discount_amount?: number, min_quantity?: number}>} products
      */
-    async syncProducts(promotionId, productIds) {
+    async syncProducts(promotionId, products) {
         return apiRequest(`/promotions/${promotionId}/products`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ product_ids: productIds }),
+            body: JSON.stringify({ products }),
         });
     }
 

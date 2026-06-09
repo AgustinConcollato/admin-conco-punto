@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Modal } from '../../../../components/Modal/Modal';
 import { PromotionService } from '../../../../services/promotion/promotionService';
+import { buildProductsPayload } from '../../utils/promotionUtils';
 import styles from './ProductPromotionControl.module.css';
 
 export function ProductPromotionControl({
@@ -72,9 +73,10 @@ export function ProductPromotionControl({
         setSubmitting(true);
         try {
             const selectedPromotion = availablePromotions.find((p) => String(p.id) === String(selectedPromotionId));
-            const currentIds = Array.isArray(selectedPromotion?.products) ? selectedPromotion.products.map((p) => p.id) : [];
-            const updatedIds = Array.from(new Set([...currentIds, productId]));
-            const updatedPromotion = await promotionService.syncProducts(selectedPromotionId, updatedIds);
+            const currentProducts = buildProductsPayload(selectedPromotion?.products || []);
+            const alreadyIn = currentProducts.some((p) => String(p.id) === String(productId));
+            const updatedProducts = alreadyIn ? currentProducts : [...currentProducts, { id: productId }];
+            const updatedPromotion = await promotionService.syncProducts(selectedPromotionId, updatedProducts);
             onPromotionsChange?.(updatedPromotion ? [updatedPromotion] : []);
             closeModal();
         } catch (error) {
@@ -89,11 +91,10 @@ export function ProductPromotionControl({
         setSubmitting(true);
         try {
             const fullPromotion = await promotionService.getById(currentPromotion.id);
-            const nextIds = (fullPromotion?.products || [])
-                .map((p) => p.id)
-                .filter((id) => String(id) !== String(productId));
-
-            await promotionService.syncProducts(currentPromotion.id, nextIds);
+            const nextProducts = buildProductsPayload(
+                (fullPromotion?.products || []).filter((p) => String(p.id) !== String(productId))
+            );
+            await promotionService.syncProducts(currentPromotion.id, nextProducts);
             onPromotionsChange?.([]);
             closeModal();
         } catch (error) {
