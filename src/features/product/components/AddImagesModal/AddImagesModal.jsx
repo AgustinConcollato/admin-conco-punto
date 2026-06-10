@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { DragAndDrop } from "../../../../components/DragAndDrop/DragAndDrop";
 import { ProductService } from '../../../../services/product/productService';
+import { parseApiError } from '../../../../utils/parseApiError';
 import styles from './AddImagesModal.module.css';
 
 export function AddImagesModal({ productId, onClose, onUpdate }) {
@@ -58,7 +59,9 @@ export function AddImagesModal({ productId, onClose, onUpdate }) {
             onUpdate(response.images);
             onClose();
         } catch (error) {
-            setErrors(error[0]);
+            const { fieldErrors, message } = parseApiError(error);
+            setErrors(fieldErrors ?? {});
+            if (!fieldErrors) toast.error(message);
         } finally {
             setIsUploading(false);
         }

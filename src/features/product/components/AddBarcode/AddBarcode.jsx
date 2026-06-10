@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../../../components/Loading/Loading';
 import { ProductService } from '../../../../services/product/productService';
 import { generateBarcodeFromSKU } from '../../../../utils/generateBarcodeFromSKU';
+import { parseApiError } from '../../../../utils/parseApiError';
 import { ProductSummary } from '../ProductSummary/ProductSummary';
 import styles from './AddBarcode.module.css';
 
@@ -44,7 +45,7 @@ export function AddBarcode() {
             sessionStorage.removeItem('pendingBarcode');
             navigate(`/productos/nuevo/5/${product.id}`);
         } catch (error) {
-            setErrors(error[0]);
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

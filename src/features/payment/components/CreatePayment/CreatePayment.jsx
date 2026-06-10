@@ -1,5 +1,6 @@
 ﻿import { useMemo, useState } from 'react';
 import { PaymentService } from '../../../../services/payments/paymentsService';
+import { parseApiError } from '../../../../utils/parseApiError';
 import { formatPrice } from '../../../../utils/formatPrice';
 import styles from './CreatePayment.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -47,7 +48,7 @@ export function CreatePayment({ orderId, balanceDue, onSuccess = null }) {
                 onSuccess(result);
             }
         } catch (error) {
-            setError(error[0]);
+            setError(parseApiError(error).fieldErrors ?? {});
         } finally {
             setIsLoading(false);
         }

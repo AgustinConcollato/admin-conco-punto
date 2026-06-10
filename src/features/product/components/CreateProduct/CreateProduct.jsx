@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragAndDrop } from "../../../../components/DragAndDrop/DragAndDrop";
 import { ProductService } from "../../../../services/product/productService";
+import { parseApiError } from "../../../../utils/parseApiError";
 import styles from './CreateProduct.module.css';
 
 export function CreateProduct() {
@@ -62,7 +63,7 @@ export function CreateProduct() {
             sessionStorage.setItem('product', JSON.stringify(product));
             navigate(`/productos/nuevo/2/${product.id}`);
         } catch (error) {
-            setErrors(error[0] ?? {});
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

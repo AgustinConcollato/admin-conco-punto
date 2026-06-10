@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { PRICE_LISTS } from '../../../../config/priceList';
 import styles from './CreatePromotion.module.css'
 import { PromotionService } from '../../../../services/promotion/promotionService';
+import { parseApiError } from '../../../../utils/parseApiError';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
@@ -100,13 +101,7 @@ export function CreatePromotion({ editingPromotion, onClose }) {
 
             onClose(savedPromotion, !!editingPromotion);
         } catch (error) {
-            if (Array.isArray(error) && error[0]) {
-                setFormErrors(error[0]);
-            } else if (error && typeof error === "object") {
-                setFormErrors(error);
-            } else {
-                console.error("Error inesperado al guardar promoción:", error);
-            }
+            setFormErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setSubmitting(false);
         }

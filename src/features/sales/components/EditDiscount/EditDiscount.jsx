@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { OrderService } from "../../../../services/order/orderService";
+import { parseApiError } from "../../../../utils/parseApiError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import styles from './EditDiscount.module.css';
@@ -27,7 +28,7 @@ export function EditDiscount({ orderId, currentPercentage, currentFixed, onSucce
             await orderService.updateOrderHeader(orderId, payload);
             onSuccess();
         } catch (error) {
-            toast.error(error[0]?.status ?? "Error al actualizar el descuento.");
+            toast.error(parseApiError(error).message || "Error al actualizar el descuento.");
         } finally {
             setLoading(false);
         }

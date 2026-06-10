@@ -2,11 +2,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Loading } from '../../../../components/Loading/Loading';
 import { PRICE_LISTS } from '../../../../config/priceList';
 import { PriceListService } from '../../../../services/priceList/priceListService';
 import { ProductService } from '../../../../services/product/productService';
 import { formatPrice } from '../../../../utils/formatPrice';
+import { parseApiError } from '../../../../utils/parseApiError';
 import { SupplierList } from '../SupplierList/SupplierList';
 import styles from './AddPrices.module.css';
 import { ProductSummary } from '../ProductSummary/ProductSummary';
@@ -43,8 +45,8 @@ export function AddPrices() {
                     }
                 })
             );
-        } catch (error) {
-
+        } catch {
+            toast.error('No se pudieron cargar las listas de precios.');
         }
     };
 
@@ -105,7 +107,7 @@ export function AddPrices() {
             navigate(`/productos/nuevo/4/${updatedProduct.id}`);
 
         } catch (error) {
-            setErrors(error[0]);
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

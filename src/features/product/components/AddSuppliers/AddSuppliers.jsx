@@ -6,6 +6,7 @@ import { PRICE_LISTS } from '../../../../config/priceList';
 import { PriceListService } from '../../../../services/priceList/priceListService';
 import { ProductService } from '../../../../services/product/productService';
 import { formatPrice } from '../../../../utils/formatPrice';
+import { parseApiError } from '../../../../utils/parseApiError';
 import { SupplierList } from '../SupplierList/SupplierList';
 import styles from './AddSuppliers.module.css';
 
@@ -34,8 +35,8 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
                     }
                 })
             );
-        } catch (error) {
-
+        } catch {
+            // silencioso: el form de precios simplemente no se muestra
         }
     };
 
@@ -103,9 +104,7 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
                 isDuplicateInCurrentSupplies = isDuplicateInCurrentSupplies.filter(e => e.supplier_id !== suppliers[0].supplier_id)
                 payload.suppliers = [...isDuplicateInCurrentSupplies, ...suppliers];
             } else {
-                throw [{
-                    suppliers: ['Selecciona algún proveedor.']
-                }]
+                throw { errors: { suppliers: ['Selecciona algún proveedor.'] } };
             }
 
             if (!productId) {
@@ -118,8 +117,7 @@ export function AddSuppliers({ productId, currentSuppliers, onRefresh, onClose }
             onRefresh({ price_lists, suppliers: s });
             onClose();
         } catch (error) {
-            // Asumiendo que `error[0]` es el formato correcto para los errores
-            setErrors(error[0]);
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

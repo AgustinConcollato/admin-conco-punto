@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Loading } from "../../../../components/Loading/Loading";
 import { CategoryAttributeService } from "../../../../services/category/categoryAttributeService";
 import { ProductService } from "../../../../services/product/productService";
+import { parseApiError } from "../../../../utils/parseApiError";
 import { CategoryList } from "../CategoryList/CategoryList";
 import { ProductSummary } from "../ProductSummary/ProductSummary";
 import { ComboInput } from "../../../../components/ComboInput/ComboInput";
@@ -110,7 +111,7 @@ export function AddCategoryAttributes() {
 
             navigate(`/productos/nuevo/3/${product.id}`);
         } catch (error) {
-            setErrors(error[0] ?? {});
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

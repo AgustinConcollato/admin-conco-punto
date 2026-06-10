@@ -17,8 +17,8 @@ export function NewClientForm() {
         try {
             const response = await priceListService.get();
             setPriceLists(response);
-        } catch (error) {
-
+        } catch {
+            // silencioso: el select de lista de precios queda vacío
         }
     };
 

@@ -4,6 +4,7 @@ import styles from './NewSupplierPage.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { SupplierService } from "../../../../services/supplier/supplierService";
+import { parseApiError } from "../../../../utils/parseApiError";
 
 export function NewSupplierPage() {
 
@@ -25,7 +26,7 @@ export function NewSupplierPage() {
             setErrors({});
             toast.success("Proveedor agregado");
         } catch (error) {
-            setErrors(error[0]);
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

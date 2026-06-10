@@ -1,7 +1,9 @@
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import { ProductService } from '../../../../services/product/ProductService';
+import { parseApiError } from '../../../../utils/parseApiError';
 import { CategoryList } from '../CategoryList/CategoryList';
 import styles from '../Categories/Categories.module.css';
 
@@ -23,7 +25,9 @@ export function EditCategories({ productId, currentCategoryIds, onRefresh }) {
             // Notificamos al padre con el producto actualizado (que trae las nuevas categorías)
             onRefresh(updatedProduct.categories);
         } catch (error) {
-            if (error[0]) setErrors(error[0]);
+            const { fieldErrors, message } = parseApiError(error);
+            setErrors(fieldErrors ?? {});
+            if (!fieldErrors) toast.error(message);
         } finally {
             setLoading(false);
         }

@@ -1,8 +1,10 @@
 ﻿import { useState, useEffect, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import { PRICE_LISTS } from '../../../../config/priceList';
 import { ProductService } from '../../../../services/product/ProductService';
+import { parseApiError } from '../../../../utils/parseApiError';
 import styles from '../PriceLists/PriceLists.module.css';
 
 export function EditPriceLists({ currentPriceLists, productId, onRefresh }) {
@@ -43,11 +45,12 @@ export function EditPriceLists({ currentPriceLists, productId, onRefresh }) {
 
         try {
             const response = await productService.updatePrices(data, productId);
-            // Pasamos la respuesta (que contiene price_lists) al padre
             onRefresh(response);
+            toast.success('Precios actualizados.');
         } catch (error) {
-            if (error[0]) setErrors(error[0]);
-            console.error("Error al actualizar precios:", error);
+            const { fieldErrors, message } = parseApiError(error);
+            setErrors(fieldErrors ?? {});
+            if (!fieldErrors) toast.error(message);
         } finally {
             setLoading(false);
         }

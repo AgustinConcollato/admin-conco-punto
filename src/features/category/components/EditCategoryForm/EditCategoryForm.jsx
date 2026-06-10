@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { CategoryService } from '../../../../services/category/categoryService';
+import { parseApiError } from '../../../../utils/parseApiError';
 import styles from './EditCategoryForm.module.css';
 
 export function EditCategoryForm({ category, categories: propCategories, onSave, onCancel }) {
@@ -108,7 +109,7 @@ export function EditCategoryForm({ category, categories: propCategories, onSave,
                 parent_id: formData.parent_id || null,
             });
         } catch (error) {
-            setErrors(error[0]);
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

@@ -5,6 +5,7 @@ import { Loading } from "../../../../components/Loading/Loading";
 import { IMAGE_URL } from "../../../../config/api";
 import { OrderContext } from "../../../../context/OrderContext";
 import { ProductService } from "../../../../services/product/productService";
+import { parseApiError } from "../../../../utils/parseApiError";
 import styles from "./SearchByBarcode.module.css";
 
 export function SearchByBarcode() {
@@ -39,7 +40,7 @@ export function SearchByBarcode() {
 
             await addProduct(productDataForOrder);
         } catch (error) {
-            setError(error[0]?.quantity ?? 'Error al agregar el producto.');
+            setError(parseApiError(error).message || 'Error al agregar el producto.');
         } finally {
             setProduct(null);
         }

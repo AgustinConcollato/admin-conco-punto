@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { Modal } from '../../../../components/Modal/Modal';
 import { PromotionService } from '../../../../services/promotion/promotionService';
 import { buildProductsPayload } from '../../utils/promotionUtils';
+import { parseApiError } from '../../../../utils/parseApiError';
 import styles from './ProductPromotionControl.module.css';
 
 export function ProductPromotionControl({
@@ -26,18 +27,8 @@ export function ProductPromotionControl({
 
     const currentPromotion = promotions?.[0] || null;
 
-    const getErrorMessage = (error, fallback) => {
-        if (Array.isArray(error) && error[0]) {
-            const firstField = Object.values(error[0])[0];
-            if (Array.isArray(firstField) && firstField[0]) return firstField[0];
-        }
-        if (error && typeof error === 'object') {
-            if (error.message) return error.message;
-            const firstField = Object.values(error)[0];
-            if (Array.isArray(firstField) && firstField[0]) return firstField[0];
-        }
-        return fallback;
-    };
+    const getErrorMessage = (error, fallback) =>
+        parseApiError(error).message || fallback;
 
     const loadPromotions = async () => {
         setLoading(true);

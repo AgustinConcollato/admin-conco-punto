@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { CategoryService } from "../../../../services/category/categoryService";
+import { parseApiError } from "../../../../utils/parseApiError";
 import styles from "./NewCategoryPage.module.css";
 
 export function NewCategoryPage() {
@@ -59,7 +60,7 @@ export function NewCategoryPage() {
             toast.success("Categoría creada");
 
         } catch (error) {
-            setErrors(error[0]);
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setIsSubmitting(false);
         }

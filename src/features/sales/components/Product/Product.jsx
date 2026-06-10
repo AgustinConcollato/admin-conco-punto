@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { IMAGE_URL } from "../../../../config/api";
 import { OrderContext } from "../../../../context/OrderContext";
 import { formatPrice } from "../../../../utils/formatPrice";
+import { parseApiError } from "../../../../utils/parseApiError";
 import { ConfirmModal } from "../../../../components/ConfirmModal/ConfirmModal";
 import { Modal } from "../../../../components/Modal/Modal";
 import styles from './Product.module.css';
@@ -90,7 +91,7 @@ export function Product({ detail }) {
             await updateProduct(detail.id, dataToSend);
             setShowModal(false); // Cerrar modal al completar
         } catch (error) {
-            setError(error[0]);
+            setError(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoading(false);
         }

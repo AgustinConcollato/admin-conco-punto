@@ -1,6 +1,7 @@
 ﻿import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { normalizeStr } from '../../../../utils/normalizeStr';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from 'react-toastify';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Loading } from "../../../../components/Loading/Loading";
@@ -11,6 +12,7 @@ import { OrderService } from "../../../../services/order/orderService";
 import { PriceListService } from "../../../../services/priceList/priceListService";
 import { formatDate } from "../../../../utils/formatDate";
 import { formatPrice } from "../../../../utils/formatPrice";
+import { parseApiError } from "../../../../utils/parseApiError";
 import styles from './SalesPage.module.css';
 
 export function SalesPage() {
@@ -38,18 +40,17 @@ export function SalesPage() {
     const getPriceLists = async () => {
         try {
             setPriceLists(await priceListService.get());
-        } catch (error) {
-
+        } catch {
+            toast.error('No se pudieron cargar las listas de precios.');
         }
     };
 
     const getClients = async () => {
-
         try {
             const response = await clientService.getAll({ per_page: 100 });
             setClients(response.data ?? []);
-        } catch (error) {
-            console.log(error)
+        } catch {
+            toast.error('No se pudieron cargar los clientes.');
         }
     };
 
@@ -69,19 +70,18 @@ export function SalesPage() {
             const response = await orderService.create(formData);
             navigate(`/ventas/${response.order.id}`);
         } catch (error) {
-            setError(error[0])
+            setError(parseApiError(error).fieldErrors ?? {});
         } finally {
             setIsLoading(false);
         }
     };
 
     const getPendingsOrders = async () => {
-
         try {
             const response = await orderService.getAll({ status: 'processing' })
             setPendingOrders(response.data);
-        } catch (error) {
-            console.log(error)
+        } catch {
+            toast.error('No se pudieron cargar los pedidos pendientes.');
         }
     };
 

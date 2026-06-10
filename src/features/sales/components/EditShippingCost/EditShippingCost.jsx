@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { OrderService } from "../../../../services/order/orderService";
+import { parseApiError } from "../../../../utils/parseApiError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import styles from './EditShippingCost.module.css'
@@ -22,7 +23,7 @@ export function EditShippingCost({ orderId, currentCost, onSuccess }) {
             // Notificamos al padre que hubo un cambio exitoso
             onSuccess();
         } catch (error) {
-            toast.error(error[0]?.status ?? "Error al actualizar el costo de envío.");
+            toast.error(parseApiError(error).message || "Error al actualizar el costo de envío.");
         } finally {
             setLoading(false);
         }

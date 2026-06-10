@@ -6,6 +6,7 @@ import { PriceListService } from '../../../../services/priceList/priceListServic
 import { PRICE_LISTS } from '../../../../config/priceList';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { Loading } from '../../../../components/Loading/Loading';
+import { parseApiError } from '../../../../utils/parseApiError';
 import styles from './EditSupplier.module.css';
 
 export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClose }) {
@@ -95,7 +96,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
             onRefresh({ price_lists, suppliers: updatedSuppliers });
             onClose();
         } catch (error) {
-            setErrors(error[0] || {});
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoadingUpdate(false);
         }
@@ -122,7 +123,7 @@ export function EditSupplier({ supplier, suppliers, productId, onRefresh, onClos
             onRefresh({ price_lists, suppliers: updatedSuppliers });
             onClose();
         } catch (error) {
-            setErrors(error[0] || {});
+            setErrors(parseApiError(error).fieldErrors ?? {});
         } finally {
             setLoadingDisassociate(false);
         }
