@@ -1,0 +1,145 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.field span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.field input,
+.field textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: var(--color-text);
+}
+
+.field input:focus,
+.field textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.field textarea {
+    resize: vertical;
+}
+
+.row {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.hint {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+}
+
+/* Banner */
+.slides {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.slide {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+}
+
+.slide_img {
+    width: 90px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: var(--color-bg);
+}
+
+.slide_link {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+}
+
+.slide_link:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.slide_actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.slide_actions button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+}
+
+.slide_actions button:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.slide_actions button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.slide_delete:hover:not(:disabled) {
+    border-color: var(--color-error) !important;
+    color: var(--color-error) !important;
+}
+
+.add_image_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.add_image_btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+}

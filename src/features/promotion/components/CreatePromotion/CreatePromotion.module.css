@@ -37,6 +37,12 @@
     display: block;
 }
 
+.checkboxes_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
 .checkbox_label {
     display: inline-flex;
     align-items: center;

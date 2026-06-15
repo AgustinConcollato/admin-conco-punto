@@ -28,6 +28,7 @@ const MercadoLibrePage = lazy(() => import('../../../features/mercadoLibre/pages
 const MLPublicationDetailPage = lazy(() => import('../../../features/mercadoLibre/pages/MLPublicationDetailPage/MLPublicationDetailPage').then(m => ({ default: m.MLPublicationDetailPage })));
 const MLPublishLayout = lazy(() => import('../MLPublishLayout/MLPublishLayout').then(m => ({ default: m.MLPublishLayout })));
 const MLPublishPage = lazy(() => import('../../../features/mercadoLibre/pages/MLPublishPage/MLPublishPage').then(m => ({ default: m.MLPublishPage })));
+const HomeDesignPage = lazy(() => import('../../../features/homeLayout/pages/HomeDesignPage/HomeDesignPage').then(m => ({ default: m.HomeDesignPage })));
 
 export function AppLayout() {
     return (
@@ -69,6 +70,8 @@ export function AppLayout() {
                         <Route path="/categorias/nueva" element={<NewCategoryPage />} />
 
                         <Route path="/reportes" element={<AnalyticsPage />} />
+
+                        <Route path="/diseno-home" element={<HomeDesignPage />} />
 
                         <Route path="/promociones" element={<PromotionListPage />} />
                         <Route path="/promociones/:id" element={<PromotionDetailPage />} />

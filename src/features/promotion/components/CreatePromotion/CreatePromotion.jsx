@@ -20,6 +20,7 @@ export function CreatePromotion({ editingPromotion, onClose }) {
             name: "",
             description: "",
             is_active: true,
+            show_on_web: false,
 
             starts_at: "",
             ends_at: "",
@@ -55,6 +56,7 @@ export function CreatePromotion({ editingPromotion, onClose }) {
             name,
             description,
             is_active,
+            show_on_web,
             starts_at,
             ends_at,
             discount_type,
@@ -68,6 +70,7 @@ export function CreatePromotion({ editingPromotion, onClose }) {
             name: name.trim(),
             description: description.trim() || null,
             is_active,
+            show_on_web,
             discount_type,
             discount_value: discount_value === "" ? null : Number(discount_value),
             max_discount_amount: max_discount_amount === "" ? null : Number(max_discount_amount),
@@ -113,6 +116,7 @@ export function CreatePromotion({ editingPromotion, onClose }) {
                 name: editingPromotion.name || "",
                 description: editingPromotion.description || "",
                 is_active: Boolean(editingPromotion.is_active),
+                show_on_web: Boolean(editingPromotion.show_on_web),
                 starts_at: editingPromotion.starts_at ? editingPromotion.starts_at.substring(0, 10) : "",
                 ends_at: editingPromotion.ends_at ? editingPromotion.ends_at.substring(0, 10) : "",
                 discount_type: editingPromotion.discount_type || "percentage",
@@ -248,17 +252,31 @@ export function CreatePromotion({ editingPromotion, onClose }) {
                 </div>
             </div>
 
-            <div className="input_group">
-                <label className={styles.checkbox_label}>
-                    <input
-                        type="checkbox"
-                        name="is_active"
-                        checked={form.is_active}
-                        onChange={handleInputChange}
-                    />
-                    <span>Promoción activa</span>
-                </label>
-                {formErrors.is_active && <p className={styles.error}>{formErrors.is_active[0]}</p>}
+            <div className={styles.checkboxes_row}>
+                <div className="input_group">
+                    <label className={styles.checkbox_label}>
+                        <input
+                            type="checkbox"
+                            name="is_active"
+                            checked={form.is_active}
+                            onChange={handleInputChange}
+                        />
+                        <span>Promoción activa</span>
+                    </label>
+                    {formErrors.is_active && <p className={styles.error}>{formErrors.is_active[0]}</p>}
+                </div>
+                <div className="input_group">
+                    <label className={styles.checkbox_label}>
+                        <input
+                            type="checkbox"
+                            name="show_on_web"
+                            checked={form.show_on_web}
+                            onChange={handleInputChange}
+                        />
+                        <span>Mostrar en la web</span>
+                    </label>
+                    {formErrors.show_on_web && <p className={styles.error}>{formErrors.show_on_web[0]}</p>}
+                </div>
             </div>
 
             <div className="input_group">

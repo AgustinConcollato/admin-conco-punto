@@ -106,6 +106,11 @@ const navItems = [
         label: 'Promos'
     },
     {
+        to: '/diseno-home',
+        icon: <HomeIcon width={18} height={18} color='currentColor' />,
+        label: 'Diseño de inicio'
+    },
+    {
         to: '/mercado-libre/cuenta',
         icon: <MercadoLibreIcon width={18} height={18} />,
         label: 'Mercado Libre'
