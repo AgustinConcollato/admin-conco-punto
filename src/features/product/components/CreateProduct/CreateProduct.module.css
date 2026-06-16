@@ -122,3 +122,18 @@
     cursor: pointer;
     padding: 8px 0;
 }
+
+.checkbox_row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--color-text, #1e293b);
+    cursor: pointer;
+}
+
+.checkbox_row input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}

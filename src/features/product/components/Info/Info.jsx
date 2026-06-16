@@ -29,8 +29,12 @@ export function Info({ product }) {
                 </div>
 
                 <div className={styles.info_detail}>
-                    <span>Stock</span>
-                    <p>{currentProduct.stock}</p>
+                    <span>{currentProduct.is_dropshipping ? 'Disponibilidad' : 'Stock'}</span>
+                    <p>
+                        {currentProduct.is_dropshipping
+                            ? (currentProduct.stock > 0 ? 'Disponible (dropshipping)' : 'Sin stock (dropshipping)')
+                            : currentProduct.stock}
+                    </p>
                 </div>
 
                 <div className={styles.info_detail}>

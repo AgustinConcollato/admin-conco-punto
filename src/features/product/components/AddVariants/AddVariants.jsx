@@ -44,7 +44,7 @@ export function AddVariants() {
                 <>
                     <ProductSummary product={product} />
 
-                    <Variants productId={product.id} productSku={product.sku} />
+                    <Variants productId={product.id} productSku={product.sku} isDropship={!!product.is_dropshipping} />
 
                     <Link to={`/productos/${product.id}`} className="btn btn_solid">
                         Finalizar

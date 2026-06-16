@@ -19,7 +19,7 @@ const emptyForm = (categoryAttributes) => ({
     })),
 });
 
-export function VariantForm({ productId, productSku, categoryAttributes, editingVariant, onSaved, onCancel }) {
+export function VariantForm({ productId, productSku, categoryAttributes, editingVariant, isDropship = false, onSaved, onCancel }) {
     const service = useMemo(() => new ProductVariantService(), []);
     const productService = useMemo(() => new ProductService(), []);
 
@@ -222,17 +222,31 @@ export function VariantForm({ productId, productSku, categoryAttributes, editing
                     )}
                     {errors.sku && <p className={styles.error}>{errors.sku[0]}</p>}
                 </div>
-                <div className="input_group">
-                    <span>Stock</span>
-                    <input
-                        className="input"
-                        type="number"
-                        min="0"
-                        value={form.stock}
-                        onChange={e => setForm(f => ({ ...f, stock: e.target.value }))}
-                    />
-                    {errors.stock && <p className={styles.error}>{errors.stock[0]}</p>}
-                </div>
+                {isDropship ? (
+                    <div className="input_group">
+                        <span>Disponibilidad</span>
+                        <label className={styles.bool_toggle}>
+                            <input
+                                type="checkbox"
+                                checked={Number(form.stock) > 0}
+                                onChange={e => setForm(f => ({ ...f, stock: e.target.checked ? 1 : 0 }))}
+                            />
+                            {Number(form.stock) > 0 ? 'Disponible' : 'Sin stock'}
+                        </label>
+                    </div>
+                ) : (
+                    <div className="input_group">
+                        <span>Stock</span>
+                        <input
+                            className="input"
+                            type="number"
+                            min="0"
+                            value={form.stock}
+                            onChange={e => setForm(f => ({ ...f, stock: e.target.value }))}
+                        />
+                        {errors.stock && <p className={styles.error}>{errors.stock[0]}</p>}
+                    </div>
+                )}
             </div>
 
             {effectiveAttrs.length > 0 && (

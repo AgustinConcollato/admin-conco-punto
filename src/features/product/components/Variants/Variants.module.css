@@ -131,6 +131,11 @@
     padding: 2px 9px;
 }
 
+.stock_badge.available {
+    background: rgba(22, 163, 74, 0.1);
+    color: #16a34a;
+}
+
 .sku {
     font-family: monospace;
     font-size: 0.7rem;

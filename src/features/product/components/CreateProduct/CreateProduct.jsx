@@ -16,6 +16,8 @@ export function CreateProduct() {
     const [images, setImages] = useState([]);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [isDropship, setIsDropship] = useState(false);
+    const [available, setAvailable] = useState(true);
 
     const handleDragStart = (e, index) => {
         setDraggedImageIndex(index);
@@ -51,6 +53,12 @@ export function CreateProduct() {
             formData.append('images[]', image);
             formData.append('image_positions[]', i);
         });
+
+        // Dropshipping: el stock no se carga como número, es solo disponibilidad (1 / 0)
+        formData.set('is_dropshipping', isDropship ? '1' : '0');
+        if (isDropship) {
+            formData.set('stock', available ? '1' : '0');
+        }
 
         // categories required by backend — send empty array, will be filled in step 2
         // but backend validates categories as required, so we need at least a placeholder
@@ -117,10 +125,34 @@ export function CreateProduct() {
             </div>
 
             <div className="input_group">
-                <span>Stock</span>
-                <input className="input" type="number" name="stock" placeholder="Stock" />
-                {errors.stock && <p className={styles.error}>{errors.stock[0]}</p>}
+                <label className={styles.checkbox_row}>
+                    <input
+                        type="checkbox"
+                        checked={isDropship}
+                        onChange={(e) => setIsDropship(e.target.checked)}
+                    />
+                    <span>Producto del proveedor (dropshipping)</span>
+                </label>
             </div>
+
+            {isDropship ? (
+                <div className="input_group">
+                    <label className={styles.checkbox_row}>
+                        <input
+                            type="checkbox"
+                            checked={available}
+                            onChange={(e) => setAvailable(e.target.checked)}
+                        />
+                        <span>Disponible</span>
+                    </label>
+                </div>
+            ) : (
+                <div className="input_group">
+                    <span>Stock</span>
+                    <input className="input" type="number" name="stock" placeholder="Stock" />
+                    {errors.stock && <p className={styles.error}>{errors.stock[0]}</p>}
+                </div>
+            )}
 
             <button type="submit" className="btn btn_solid" disabled={loading}>
                 {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Siguiente'}

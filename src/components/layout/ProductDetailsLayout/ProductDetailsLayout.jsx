@@ -100,7 +100,7 @@ export function ProductDetailsLayout({ product }) {
                 />
             </div>
             <div className={styles.variants}>
-                <Variants productId={product.id} productSku={product.sku} />
+                <Variants productId={product.id} productSku={product.sku} isDropship={!!product.is_dropshipping} />
             </div>
         </div>
     )

@@ -9,6 +9,8 @@ export function EditInfo({ product, onSuccess }) {
     const [name, setName] = useState(product.name);
     const [stock, setStock] = useState(product.stock);
     const [description, setDescription] = useState(product.description || '');
+    const [isDropship, setIsDropship] = useState(!!product.is_dropshipping);
+    const [available, setAvailable] = useState(product.stock > 0);
     const [isSaving, setIsSaving] = useState(false);
 
     const productService = useMemo(() => new ProductService(), []);
@@ -21,8 +23,10 @@ export function EditInfo({ product, onSuccess }) {
         setIsSaving(true);
         const payload = {
             name: name,
-            stock: Number(stock),
-            description: description
+            // Dropshipping: el stock es solo disponibilidad (1 / 0)
+            stock: isDropship ? (available ? 1 : 0) : Number(stock),
+            description: description,
+            is_dropshipping: isDropship,
         };
 
         try {
@@ -50,15 +54,39 @@ export function EditInfo({ product, onSuccess }) {
             </div>
 
             <div className={'input_group'}>
-                <span>Stock</span>
-                <input
-                    type="number"
-                    value={stock}
-                    onChange={(e) => setStock(e.target.value)}
-                    min="0"
-                    className='input'
-                />
+                <label className={styles.checkbox_row}>
+                    <input
+                        type="checkbox"
+                        checked={isDropship}
+                        onChange={(e) => setIsDropship(e.target.checked)}
+                    />
+                    <span>Producto del proveedor (dropshipping)</span>
+                </label>
             </div>
+
+            {isDropship ? (
+                <div className={'input_group'}>
+                    <label className={styles.checkbox_row}>
+                        <input
+                            type="checkbox"
+                            checked={available}
+                            onChange={(e) => setAvailable(e.target.checked)}
+                        />
+                        <span>Disponible</span>
+                    </label>
+                </div>
+            ) : (
+                <div className={'input_group'}>
+                    <span>Stock</span>
+                    <input
+                        type="number"
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
+                        min="0"
+                        className='input'
+                    />
+                </div>
+            )}
 
             <div className={'input_group'}>
                 <span>Descripción</span>

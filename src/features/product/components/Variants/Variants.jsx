@@ -9,7 +9,7 @@ import { VariantForm } from "../VariantForm/VariantForm";
 import { VariantImages } from "../VariantImages/VariantImages";
 import styles from "./Variants.module.css";
 
-export function Variants({ productId, productSku }) {
+export function Variants({ productId, productSku, isDropship = false }) {
     const service = useMemo(() => new ProductVariantService(), []);
 
     const [variants, setVariants] = useState([]);
@@ -123,8 +123,10 @@ export function Variants({ productId, productSku }) {
                                     )}
 
                                     <div className={styles.card_meta}>
-                                        <span className={styles.stock_badge}>
-                                            {variant.stock} uds.
+                                        <span className={`${styles.stock_badge} ${isDropship && variant.stock > 0 ? styles.available : ''}`}>
+                                            {isDropship
+                                                ? (variant.stock > 0 ? 'Disponible' : 'Sin stock')
+                                                : `${variant.stock} uds.`}
                                         </span>
                                         {variant.sku && (
                                             <span className={styles.sku}>{variant.sku}</span>
@@ -186,6 +188,7 @@ export function Variants({ productId, productSku }) {
                         productSku={productSku}
                         categoryAttributes={categoryAttributes}
                         editingVariant={editingVariant}
+                        isDropship={isDropship}
                         onSaved={handleSaved}
                         onCancel={closeForm}
                     />
