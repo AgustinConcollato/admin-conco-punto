@@ -164,6 +164,18 @@ export class ProductService {
         });
     }
 
+    async syncDropshippingStock() {
+        return apiRequest('/products/dropshipping/sync-stock', {
+            method: "POST"
+        });
+    }
+
+    async syncProductDropshippingStock(id) {
+        return apiRequest(`/products/${id}/sync-stock`, {
+            method: "POST"
+        });
+    }
+
     async updateStatus(status, productId) {
         return apiRequest(`/products/${productId}/status`, {
             method: "PUT",

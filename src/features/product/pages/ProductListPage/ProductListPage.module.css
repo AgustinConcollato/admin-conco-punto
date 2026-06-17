@@ -4,6 +4,19 @@
     align-items: flex-start;
 }
 
+.main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+}
+
 @media (max-width: 768px) {
     .layout {
         flex-direction: column;

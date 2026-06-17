@@ -1,7 +1,8 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCircleNotch, faRotate } from '@fortawesome/free-solid-svg-icons';
 import { Loading } from '../../../../components/Loading/Loading';
 import { ProductDetailsLayout } from '../../../../components/layout/ProductDetailsLayout/ProductDetailsLayout';
 import { ProductService } from '../../../../services/product/productService';
@@ -13,8 +14,35 @@ export function ProductDetailsPage() {
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isSyncing, setIsSyncing] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const productService = useMemo(() => new ProductService(), []);
+
+    const handleSyncStock = async () => {
+        if (isSyncing) return;
+        setIsSyncing(true);
+        try {
+            const r = await productService.syncProductDropshippingStock(id);
+            if (r.updated > 0) {
+                toast.success('Disponibilidad actualizada según el proveedor.');
+            } else if (r.unmatched > 0) {
+                toast.warn('Sin match en el proveedor (revisá la URL o el código de barras).');
+            } else if (r.errors > 0) {
+                toast.error('No se pudo consultar el proveedor.');
+            } else {
+                toast.info('Sin cambios: ya estaba al día.');
+            }
+            const updated = await productService.getById(id);
+            if (updated) setProduct(updated);
+            setRefreshKey(k => k + 1);
+        } catch (err) {
+            console.error('Error al sincronizar stock:', err);
+            toast.error('No se pudo actualizar el stock.');
+        } finally {
+            setIsSyncing(false);
+        }
+    };
 
     useEffect(() => {
         const loadProduct = async () => {
@@ -80,8 +108,20 @@ export function ProductDetailsPage() {
                 {product.sku && (
                     <span className={styles.header_sku}>{product.sku}</span>
                 )}
+                {product.is_dropshipping && (
+                    <button
+                        className="btn btn_regular"
+                        onClick={handleSyncStock}
+                        disabled={isSyncing}
+                        title="Revisa el stock del proveedor y actualiza la disponibilidad de este producto"
+                        style={{ marginLeft: 'auto' }}
+                    >
+                        <FontAwesomeIcon icon={isSyncing ? faCircleNotch : faRotate} spin={isSyncing} />
+                        {' '}{isSyncing ? 'Actualizando…' : 'Actualizar stock'}
+                    </button>
+                )}
             </div>
-            <ProductDetailsLayout product={product} />
+            <ProductDetailsLayout key={refreshKey} product={product} />
         </div>
     );
 }

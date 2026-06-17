@@ -11,7 +11,7 @@ const HomePage = lazy(() => import('../../../features/home/pages/HomePage/HomePa
 const ProductListPage = lazy(() => import('../../../features/product/pages/ProductListPage/ProductListPage').then(m => ({ default: m.ProductListPage })));
 const NewProductPage = lazy(() => import('../../../features/product/pages/NewProductPage/NewProductPage').then(m => ({ default: m.NewProductPage })));
 const ManageProductsPage = lazy(() => import('../../../features/product/pages/ManageProductsPage/ManageProductsPage').then(m => ({ default: m.ManageProductsPage })));
-const ProductDetailsPage = lazy(() => import('../../../features/product/pages/ProductDetailsPage/ProductDetailsPAge').then(m => ({ default: m.ProductDetailsPage })));
+const ProductDetailsPage = lazy(() => import('../../../features/product/pages/ProductDetailsPage/ProductDetailsPage').then(m => ({ default: m.ProductDetailsPage })));
 const ClientListPage = lazy(() => import('../../../features/client/pages/ClientListPage/ClientListPage').then(m => ({ default: m.ClientListPage })));
 const NewClientPage = lazy(() => import('../../../features/client/pages/NewClientPage/NewClientPage').then(m => ({ default: m.NewClientPage })));
 const ClientDetailPage = lazy(() => import('../../../features/client/pages/ClientDetailPage/ClientDetailPage').then(m => ({ default: m.ClientDetailPage })));
