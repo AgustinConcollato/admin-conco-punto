@@ -74,6 +74,10 @@ export function Summary() {
         <>
             <div className={styles.order_summary_card}>
 
+                {order.number != null && (
+                    <div className={styles.order_number}>Pedido #{order.number}</div>
+                )}
+
                 {/* ── Cliente ── */}
                 {order.client && (
                     <div className={styles.section}>

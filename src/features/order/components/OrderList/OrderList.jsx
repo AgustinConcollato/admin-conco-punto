@@ -1,11 +1,15 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from '../../../../components/Pagination/Pagination';
+import { ViewToggle } from '../../../../components/ViewToggle/ViewToggle';
+import { useMediaQuery } from '../../../../hooks/useMediaQuery';
+import { useViewMode } from '../../../../hooks/useViewMode';
 import { ClientService } from '../../../../services/client/clientService';
 import { OrderService } from '../../../../services/order/orderService';
 import { normalizeStr } from '../../../../utils/normalizeStr';
 import { DEFAULT_RANGE, RANGE_OPTIONS, buildRangeFilters } from '../../../../utils/rangeHelpers';
 import { OrderCard } from '../OrderCard/OrderCard';
+import { OrderRow } from '../OrderRow/OrderRow';
 import styles from './OrderList.module.css';
 
 const ORDER_STATUSES_MAP = {
@@ -44,8 +48,22 @@ export function OrderList() {
         range: searchParams.get('range') || DEFAULT_RANGE,
         client_id: searchParams.get('client_id') || '',
         with_debt: searchParams.get('with_debt') || '',
+        search: searchParams.get('search') || '',
         page: searchParams.get('page') || '1'
     };
+
+    const [viewMode, setViewMode] = useViewMode('ordersViewMode');
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const effectiveView = isMobile ? 'cards' : viewMode;
+
+    // Búsqueda con debounce: el input es local, se vuelca a la URL tras 400ms
+    const [searchInput, setSearchInput] = useState(filters.search);
+    useEffect(() => {
+        if (searchInput === filters.search) return;
+        const t = setTimeout(() => handleFilterChange('search', searchInput.trim()), 400);
+        return () => clearTimeout(t);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchInput]);
 
     useEffect(() => {
         const fetchClients = async () => {
@@ -124,6 +142,7 @@ export function OrderList() {
     };
 
     const handleReset = () => {
+        setSearchInput('');
         setSearchParams({ range: DEFAULT_RANGE, page: 1 });
     };
 
@@ -301,24 +320,46 @@ export function OrderList() {
                         </p>
                     )}
                 </div>
+
+                <div className={styles.toolbar}>
+                    <div className={styles.search_box}>
+                        <input
+                            type="text"
+                            className={styles.search_input}
+                            placeholder="Buscar por número o cliente…"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
+                        {searchInput && (
+                            <button
+                                type="button"
+                                className={styles.search_clear}
+                                onClick={() => setSearchInput('')}
+                                aria-label="Limpiar búsqueda"
+                            >
+                                ×
+                            </button>
+                        )}
+                    </div>
+                    {!isMobile && <ViewToggle value={viewMode} onChange={setViewMode} />}
+                </div>
                 {isLoading ? (
                     <div className={styles.loader}>Cargando pedidos...</div>
                 ) : (
-                    <div className={styles.order_list}>
+                    <div className={effectiveView === 'table' ? styles.order_rows : styles.order_list}>
                         {orders.length > 0 ? (
-                            orders.map((order) => (
-                                <OrderCard
-                                    key={order.id}
-                                    order={order}
-                                    onRefresh={(updatedOrder) => {
-                                        if (updatedOrder) {
-                                            setOrders(prev => prev.map(o => o.id === updatedOrder.id ? { ...o, ...updatedOrder } : o));
-                                        } else {
-                                            getOrders();
-                                        }
-                                    }}
-                                />
-                            ))
+                            orders.map((order) => {
+                                const onRefresh = (updatedOrder) => {
+                                    if (updatedOrder) {
+                                        setOrders(prev => prev.map(o => o.id === updatedOrder.id ? { ...o, ...updatedOrder } : o));
+                                    } else {
+                                        getOrders();
+                                    }
+                                };
+                                return effectiveView === 'table'
+                                    ? <OrderRow key={order.id} order={order} onRefresh={onRefresh} />
+                                    : <OrderCard key={order.id} order={order} onRefresh={onRefresh} />;
+                            })
                         ) : (
                             <p className={styles.empty_msg}>No se encontraron pedidos para este filtro.</p>
                         )}

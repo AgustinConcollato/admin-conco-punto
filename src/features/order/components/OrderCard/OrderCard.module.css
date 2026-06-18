@@ -192,11 +192,17 @@
     box-shadow: var(--shadow-card);
 }
 
+.status_action {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
 .actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-top: 24px;
+    margin-top: 16px;
 }
 
 .paid_tag {
@@ -245,4 +251,91 @@
     border: 1px solid var(--color-border, #e2e8f0);
     box-shadow: var(--shadow-card);
     background: var(--color-bg, #f8fafc);
+}
+
+/* ── Variante panel (fila expandida): chips + toolbar ── */
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.chip_label {
+    color: var(--color-text-muted, #64748b);
+}
+
+.chip_value {
+    font-weight: 700;
+}
+
+.chip_paid {
+    background: #ebfbee;
+    color: #2f855a;
+    border-color: #c6f6d5;
+    font-weight: 600;
+}
+
+.chip_due {
+    background: #fff5f5;
+    color: var(--color-error, #e74c3c);
+    border-color: #feb2b2;
+    font-weight: 600;
+}
+
+.panel_payments {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+    font-size: 0.9rem;
+}
+
+.panel_payments_label {
+    color: var(--color-text-muted, #64748b);
+    font-weight: 600;
+}
+
+.pay_inline small {
+    color: var(--color-text-muted, #64748b);
+}
+
+.pay_empty {
+    color: var(--color-text-muted, #64748b);
+    font-style: italic;
+}
+
+.panel_toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.toolbar_left {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }

@@ -1,0 +1,48 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.next_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.cancel_btn {
+    background: transparent;
+    color: var(--color-error, #e74c3c);
+    border-radius: var(--radius-sm, 8px);
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.cancel_btn:hover {
+    background: #e74c3c20;
+}
+
+.cancel_btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.compact .next_btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
+
+.compact .cancel_btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
