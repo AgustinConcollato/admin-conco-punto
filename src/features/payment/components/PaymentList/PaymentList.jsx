@@ -55,6 +55,7 @@ export function PaymentList({
     const [loadingPayments, setLoadingPayments] = useState(false);
     const [payments, setPayments] = useState([]);
     const [pagination, setPagination] = useState(null);
+    const [stats, setStats] = useState({ total_amount: 0, transfer_count: 0, cash_count: 0, check_count: 0, credit_card_count: 0 });
 
     const loadPayments = async (incomingFilters) => {
         setLoadingPayments(true);
@@ -74,6 +75,7 @@ export function PaymentList({
                 per_page: paymentsRes.per_page || 20,
                 total: paymentsRes.total || 0,
             });
+            if (paymentsRes.stats) setStats(paymentsRes.stats);
         } catch (err) {
             console.log(err);
             setPayments([]);
@@ -86,11 +88,6 @@ export function PaymentList({
     useEffect(() => {
         loadPayments(filters);
     }, [filters]);
-
-    const totalAmount = payments.reduce((sum, p) => sum + Number(p.amount), 0);
-    const transferCount = payments.filter(p => p.payment_method === 'transfer').length;
-    const cashCount = payments.filter(p => p.payment_method === 'cash').length;
-    const checkCount = payments.filter(p => p.payment_method === 'check').length;
 
     if (loadingPayments) {
         return (
@@ -128,28 +125,28 @@ export function PaymentList({
                     <div className={styles.stat_label_row}>
                         <div className={styles.stat_label}>Monto total</div>
                     </div>
-                    <div className={styles.stat_value}>{formatPrice(totalAmount)}</div>
+                    <div className={styles.stat_value}>{formatPrice(stats.total_amount)}</div>
                 </div>
                 <div className={styles.stat_card}>
                     <div className={styles.stat_label_row}>
                         <span className={styles.stat_dot} style={{ background: '#3b82f6' }} />
                         <span className={styles.stat_label}>Transferencias</span>
                     </div>
-                    <div className={styles.stat_count} style={{ color: '#2563eb' }}>{transferCount}</div>
+                    <div className={styles.stat_count} style={{ color: '#2563eb' }}>{stats.transfer_count}</div>
                 </div>
                 <div className={styles.stat_card}>
                     <div className={styles.stat_label_row}>
                         <span className={styles.stat_dot} style={{ background: '#22c55e' }} />
                         <span className={styles.stat_label}>Efectivo</span>
                     </div>
-                    <div className={styles.stat_count} style={{ color: '#16a34a' }}>{cashCount}</div>
+                    <div className={styles.stat_count} style={{ color: '#16a34a' }}>{stats.cash_count}</div>
                 </div>
                 <div className={styles.stat_card}>
                     <div className={styles.stat_label_row}>
                         <span className={styles.stat_dot} style={{ background: '#f59e0b' }} />
                         <span className={styles.stat_label}>Cheques</span>
                     </div>
-                    <div className={styles.stat_count} style={{ color: '#d97706' }}>{checkCount}</div>
+                    <div className={styles.stat_count} style={{ color: '#d97706' }}>{stats.check_count}</div>
                 </div>
             </div>
 
