@@ -211,24 +211,22 @@ export function OrderList() {
                 {/* 4. Filtro por Deuda */}
                 <div className={styles.filter_group}>
                     <label>Pedidos con deuda</label>
-                    <label className={styles.inputs_radio}>
-                        <input
-                            type="radio"
-                            name='with_debt'
-                            onChange={() => handleFilterChange('with_debt', '1')}
-                            checked={filters.with_debt === '1'}
-                        />
-                        Si
-                    </label>
-                    <label className={styles.inputs_radio}>
-                        <input
-                            type="radio"
-                            name='with_debt'
-                            onChange={() => handleFilterChange('with_debt', '')}
-                            checked={filters.with_debt === ''}
-                        />
-                        Todos los pedidos
-                    </label>
+                    <div className={styles.segment}>
+                        <button
+                            type="button"
+                            className={filters.with_debt === '' ? styles.seg_active : styles.seg_inactive}
+                            onClick={() => handleFilterChange('with_debt', '')}
+                        >
+                            Todos
+                        </button>
+                        <button
+                            type="button"
+                            className={filters.with_debt === '1' ? styles.seg_active : styles.seg_inactive}
+                            onClick={() => handleFilterChange('with_debt', '1')}
+                        >
+                            Con deuda
+                        </button>
+                    </div>
                 </div>
 
                 {/* 5. Selector de Cliente (Sigue siendo Select por ser muchos) */}

@@ -1,124 +1,188 @@
 .row_wrap {
-    background: var(--color-surface, #fff);
-    border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: var(--radius-sm, 8px);
-    box-shadow: var(--shadow-sm);
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     overflow: hidden;
 }
 
+.row_wrap_debt {
+    border-color: #f0d9d9;
+}
+
 .row {
-    display: grid;
-    grid-template-columns: 64px minmax(120px, 1.4fr) 130px 130px 116px 150px auto 34px;
-    gap: 12px;
+    display: flex;
     align-items: center;
-    padding: 12px 14px;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 16px 22px;
     cursor: pointer;
     transition: background 0.15s;
 }
 
 .row:hover {
-    background: var(--color-bg, #f8fafc);
+    background: #fafbfd;
 }
 
 .number {
-    font-weight: 700;
+    flex: none;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--primary, #3d6caa);
-    font-size: 0.9rem;
+    width: 42px;
 }
 
-.client {
+.avatar {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9f0fa;
+    color: var(--primary, #3d6caa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--color-text, #1e293b);
+}
+
+.avatar_empty {
+    background: #f1f4f8;
+    color: #94a3b8;
+}
+
+.info {
+    flex: 1;
+    min-width: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+}
+
+.name {
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #1e293b;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.date {
-    font-size: 0.82rem;
-    color: var(--color-text-muted, #64748b);
+.name_muted {
+    color: #94a3b8;
+}
+
+.sub {
+    font-size: 12.5px;
+    color: #94a3b8;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .total {
+    flex: none;
+    text-align: right;
+    font-size: 17px;
     font-weight: 700;
-    color: var(--color-text, #1e293b);
+    color: #1e293b;
     white-space: nowrap;
 }
 
-.badge {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 4px 9px;
-    border-radius: 999px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.debt {
-    font-size: 0.8rem;
-    white-space: nowrap;
-}
-
-.paid {
-    color: #2f855a;
-    font-weight: 600;
-}
-
-.due {
-    color: var(--color-error, #e74c3c);
-    font-weight: 600;
-}
-
-.muted {
-    color: var(--color-text-muted, #94a3b8);
-}
-
-.action {
+.pay_col {
+    flex: none;
+    width: auto;
+    min-width: 150px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
 }
 
-.expand_btn {
-    background: transparent;
-    border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: var(--radius-sm, 8px);
+.pay_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.pay_paid {
+    background: #d8f5ec;
+    color: #13a37a;
+}
+
+.pay_due {
+    background: #fdecec;
+    color: #dc6a6a;
+}
+
+.pay_cancelled {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.progress {
+    width: 100%;
+    height: 5px;
+    background: #f1eaea;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.progress_bar {
+    display: block;
+    height: 100%;
+    background: #dc6a6a;
+    border-radius: 99px;
+    transition: width 0.3s;
+}
+
+.chevron {
+    flex: none;
     width: 32px;
     height: 32px;
-    cursor: pointer;
-    color: var(--color-text-muted, #64748b);
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.expand_btn:hover {
-    background: var(--color-bg, #f8fafc);
+    border: 1px solid #e8edf3;
+    border-radius: 9px;
+    color: #94a3b8;
+    font-size: 12px;
+    transition: transform 0.2s;
 }
 
 .detail {
-    border-top: 1px solid var(--color-border, #e2e8f0);
-    padding: 16px;
-    background: var(--color-bg, #f8fafc);
+    padding: 4px 22px 22px;
 }
 
-/* Colores de estado (alineados con OrderCard) */
-.status_pending { background: #fef0e6; color: #ed8936; }
-.status_processing { background: #e8effa; color: #3d6caa; }
-.status_confirmed { background: #ebfbee; color: #48bb78; }
-.status_shipped { background: #f3eefc; color: #9f7aea; }
-.status_delivered { background: #e6fffa; color: #38b2ac; }
-.status_cancelled { background: #fde8e8; color: #e74c3c; }
-.status_default { background: #edf2f7; color: #4a5568; }
-
-@media (max-width: 1100px) {
-    .row {
-        grid-template-columns: 56px 1fr 110px auto 34px;
+@media (max-width: 900px) {
+    .total {
+        font-size: 15px;
     }
-    .date,
-    .debt {
+
+    .pay_col {
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 640px) {
+    .row {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    .avatar {
         display: none;
+    }
+
+    .pay_col {
+        min-width: auto;
+        width: 100%;
+        align-items: flex-start;
     }
 }

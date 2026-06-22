@@ -14,13 +14,13 @@ const PAYMENT_STATUS_MAP = {
     refunded: 'Reintegrado',
 };
 
-const PAYMENT_METHOD_MAP = {
-    '': 'Todos',
-    cash: 'Efectivo',
-    transfer: 'Transferencia',
-    credit_card: 'Tarjeta',
-    check: 'Cheque',
-};
+const PAYMENT_METHODS = [
+    { key: '', label: 'Todos los métodos', color: null },
+    { key: 'transfer', label: 'Transferencia', color: '#3b82f6' },
+    { key: 'cash', label: 'Efectivo', color: '#22c55e' },
+    { key: 'check', label: 'Cheque', color: '#f59e0b' },
+    { key: 'credit_card', label: 'Tarjeta', color: '#8b5cf6' },
+];
 
 export function PaymentPage() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -37,7 +37,7 @@ export function PaymentPage() {
     const filters = useMemo(() => ({
         status: searchParams.get("status") || "",
         payment_method: searchParams.get("payment_method") || "",
-        order_id: searchParams.get("order_id") || "",
+        order_number: searchParams.get("order_number") || "",
         start_date: searchParams.get("start_date") || "",
         end_date: searchParams.get("end_date") || "",
         range: searchParams.get("range") || DEFAULT_RANGE,
@@ -126,6 +126,8 @@ export function PaymentPage() {
                     </div>
                 </div>
 
+                <div className={styles.divider} />
+
                 {filters.range === 'custom' && (
                     <div className={styles.filter_group}>
                         <div className={styles.date_inputs}>
@@ -161,25 +163,32 @@ export function PaymentPage() {
                     </select>
                 </div>
 
+                <div className={styles.divider} />
+
                 <div className={styles.filter_group}>
                     <label>Método de pago</label>
-                    <select
-                        value={filters.payment_method}
-                        onChange={(e) => handleFilterChange('payment_method', e.target.value)}
-                    >
-                        {Object.entries(PAYMENT_METHOD_MAP).map(([k, label]) => (
-                            <option key={k} value={k}>{label}</option>
+                    <div className={styles.method_list}>
+                        {PAYMENT_METHODS.map(({ key, label, color }) => (
+                            <button
+                                key={key}
+                                type="button"
+                                className={filters.payment_method === key ? styles.method_active : styles.method_inactive}
+                                onClick={() => handleFilterChange('payment_method', key)}
+                            >
+                                {color && <span className={styles.method_dot} style={{ background: color }} />}
+                                {label}
+                            </button>
                         ))}
-                    </select>
+                    </div>
                 </div>
 
                 <div className={styles.filter_group}>
-                    <label>Pedido (UUID)</label>
+                    <label>N° de pedido</label>
                     <input
                         type="text"
-                        placeholder="order_id..."
-                        value={filters.order_id}
-                        onChange={(e) => handleFilterChange('order_id', e.target.value)}
+                        placeholder="Ej: 318"
+                        value={filters.order_number}
+                        onChange={(e) => handleFilterChange('order_number', e.target.value)}
                     />
                 </div>
 

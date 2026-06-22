@@ -57,71 +57,86 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
         </Modal>
     );
 
-    // ── Variante panel (fila expandida): chips + toolbar ──
+    // ── Variante panel (fila expandida): 2 columnas ──
     if (variant === 'panel') {
+        const paidAmount = parseFloat(order.final_total_amount) - order.balance_due;
+        const payPct = parseFloat(order.final_total_amount) > 0
+            ? Math.round((paidAmount / parseFloat(order.final_total_amount)) * 100)
+            : 0;
+
         return (
-            <div className={styles.panel}>
-                <div className={styles.chips}>
-                    <span className={styles.chip}>
-                        <FontAwesomeIcon icon={faArrowDown} className={styles.icon_cost} />
-                        <span className={styles.chip_label}>Costo</span>
-                        <span className={styles.chip_value}>{formatPrice(order.total_cost)}</span>
-                    </span>
-                    <span className={styles.chip}>
-                        <FontAwesomeIcon icon={faTruck} className={styles.icon_shipping} />
-                        <span className={styles.chip_label}>Envío</span>
-                        <span className={styles.chip_value}>{formatPrice(order.shipping_cost)}</span>
-                    </span>
-                    <span className={styles.chip}>
-                        <FontAwesomeIcon icon={faMoneyBillTrendUp} className={styles.icon_profit} />
-                        <span className={styles.chip_label}>Ganancia</span>
-                        <span className={styles.chip_value}>{formatPrice(profit)}</span>
-                    </span>
-                    <span className={styles.chip}>
-                        <FontAwesomeIcon icon={faPiggyBank} className={styles.icon_savings} />
-                        <span className={styles.chip_label}>Reinversión 10%</span>
-                        <span className={styles.chip_value}>{formatPrice(savings)}</span>
-                    </span>
-                    <span className={styles.chip}>
-                        <FontAwesomeIcon icon={faHandshake} className={styles.icon_savings} />
-                        <span className={styles.chip_label}>A dividir</span>
-                        <span className={styles.chip_value}>{formatPrice(profit - savings)}</span>
-                    </span>
-                    {notCancelled && (
-                        <span className={`${styles.chip} ${isPaid ? styles.chip_paid : styles.chip_due}`}>
-                            <FontAwesomeIcon icon={isPaid ? faCheckCircle : faClock} />
-                            {isPaid ? 'PAGADO' : 'DEBE ' + formatPrice(order.balance_due)}
-                        </span>
-                    )}
+            <div className={styles.panel_grid}>
+                {/* Columna izquierda: desglose financiero */}
+                <div className={styles.panel_col}>
+                    <div className={styles.panel_label}>Desglose financiero</div>
+                    <div className={styles.breakdown}>
+                        <div className={styles.breakdown_row}>
+                            <span className={styles.breakdown_key}>Total facturado</span>
+                            <span className={styles.breakdown_val}>{formatPrice(order.final_total_amount)}</span>
+                        </div>
+                        <div className={styles.breakdown_row}>
+                            <span className={styles.breakdown_key}>Costo</span>
+                            <span className={`${styles.breakdown_val} ${styles.val_red}`}>−{formatPrice(order.total_cost)}</span>
+                        </div>
+                        <div className={styles.breakdown_row}>
+                            <span className={styles.breakdown_key}>Envío</span>
+                            <span className={styles.breakdown_val}>{formatPrice(order.shipping_cost)}</span>
+                        </div>
+                        <div className={`${styles.breakdown_row} ${styles.breakdown_sep}`}>
+                            <span className={styles.breakdown_key_bold}>Ganancia</span>
+                            <span className={styles.val_green}>{formatPrice(profit)}</span>
+                        </div>
+                        <div className={styles.breakdown_row}>
+                            <span className={styles.breakdown_key}>Reinversión (10%)</span>
+                            <span className={styles.breakdown_val}>{formatPrice(savings)}</span>
+                        </div>
+                        <div className={styles.breakdown_row}>
+                            <span className={styles.breakdown_key_bold}>A dividir</span>
+                            <span className={styles.val_blue}>{formatPrice(profit - savings)}</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className={styles.panel_payments}>
-                    <span className={styles.panel_payments_label}>Pagos:</span>
-                    {order.payments.length === 0 ? (
-                        <span className={styles.pay_empty}>Sin pagos registrados</span>
-                    ) : (
-                        order.payments.map((payment, index) => (
-                            <span key={index} className={styles.pay_inline}>
-                                <b>{formatPrice(payment.amount)}</b> {PAYMENT_METHODS[payment.payment_method] || payment.payment_method}
-                                <small> · {formatDate(payment.created_at, 'numeric')}</small>
-                            </span>
-                        ))
-                    )}
-                    {!isPaid && notCancelled && (
-                        <button className={styles.btn_pay} onClick={() => setShowModal(true)}>
-                            Registrar pago
-                        </button>
-                    )}
-                </div>
+                {/* Columna derecha: pagos + acciones */}
+                <div className={styles.panel_col}>
+                    <div className={styles.panel_label}>Pagos</div>
 
-                <div className={styles.panel_toolbar}>
-                    <div className={styles.toolbar_left}>
-                        <button className="btn btn_solid" onClick={downloadPDF} disabled={loading}>
+                    {notCancelled && !isPaid && (
+                        <div className={styles.debt_card}>
+                            <div className={styles.debt_row}>
+                                <span className={styles.debt_key}>Pagado</span>
+                                <span className={styles.debt_val}>{formatPrice(paidAmount)}</span>
+                            </div>
+                            <div className={styles.debt_progress}>
+                                <span className={styles.debt_bar} style={{ width: `${payPct}%` }} />
+                            </div>
+                            <div className={styles.debt_row}>
+                                <span className={styles.debt_pending}>Saldo pendiente</span>
+                                <span className={styles.debt_pending_val}>{formatPrice(order.balance_due)}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {notCancelled && isPaid && (
+                        <div className={styles.paid_card}>
+                            ✓ Pedido cobrado por completo
+                        </div>
+                    )}
+
+                    <div className={styles.panel_actions}>
+                        {!isPaid && notCancelled && (
+                            <button className={styles.panel_btn_primary} onClick={() => setShowModal(true)}>
+                                Registrar pago
+                            </button>
+                        )}
+                        <Link to={`/ventas/${order.id}`} className={styles.panel_btn_secondary}>
+                            Ver pedido
+                        </Link>
+                        <button className={styles.panel_btn_ghost} onClick={downloadPDF} disabled={loading}>
                             {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Descargar detalle'}
                         </button>
-                        <Link to={`/ventas/${order.id}`} className="btn">Ver pedido</Link>
+                        {showStatus && <OrderStatusAction order={order} onUpdated={() => onRefresh?.()} row />}
                     </div>
-                    {showStatus && <OrderStatusAction order={order} onUpdated={() => onRefresh?.()} row />}
                 </div>
 
                 {paymentModal}

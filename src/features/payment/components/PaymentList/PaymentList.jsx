@@ -1,4 +1,4 @@
-import { faCircleNotch, faCreditCard, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,11 +8,41 @@ import { formatDate } from "../../../../utils/formatDate";
 import { formatPrice } from "../../../../utils/formatPrice";
 import styles from './PaymentList.module.css';
 
-const PAYMENT_ICONS = {
-    'transfer': faCreditCard,
-    'cash': faMoneyBillWave,
-    'credit_card': faCreditCard,
+const METHOD_LABELS = {
+    transfer: 'Transferencia',
+    cash: 'Efectivo',
+    credit_card: 'Tarjeta',
+    check: 'Cheque',
 };
+
+const METHOD_STYLES = {
+    transfer: { bg: '#dbeafe', color: '#1d4ed8', dot: '#3b82f6' },
+    cash: { bg: '#dcfce7', color: '#15803d', dot: '#22c55e' },
+    check: { bg: '#fef3c7', color: '#92400e', dot: '#f59e0b' },
+    credit_card: { bg: '#ede9fe', color: '#6d28d9', dot: '#8b5cf6' },
+};
+
+const AVATAR_PALETTES = [
+    { bg: '#ede9fe', color: '#7c3aed' },
+    { bg: '#fce7f3', color: '#be185d' },
+    { bg: '#fed7aa', color: '#c2410c' },
+    { bg: '#cffafe', color: '#0e7490' },
+    { bg: '#d1fae5', color: '#065f46' },
+];
+
+function getInitials(name) {
+    const clean = name.split(' - ')[0].trim();
+    const parts = clean.split(/\s+/);
+    return parts.length >= 2
+        ? (parts[0][0] + parts[1][0]).toUpperCase()
+        : name.slice(0, 2).toUpperCase();
+}
+
+function getAvatarStyle(name) {
+    let h = 0;
+    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffff;
+    return AVATAR_PALETTES[h % AVATAR_PALETTES.length];
+}
 
 export function PaymentList({
     filters = {},
@@ -20,7 +50,6 @@ export function PaymentList({
     showViewAllLink = false,
     onPageChange = null,
 }) {
-
     const paymentService = useMemo(() => new PaymentService(), []);
 
     const [loadingPayments, setLoadingPayments] = useState(false);
@@ -58,84 +87,151 @@ export function PaymentList({
         loadPayments(filters);
     }, [filters]);
 
+    const totalAmount = payments.reduce((sum, p) => sum + Number(p.amount), 0);
+    const transferCount = payments.filter(p => p.payment_method === 'transfer').length;
+    const cashCount = payments.filter(p => p.payment_method === 'cash').length;
+    const checkCount = payments.filter(p => p.payment_method === 'check').length;
+
+    if (loadingPayments) {
+        return (
+            <div className={styles.loader}>
+                <FontAwesomeIcon icon={faCircleNotch} spin size="lg" />
+            </div>
+        );
+    }
+
     return (
-        <>
-            {!loadingPayments ?
-                <section className={styles.payments_section}>
-                    <div className={styles.header}>
-                        <h3>Pagos completados</h3>
-                        {showViewAllLink && filters && Object.keys(filters).length > 0 &&
-                            <Link
-                                to={`/pagos?start_date=${filters.start_date || ''}&end_date=${filters.end_date || ''}&range=${filters.range || ''}&client_id=${filters.client_id || ''}`}
-                                className="btn "
-                            >
-                                Ver todos
-                            </Link>
-                        }
-                    </div>
+        <div className={styles.wrap}>
+            {/* Header */}
+            <div className={styles.header}>
+                <div>
+                    <h1 className={styles.title}>Pagos completados</h1>
                     {pagination && (
-                        <p style={{ marginTop: 8, marginBottom: 8 }}>
-                            Mostrando {payments?.length || 0} de {pagination.total} pagos
+                        <p className={styles.subtitle}>
+                            Mostrando {payments.length} de {pagination.total} pagos
                         </p>
                     )}
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Monto</th>
-                                <th>Método de pago</th>
-                                <th>Cliente</th>
-                                {/* <th>Estado</th> */}
-                                <th>Pedido</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {payments && payments.length > 0 ? (
-                                payments.map((p) => (
-                                    <tr key={p.id}>
-                                        <td>{formatDate(p.payment_date || p.created_at, 'short')}</td>
-                                        <td>{formatPrice(Number(p.amount))}</td>
-                                        <td>
-                                            <div>
-                                                <FontAwesomeIcon
-                                                    icon={PAYMENT_ICONS[p.payment_method] || faMoneyBillWave}
-                                                    className={styles.payment_icon}
-                                                />
-                                                {p.payment_method === 'cash' ? 'Efectivo' :
-                                                    p.payment_method === 'transfer' ? 'Transferencia' :
-                                                        p.payment_method === 'credit_card' ? 'Tarjeta de crédito/débito' :
-                                                            'Cheque'
-                                                }
-                                            </div>
-                                        </td>
-                                        <td>{p.order?.client?.name || '-'}</td>
-                                        {/* <td>{p.status}</td> */}
-                                        <td>
-                                            <div>
-                                                <span>{String(p.order_id).split('-')[0]}</span>
-                                                <Link to={`/ventas/${p.order_id}`}>Ver</Link>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="5">No hay datos de pagos</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    {pagination && pagination.last_page > 1 && (
+                </div>
+                {showViewAllLink && filters && Object.keys(filters).length > 0 && (
+                    <Link
+                        to={`/pagos?start_date=${filters.start_date || ''}&end_date=${filters.end_date || ''}&range=${filters.range || ''}&client_id=${filters.client_id || ''}`}
+                        className="btn"
+                    >
+                        Ver todos
+                    </Link>
+                )}
+            </div>
+
+            {/* Stats cards */}
+            <div className={styles.stats}>
+                <div className={styles.stat_card}>
+                    <div className={styles.stat_label_row}>
+                        <div className={styles.stat_label}>Monto total</div>
+                    </div>
+                    <div className={styles.stat_value}>{formatPrice(totalAmount)}</div>
+                </div>
+                <div className={styles.stat_card}>
+                    <div className={styles.stat_label_row}>
+                        <span className={styles.stat_dot} style={{ background: '#3b82f6' }} />
+                        <span className={styles.stat_label}>Transferencias</span>
+                    </div>
+                    <div className={styles.stat_count} style={{ color: '#2563eb' }}>{transferCount}</div>
+                </div>
+                <div className={styles.stat_card}>
+                    <div className={styles.stat_label_row}>
+                        <span className={styles.stat_dot} style={{ background: '#22c55e' }} />
+                        <span className={styles.stat_label}>Efectivo</span>
+                    </div>
+                    <div className={styles.stat_count} style={{ color: '#16a34a' }}>{cashCount}</div>
+                </div>
+                <div className={styles.stat_card}>
+                    <div className={styles.stat_label_row}>
+                        <span className={styles.stat_dot} style={{ background: '#f59e0b' }} />
+                        <span className={styles.stat_label}>Cheques</span>
+                    </div>
+                    <div className={styles.stat_count} style={{ color: '#d97706' }}>{checkCount}</div>
+                </div>
+            </div>
+
+            {/* Table */}
+            <div className={styles.table_wrap}>
+                {/* Table header */}
+                <div className={styles.table_header}>
+                    <span>Fecha</span>
+                    <span>Monto</span>
+                    <span>Método</span>
+                    <span>Cliente</span>
+                    <span>Pedido</span>
+                </div>
+
+                {/* Rows */}
+                {payments.length > 0 ? (
+                    payments.map((p, i) => {
+                        const ms = METHOD_STYLES[p.payment_method] || { bg: '#f3f4f6', color: '#374151', dot: '#9ca3af' };
+                        const clientName = p.order?.client?.name;
+                        const av = clientName ? getAvatarStyle(clientName) : null;
+
+                        return (
+                            <div key={p.id} className={`${styles.table_row} ${i % 2 === 1 ? styles.row_striped : ''}`}>
+                                <span className={styles.cell_date}>
+                                    {formatDate(p.payment_date || p.created_at, 'short')}
+                                </span>
+                                <span className={styles.cell_amount}>
+                                    {formatPrice(Number(p.amount))}
+                                </span>
+                                <span>
+                                    <span
+                                        className={styles.method_badge}
+                                        style={{ background: ms.bg, color: ms.color }}
+                                    >
+                                        <span className={styles.badge_dot} style={{ background: ms.dot }} />
+                                        {METHOD_LABELS[p.payment_method] || p.payment_method}
+                                    </span>
+                                </span>
+                                <span className={styles.cell_client}>
+                                    {clientName ? (
+                                        <>
+                                            <span
+                                                className={styles.avatar}
+                                                style={{ background: av.bg, color: av.color }}
+                                            >
+                                                {getInitials(clientName)}
+                                            </span>
+                                            <span className={styles.client_name}>{clientName}</span>
+                                        </>
+                                    ) : (
+                                        <span className={styles.no_client}>—</span>
+                                    )}
+                                </span>
+                                <span className={styles.cell_order}>
+                                    <code className={styles.order_code}>
+                                        #{p.order?.number}
+                                    </code>
+                                    <Link to={`/ventas/${p.order_id}`} className={styles.order_link}>
+                                        Ver →
+                                    </Link>
+                                </span>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div className={styles.empty}>
+                        <div className={styles.empty_title}>Sin resultados</div>
+                        <div className={styles.empty_sub}>No hay pagos que coincidan con los filtros aplicados.</div>
+                    </div>
+                )}
+
+                {/* Footer */}
+                {pagination && pagination.last_page > 1 && (
+                    <div className={styles.table_footer}>
                         <Pagination
                             currentPage={pagination.current_page}
                             lastPage={pagination.last_page}
                             onPageChange={(page) => onPageChange?.(page)}
                         />
-                    )}
-                </section> :
-                <FontAwesomeIcon icon={faCircleNotch} spin />
-            }
-        </>
-
+                    </div>
+                )}
+            </div>
+        </div>
     );
 }
