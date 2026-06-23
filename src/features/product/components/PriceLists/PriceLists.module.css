@@ -1,70 +1,152 @@
-﻿.price_lists {
-    padding: 20px;
-    border-radius: var(--radius-md, 12px);
-    border: 1px solid var(--color-border, #e2e8f0);
-    box-shadow: var(--shadow-card);
-    background: var(--color-surface, #fff);
+.card {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .header {
-    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 11px 16px;
+    border-bottom: 1px solid #F3F4F6;
 }
 
-.header h3 {
-    font-size: 0.7rem;
+.label {
+    font-size: 10px;
     font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted, #64748b);
-    margin: 0;
+    color: #9CA3AF;
 }
 
-.detail_label {
-    font-size: 0.875rem;
-    color: var(--color-text-muted, #64748b);
-    font-weight: 500;
+.action_btn {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2563EB;
+    background: #EFF6FF;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background 0.15s;
 }
 
-.detail_item {
+.action_btn:hover {
+    background: #DBEAFE;
+}
+
+/* Price rows */
+.price_row {
+    padding: 12px 16px;
+    border-bottom: 1px solid #F9FAFB;
+}
+
+.row_alt {
+    background: #FAFAFA;
+}
+
+.price_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--color-bg, #f8fafc);
-    font-size: 0.875rem;
+    margin-bottom: 7px;
 }
 
-.detail_item:last-child {
-    border: none;
-    padding-bottom: 0;
+.price_name {
+    font-size: 12.5px;
+    color: #374151;
 }
 
-.detail_value {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text, #1e293b);
-}
-
-.price_list {
-    margin-top: 30px;
+.price_right {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    gap: 6px;
 }
 
-.error {
-    font-size: 14px;
-    color: var(--color-error);
+.price_value {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.profit_badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #15803D;
+    background: #DCFCE7;
+    padding: 1px 7px;
+    border-radius: 20px;
+}
+
+/* Progress bar */
+.bar_track {
     position: relative;
-    top: -2px;
+    height: 8px;
+    background: #F3F4F6;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-.edit_form {
+.bar_fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
+}
+
+.bar_cost {
+    background: #D1D5DB;
+    border-radius: 4px 0 0 4px;
+}
+
+.bar_profit {
+    background: #22C55E;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Legend */
+.legend {
+    padding: 8px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 10.5px;
+    color: #9CA3AF;
+}
+
+.legend_item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.legend_swatch_cost {
+    width: 10px;
+    height: 5px;
+    background: #D1D5DB;
+    border-radius: 2px;
+}
+
+.legend_swatch_profit {
+    width: 10px;
+    height: 5px;
+    background: #22C55E;
+    border-radius: 2px;
+}
+
+.legend_line {
+    width: 2px;
+    height: 10px;
+    background: #9CA3AF;
+    border-radius: 1px;
+}
+
+.empty {
+    padding: 20px 16px;
+    text-align: center;
+    font-size: 13px;
+    color: #9CA3AF;
 }

@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Barcodes } from '../../../features/product/components/Barcodes/Barcodes';
 import { Images } from '../../../features/product/components/Images/Images';
 import { Status } from '../../../features/product/components/Status/Status';
@@ -27,13 +27,9 @@ export function ProductDetailsLayout({ product }) {
     }, [product]);
 
     const refreshSuppliersPrices = ({ price_lists = null, suppliers = null }) => {
-        if (suppliers) {
-            setCurrentSuppliers(suppliers);
-        }
-        if (price_lists) {
-            setCurrentPriceLists(price_lists);
-        }
-    }
+        if (suppliers) setCurrentSuppliers(suppliers);
+        if (price_lists) setCurrentPriceLists(price_lists);
+    };
 
     const refreshCategories = (updatedProduct) => {
         setCurrentCategories(updatedProduct);
@@ -43,66 +39,64 @@ export function ProductDetailsLayout({ product }) {
 
     const deepestCategoryId = useMemo(() => {
         if (!currentCategories?.length) return null;
-
         const category = currentCategories.reduce((max, obj) => obj.id > max.id ? obj : max, currentCategories[0]);
         return category.id;
     }, [currentCategories]);
 
+    const totalCost = useMemo(() => {
+        if (!currentSuppliers?.length) return 0;
+        const s = currentSuppliers[0];
+        const base = Number(s.pivot.purchase_price) || 0;
+        const freightPct = Number(s.pivot.freight_percent) || 0;
+        return base + (base * freightPct / 100);
+    }, [currentSuppliers]);
+
     return (
         <div className={styles.layout}>
-            <div className={styles.images}>
-                <Images
-                    images={images}
+            <div className={styles.left}>
+                <Images images={images} productId={product.id} />
+                <Status status={currentStatus} id={product.id} onStatusChange={setCurrentStatus} />
+                <Barcodes barcodes={barcodes} sku={product.sku} id={product.id} />
+                <ProductPromotionControl
                     productId={product.id}
+                    promotions={currentPromotions}
+                    onPromotionsChange={setCurrentPromotions}
                 />
             </div>
-            <div className={styles.aside}>
-                <div>
-                    <Status
-                        status={currentStatus}
-                        id={product.id}
-                        onStatusChange={setCurrentStatus}
-                    />
-                </div>
-                <div>
-                    <Barcodes barcodes={barcodes} sku={product.sku} id={product.id} />
-                </div>
-                <div>
-                    <ProductPromotionControl
-                        productId={product.id}
-                        promotions={currentPromotions}
-                        onPromotionsChange={setCurrentPromotions}
-                    />
-                </div>
-            </div>
-            <div className={styles.info}>
+
+            <div className={styles.right}>
                 <Info product={product} />
-            </div>
-            <div className={styles.categories}>
-                <Categories
-                    categories={currentCategories}
-                    productId={product.id}
-                    onRefresh={refreshCategories}
-                    disabled={currentCategories.length > 0}
-                />
-            </div>
-            <div className={styles.suppliers}>
-                <Suppliers suppliers={currentSuppliers} productId={product.id} onRefresh={refreshSuppliersPrices} />
-            </div>
-            <div className={styles.prices_list}>
-                <PriceLists priceLists={currentPriceLists} productId={product.id} onRefresh={refreshSuppliersPrices} />
-            </div>
-            <div className={styles.product_attrs}>
-                <ProductAttributeValues
-                    productId={product.id}
-                    deepestCategoryId={deepestCategoryId}
-                    initialAttributeValues={product.attribute_values}
-                />
-            </div>
-            <div className={styles.variants}>
+
+                <div className={styles.two_col}>
+                    <PriceLists
+                        priceLists={currentPriceLists}
+                        productId={product.id}
+                        onRefresh={refreshSuppliersPrices}
+                        cost={totalCost}
+                    />
+                    <Suppliers
+                        suppliers={currentSuppliers}
+                        productId={product.id}
+                        onRefresh={refreshSuppliersPrices}
+                    />
+                </div>
+
+                <div className={styles.two_col_reverse}>
+                    <Categories
+                        categories={currentCategories}
+                        productId={product.id}
+                        onRefresh={refreshCategories}
+                        disabled={currentCategories.length > 0}
+                    />
+                    <ProductAttributeValues
+                        productId={product.id}
+                        deepestCategoryId={deepestCategoryId}
+                        initialAttributeValues={product.attribute_values}
+                    />
+                </div>
+
                 <Variants productId={product.id} productSku={product.sku} isDropship={!!product.is_dropshipping} />
             </div>
         </div>
-    )
+    );
 }
-

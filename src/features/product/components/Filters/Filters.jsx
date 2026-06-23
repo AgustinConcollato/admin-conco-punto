@@ -118,6 +118,20 @@ export function Filters({ resetFilters, handleFilterChange, filters }) {
                 </select>
             </div>
 
+            {/* Tipo de producto */}
+            <div className={styles.filterGroup}>
+                <label>Tipo</label>
+                <select
+                    value={filters.is_dropshipping ?? ''}
+                    onChange={(e) => handleFilterChange('is_dropshipping', e.target.value)}
+                    className={styles.select}
+                >
+                    <option value="">Todos</option>
+                    <option value="1">Dropshipping</option>
+                    <option value="0">Propios</option>
+                </select>
+            </div>
+
             {/* Stock */}
             <div className={styles.filterGroup}>
                 <label>Stock Mínimo</label>
