@@ -11,6 +11,7 @@ export function useGetFilters(searchParams) {
             price_min: searchParams.get('price_min') || '',
             price_max: searchParams.get('price_max') || '',
             price_list_id: searchParams.get('price_list_id') || '',
+            is_dropshipping: searchParams.get('is_dropshipping') || '',
             sort_by: searchParams.get('sort_by') || 'created_at',
             sort_order: searchParams.get('sort_order') || 'desc',
             per_page: searchParams.get('per_page') || '20',
