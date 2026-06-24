@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { useHomeDesigns } from '../../hooks/useHomeDesigns';
-import { SectionList } from '../../components/SectionList/SectionList';
+import { TopBar } from '../../components/TopBar/TopBar';
 import { SavedDesigns } from '../../components/SavedDesigns/SavedDesigns';
+import { SectionList } from '../../components/SectionList/SectionList';
 import { PreviewFrame } from '../../components/PreviewFrame/PreviewFrame';
 import { Loading } from '../../../../components/Loading/Loading';
 import styles from './HomeDesignPage.module.css';
 
-const PRICE_LISTS = [
-    { id: 2, label: 'Minorista' },
-    { id: 3, label: 'Mayorista' },
-];
-
 export function HomeDesignPage() {
+    const navigate = useNavigate();
+
     const {
         designs,
         publishedId,
@@ -38,7 +37,8 @@ export function HomeDesignPage() {
         toggleVisible,
     } = useHomeDesigns();
 
-    const [priceListId, setPriceListId] = useState(2);
+    const [priceListId, setPriceListId] = useState(3);
+    const [viewport, setViewport] = useState('desktop');
     const [saving, setSaving] = useState(false);
     const [publishing, setPublishing] = useState(false);
     const [confirmPublish, setConfirmPublish] = useState(false);
@@ -53,6 +53,7 @@ export function HomeDesignPage() {
     const isLive = openId !== null && openId === publishedId;
 
     const handleSave = async () => {
+        if (!dirty || !openName.trim() || openId === null) return;
         setSaving(true);
         try {
             await saveOpen();
@@ -77,11 +78,18 @@ export function HomeDesignPage() {
         }
     };
 
-    if (loading) return <Loading />;
+    if (loading) {
+        return (
+            <div className={styles.loadingState}>
+                <FontAwesomeIcon icon={faCircleNotch} spin />
+                Cargando diseños...
+            </div>
+        );
+    }
 
     if (error) {
         return (
-            <div className={styles.error_state}>
+            <div className={styles.errorState}>
                 <p>No se pudo cargar el diseño del home.</p>
                 <button className="btn btn_solid" onClick={reload}>Reintentar</button>
             </div>
@@ -89,91 +97,79 @@ export function HomeDesignPage() {
     }
 
     return (
-        <div className={styles.page}>
-            <div className={styles.toolbar}>
-                <div className={styles.toolbar_left}>
-                    <h1>Diseño de inicio</h1>
-                    {openId !== null && (
-                        <>
-                            <input
-                                className={styles.name_input}
-                                value={openName}
-                                onChange={e => renameOpen(e.target.value)}
-                                placeholder="Nombre del diseño"
-                                aria-label="Nombre del diseño"
+        <div className={styles.fullscreen}>
+            <TopBar
+                designName={openName}
+                isLive={isLive}
+                dirty={dirty}
+                saving={saving}
+                publishing={publishing}
+                canSave={openId !== null && dirty && !saving && !publishing && openName.trim() !== ''}
+                viewport={viewport}
+                priceListId={priceListId}
+                onViewportChange={setViewport}
+                onPriceListChange={setPriceListId}
+                onSave={handleSave}
+                onPublish={() => setConfirmPublish(true)}
+                onBack={() => navigate('/')}
+            />
+
+            <div className={styles.body}>
+                {/* Sidebar */}
+                <div className={styles.sidebar}>
+                    <div className={styles.sidebarInner}>
+                        <div className={styles.sidebarSection}>
+                            <SavedDesigns
+                                designs={designs}
+                                openId={openId}
+                                publishedId={publishedId}
+                                dirty={dirty}
+                                onOpen={openDesign}
+                                onNew={newDesign}
+                                onDelete={deleteDesign}
                             />
-                            <span className={isLive ? styles.live_badge : styles.draft_badge}>
-                                {isLive ? 'En vivo' : 'No publicado'}
-                            </span>
-                            {dirty && <span className={styles.dirty_badge}>Cambios sin guardar</span>}
-                        </>
-                    )}
-                </div>
-                <div className={styles.toolbar_right}>
-                    <select
-                        value={priceListId}
-                        onChange={e => setPriceListId(Number(e.target.value))}
-                        className={styles.price_select}
-                        title="Lista de precios para la vista previa"
-                    >
-                        {PRICE_LISTS.map(pl => (
-                            <option key={pl.id} value={pl.id}>{pl.label}</option>
-                        ))}
-                    </select>
-                    <button
-                        className={`btn ${styles.btn_save}`}
-                        onClick={handleSave}
-                        disabled={openId === null || saving || publishing || !dirty || !openName.trim()}
-                    >
-                        {saving ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Guardar'}
-                    </button>
-                    <button
-                        className="btn btn_solid"
-                        onClick={() => setConfirmPublish(true)}
-                        disabled={openId === null || saving || publishing}
-                    >
-                        {publishing ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Publicar'}
-                    </button>
-                </div>
-            </div>
-
-            <div className={styles.content}>
-                <div className={styles.editor}>
-                    <SavedDesigns
-                        designs={designs}
-                        openId={openId}
-                        publishedId={publishedId}
-                        dirty={dirty}
-                        onOpen={openDesign}
-                        onNew={newDesign}
-                        onDelete={deleteDesign}
-                    />
-                    {openId !== null ? (
-                        <SectionList
-                            sections={sections}
-                            onAdd={addSection}
-                            onRemove={removeSection}
-                            onMove={moveSection}
-                            onUpdateSettings={updateSettings}
-                            onToggleVisible={toggleVisible}
-                        />
-                    ) : (
-                        <div className={styles.empty_editor}>
-                            <p>Creá un diseño nuevo o abrí uno existente para empezar a editar.</p>
                         </div>
-                    )}
+
+                        <div className={styles.sidebarSection}>
+                            {openId !== null ? (
+                                <SectionList
+                                    sections={sections}
+                                    onAdd={addSection}
+                                    onRemove={removeSection}
+                                    onMove={moveSection}
+                                    onUpdateSettings={updateSettings}
+                                    onToggleVisible={toggleVisible}
+                                />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '24px 0', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
+                                    Creá un diseño nuevo o abrí uno existente para empezar a editar.
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.preview}>
-                    <PreviewFrame sections={sections ?? []} priceListId={priceListId} />
+
+                {/* Preview */}
+                <div className={styles.previewArea}>
+                    <div className={styles.previewToolbar}>
+                        <div className={styles.liveIndicator} />
+                        <span className={styles.previewLabel}>Vista previa en vivo</span>
+                        <div style={{ flex: 1 }} />
+                        <span className={styles.previewBrand}>conco &amp; punto</span>
+                    </div>
+                    <div className={styles.previewContent}>
+                        <PreviewFrame sections={sections ?? []} priceListId={priceListId} viewport={viewport} />
+                    </div>
                 </div>
             </div>
 
+            {/* Confirm publish modal */}
             {confirmPublish && (
-                <div className={styles.modal_overlay} onClick={() => setConfirmPublish(false)}>
+                <div className={styles.modalOverlay} onClick={() => setConfirmPublish(false)}>
                     <div className={styles.modal} onClick={e => e.stopPropagation()}>
                         <h3>Publicar diseño</h3>
-                        <p>Se va a publicar "{openName}". Los cambios van a quedar visibles para todos los visitantes de la web. ¿Continuar?</p>
-                        <div className={styles.modal_actions}>
+                        <p>Se va a publicar &ldquo;{openName}&rdquo;. Los cambios van a quedar visibles para todos los visitantes de la web. ¿Continuar?</p>
+                        <div className={styles.modalActions}>
                             <button className="btn" onClick={() => setConfirmPublish(false)}>Cancelar</button>
                             <button className="btn btn_solid" onClick={handlePublish}>Publicar</button>
                         </div>

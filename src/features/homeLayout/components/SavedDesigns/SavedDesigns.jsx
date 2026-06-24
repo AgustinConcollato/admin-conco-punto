@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faCircleNotch, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmModal } from '../../../../components/ConfirmModal/ConfirmModal';
 import styles from './SavedDesigns.module.css';
 
@@ -11,6 +11,7 @@ export function SavedDesigns({ designs, openId, publishedId, dirty, onOpen, onNe
     const [pendingDelete, setPendingDelete] = useState(null);
     const [pendingOpen, setPendingOpen] = useState(null);
     const [pendingNew, setPendingNew] = useState(null);
+    const [collapsed, setCollapsed] = useState(false);
 
     const doCreate = async (trimmedName) => {
         setCreating(true);
@@ -61,8 +62,20 @@ export function SavedDesigns({ designs, openId, publishedId, dirty, onOpen, onNe
 
     return (
         <div className={styles.panel}>
-            <h2 className={styles.title}>Mis diseños</h2>
+            <button
+                className={styles.header}
+                onClick={() => setCollapsed(c => !c)}
+                aria-expanded={!collapsed}
+            >
+                <span className={styles.title}>Mis diseños</span>
+                <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className={`${styles.header_chevron} ${collapsed ? styles.header_chevron_collapsed : ''}`}
+                />
+            </button>
 
+            {!collapsed && (
+            <>
             <div className={styles.save_row}>
                 <input
                     type="text"
@@ -127,6 +140,8 @@ export function SavedDesigns({ designs, openId, publishedId, dirty, onOpen, onNe
                         </li>
                     ))}
                 </ul>
+            )}
+            </>
             )}
 
             {pendingDelete && (

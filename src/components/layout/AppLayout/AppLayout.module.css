@@ -41,7 +41,7 @@
     grid-area: main;
     padding: 32px 28px;
     background: var(--color-bg, #f8fafc);
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
     min-width: 0;
 }
 

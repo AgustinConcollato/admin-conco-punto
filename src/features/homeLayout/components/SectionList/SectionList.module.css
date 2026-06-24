@@ -1,98 +1,150 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.header_title {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--color-text-muted, #9ca3af);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.header_count {
+    font-size: 0.68rem;
+    color: #d1d5db;
+}
+
 .list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: 3px;
 }
 
 .item {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    box-shadow: var(--shadow-sm);
+    border-radius: 7px;
+    transition: opacity 0.1s;
 }
 
 .drag_over {
-    border-color: var(--primary);
+    background: #eff6ff;
+    outline: 1.5px solid var(--primary, #3d6caa);
+    border-radius: 7px;
 }
 
 .hidden_section {
-    opacity: 0.55;
+    opacity: 0.45;
 }
 
 .item_header {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
-    padding: 10px 12px;
+    gap: 5px;
+    padding: 7px 8px 7px 5px;
+    border-radius: 7px;
+    background: #fafafa;
+    cursor: grab;
+    transition: background 0.08s;
+}
+
+.item_header:hover {
+    background: #f3f4f6;
 }
 
 .grip {
-    color: var(--color-text-muted);
-    cursor: grab;
-    font-size: 0.85rem;
+    display: grid;
+    grid-template-columns: 4px 4px;
+    gap: 2.5px;
     flex-shrink: 0;
+    opacity: 0.4;
+    padding: 0 2px;
+    cursor: grab;
+}
+
+.grip_dot {
+    width: 4px;
+    height: 4px;
+    background: var(--color-text-muted, #6b7280);
+    border-radius: 1px;
 }
 
 .item_title {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
+    gap: var(--space-sm, 8px);
     background: none;
     border: none;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--color-text);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--color-text, #374151);
     cursor: pointer;
     text-align: left;
     padding: 0;
     min-width: 0;
+    line-height: 1.35;
+    word-break: break-word;
 }
 
 .item_title svg {
-    font-size: 0.7rem;
-    color: var(--color-text-muted);
+    font-size: 0.6rem;
+    color: var(--color-text-muted, #9ca3af);
+    flex-shrink: 0;
 }
 
 .item_actions {
     display: flex;
-    gap: 4px;
+    gap: 1px;
     flex-shrink: 0;
 }
 
 .item_actions button {
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-surface);
-    color: var(--color-text-muted);
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted, #9ca3af);
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s;
+    border-radius: 4px;
+    transition: background 0.1s, color 0.1s;
 }
 
 .item_actions button:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+    background: #e5e7eb;
+    color: #6b7280;
 }
 
 .delete_btn:hover {
-    border-color: var(--color-error) !important;
-    color: var(--color-error) !important;
+    background: #fee2e2 !important;
+    color: var(--color-error, #dc2626) !important;
 }
 
 .item_body {
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-md);
+    margin-bottom: 4px;
+    border-top: none;
+    border-radius: 0 0 7px 7px;
+    padding: 9px 11px;
+    background: #f9fafb;
+    position: relative;
+    top: -3px;
 }
 
 .add_wrap {
     position: relative;
+    margin-top: 4px;
 }
 
 .add_btn {
@@ -101,20 +153,21 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 11px;
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-bg);
-    color: var(--color-text-muted);
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 8px;
+    border: 1.5px dashed var(--color-border, #d1d5db);
+    border-radius: 7px;
+    background: #fafafa;
+    color: var(--color-text-muted, #6b7280);
+    font-size: 0.78rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.15s;
 }
 
 .add_btn:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: var(--primary, #3d6caa);
 }
 
 .add_menu {
@@ -122,10 +175,10 @@
     top: calc(100% + 6px);
     left: 0;
     right: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-elevated);
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 8px;
+    box-shadow: var(--shadow-elevated, 0 4px 16px rgba(0,0,0,0.10));
     overflow: hidden;
     z-index: 10;
 }
@@ -133,16 +186,16 @@
 .add_menu button {
     display: block;
     width: 100%;
-    padding: 10px 14px;
+    padding: 9px 14px;
     border: none;
     background: none;
     text-align: left;
-    font-size: 0.85rem;
-    color: var(--color-text);
+    font-size: 0.8rem;
+    color: var(--color-text, #374151);
     cursor: pointer;
 }
 
 .add_menu button:hover {
-    background: var(--primary-opacity-1);
-    color: var(--primary);
+    background: rgba(61, 108, 170, 0.06);
+    color: var(--primary, #3d6caa);
 }

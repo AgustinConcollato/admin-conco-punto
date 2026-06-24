@@ -1,0 +1,180 @@
+.bar {
+    height: 54px;
+    flex-shrink: 0;
+    background: var(--color-surface, #fff);
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 10px;
+}
+
+.backBtn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--color-text-muted, #6b7280);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+
+.backBtn:hover {
+    background: #f9fafb;
+    color: var(--color-text, #111827);
+    border-color: var(--color-text-muted, #9ca3af);
+}
+
+.brand {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text, #111827);
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+}
+
+.divider {
+    width: 1px;
+    height: 18px;
+    background: var(--color-border, #e5e7eb);
+    flex-shrink: 0;
+}
+
+.designBadge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #f9fafb;
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 8px;
+    padding: 5px 11px;
+    flex-shrink: 0;
+}
+
+.designName {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text, #374151);
+}
+
+.statusTag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.statusLive {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.statusDraft {
+    background: var(--color-bg, #f8fafc);
+    color: var(--color-text-muted, #64748b);
+    border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.statusDirty {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.spacer {
+    flex: 1;
+    min-width: 0;
+}
+
+.toggleGroup {
+    display: flex;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 3px;
+    gap: 1px;
+    flex-shrink: 0;
+}
+
+.toggleBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 13px;
+    border-radius: 5px;
+    border: none;
+    transition: background 0.1s, box-shadow 0.1s, color 0.1s;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.toggleActive {
+    background: #fff;
+    color: var(--color-text, #111827);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggleInactive {
+    background: transparent;
+    color: #9ca3af;
+}
+
+.toggleInactive:hover {
+    color: #6b7280;
+}
+
+.saveBtn {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 7px 15px;
+    border-radius: 7px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.saveBtn:disabled {
+    cursor: default;
+}
+
+.saveBtnUnsaved {
+    border: 1px solid var(--color-text, #374151);
+    background: #fff;
+    color: var(--color-text, #111827);
+}
+
+.saveBtnSaved {
+    border: 1px solid var(--color-border, #e5e7eb);
+    background: #fafafa;
+    color: #9ca3af;
+}
+
+.publishBtn {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 7px 17px;
+    border-radius: 7px;
+    border: none;
+    color: #fff;
+    background: var(--primary, #3d6caa);
+    transition: background 0.2s;
+    flex-shrink: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.publishBtn:hover:not(:disabled) {
+    background: var(--primary-hover, #2f5490);
+}
+
+.publishBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

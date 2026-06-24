@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './PreviewFrame.module.css';
 
 const WEB_PREVIEW_URL = import.meta.env.VITE_WEB_PREVIEW_URL;
 const WEB_ORIGIN = WEB_PREVIEW_URL ? new URL(WEB_PREVIEW_URL).origin : null;
 
-export function PreviewFrame({ sections, priceListId }) {
+export function PreviewFrame({ sections, priceListId, viewport = 'desktop' }) {
     const iframeRef = useRef(null);
     const readyRef = useRef(false);
-    const [viewport, setViewport] = useState('desktop');
 
     const sendConfig = (currentSections, currentPriceListId) => {
         if (!readyRef.current || !iframeRef.current?.contentWindow) return;
@@ -42,20 +41,6 @@ export function PreviewFrame({ sections, priceListId }) {
 
     return (
         <div className={styles.wrap}>
-            <div className={styles.toolbar}>
-                <button
-                    className={`${styles.vp_btn} ${viewport === 'desktop' ? styles.vp_active : ''}`}
-                    onClick={() => setViewport('desktop')}
-                >
-                    Escritorio
-                </button>
-                <button
-                    className={`${styles.vp_btn} ${viewport === 'mobile' ? styles.vp_active : ''}`}
-                    onClick={() => setViewport('mobile')}
-                >
-                    Móvil
-                </button>
-            </div>
             <div className={styles.frame_area}>
                 <iframe
                     ref={iframeRef}

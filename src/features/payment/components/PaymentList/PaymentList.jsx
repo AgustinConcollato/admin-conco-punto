@@ -218,17 +218,17 @@ export function PaymentList({
                     </div>
                 )}
 
-                {/* Footer */}
-                {pagination && pagination.last_page > 1 && (
-                    <div className={styles.table_footer}>
-                        <Pagination
-                            currentPage={pagination.current_page}
-                            lastPage={pagination.last_page}
-                            onPageChange={(page) => onPageChange?.(page)}
-                        />
-                    </div>
-                )}
             </div>
+            {/* Footer */}
+            {pagination && pagination.last_page > 1 && (
+                <div className={styles.table_footer}>
+                    <Pagination
+                        currentPage={pagination.current_page}
+                        lastPage={pagination.last_page}
+                        onPageChange={(page) => onPageChange?.(page)}
+                    />
+                </div>
+            )}
         </div>
     );
 }
