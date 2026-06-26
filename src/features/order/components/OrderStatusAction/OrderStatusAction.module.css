@@ -8,13 +8,13 @@
     flex-direction: row;
     align-items: center;
 }
-
+/* 
 .next_btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     white-space: nowrap;
-}
+} */
 
 .cancel_btn {
     background: transparent;
@@ -45,4 +45,34 @@
 .compact .cancel_btn {
     padding: 6px 10px;
     font-size: 0.8rem;
+}
+
+/* ── Variante stacked (card mobile) ── */
+.stacked {
+    gap: 10px;
+    width: 100%;
+}
+
+.stacked .next_btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    background: #fff;
+    color: var(--primary, #3a5bd9);
+    border: 1.5px solid #c8d2f4;
+    box-shadow: none;
+}
+
+.stacked .next_btn:hover {
+    background: var(--primary-opacity-1, #3d6caa20);
+    filter: none;
+}
+
+.stacked .cancel_btn {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
 }

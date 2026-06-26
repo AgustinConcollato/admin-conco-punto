@@ -135,7 +135,7 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
                         <button className={styles.panel_btn_ghost} onClick={downloadPDF} disabled={loading}>
                             {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Descargar detalle'}
                         </button>
-                        {showStatus && <OrderStatusAction order={order} onUpdated={() => onRefresh?.()} row />}
+                        {showStatus && <OrderStatusAction order={order} onUpdated={onRefresh} row />}
                     </div>
                 </div>
 
@@ -232,7 +232,7 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
             {/* Cambio de estado rápido */}
             {showStatus && (
                 <div className={styles.status_action}>
-                    <OrderStatusAction order={order} onUpdated={() => onRefresh?.()} />
+                    <OrderStatusAction order={order} onUpdated={onRefresh} />
                 </div>
             )}
 

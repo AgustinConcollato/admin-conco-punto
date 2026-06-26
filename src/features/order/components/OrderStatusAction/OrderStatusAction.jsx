@@ -14,7 +14,7 @@ const NEXT_STEP = {
 
 const CANCELLABLE = ['pending', 'processing', 'confirmed', 'shipped'];
 
-export function OrderStatusAction({ order, onUpdated, compact = false, row = false }) {
+export function OrderStatusAction({ order, onUpdated, compact = false, row = false, stacked = false }) {
     const orderService = useMemo(() => new OrderService(), []);
     const [loading, setLoading] = useState(false);
     const [confirmCancel, setConfirmCancel] = useState(false);
@@ -27,8 +27,8 @@ export function OrderStatusAction({ order, onUpdated, compact = false, row = fal
     const change = async (status) => {
         setLoading(true);
         try {
-            await orderService.updateOrderHeader(order.id, { status });
-            onUpdated?.();
+            const res = await orderService.updateOrderHeader(order.id, { status });
+            onUpdated?.(res?.order ?? null);
         } catch (e) {
             console.error('Error al cambiar estado:', e);
         } finally {
@@ -38,10 +38,10 @@ export function OrderStatusAction({ order, onUpdated, compact = false, row = fal
     };
 
     return (
-        <div className={`${styles.wrap} ${compact ? styles.compact : ''} ${row ? styles.row : ''}`} onClick={(e) => e.stopPropagation()}>
+        <div className={`${styles.wrap} ${compact ? styles.compact : ''} ${row ? styles.row : ''} ${stacked ? styles.stacked : ''}`} onClick={(e) => e.stopPropagation()}>
             {next && (
                 <button
-                    className={`btn btn_solid ${styles.next_btn}`}
+                    className={`btn btn_regular`}
                     disabled={loading}
                     onClick={() => change(next.status)}
                     title={next.label}

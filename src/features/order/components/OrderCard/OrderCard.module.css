@@ -1,6 +1,6 @@
 ﻿.order_card {
     background: var(--color-surface, #fff);
-    border-radius: var(--radius-lg, 16px);
+    border-radius: var(--radius-md, 16px);
     padding: 20px;
     border: 1px solid var(--color-border, #e2e8f0);
     box-shadow: var(--shadow-card);
@@ -456,4 +456,325 @@
     .panel_grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ════════ Card de pedido (mobile / vista cards) ════════ */
+.oc_card {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: 18px 20px 22px;
+    color: #29303e;
+    height: fit-content;
+}
+
+/* ── Header ── */
+.oc_header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.oc_avatar {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #e7ecfb;
+    color: #3457d5;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.oc_avatar_empty {
+    background: #f1f3f5;
+    color: #adb5bd;
+}
+
+.oc_head_info {
+    flex: 1;
+    min-width: 0;
+}
+
+.oc_name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #29303e;
+    line-height: 1.25;
+}
+
+.oc_meta {
+    font-size: 12.5px;
+    color: #8a93a3;
+    margin-top: 2px;
+}
+
+.oc_number {
+    color: #3457d5;
+    font-weight: 600;
+}
+
+.oc_status {
+    flex: none;
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.oc_st_processing {
+    background: #eef2ff;
+    color: #4759c4;
+}
+
+.oc_st_pending {
+    background: #fff4e6;
+    color: #c77a17;
+}
+
+.oc_st_confirmed {
+    background: #e8f7ee;
+    color: #1aa251;
+}
+
+.oc_st_shipped {
+    background: #efeafc;
+    color: #7c5cd6;
+}
+
+.oc_st_delivered {
+    background: #e3f6f4;
+    color: #0f9b8e;
+}
+
+.oc_st_cancelled {
+    background: #fdecea;
+    color: #d9412f;
+}
+
+.oc_st_default {
+    background: #f1f3f5;
+    color: #6b7180;
+}
+
+/* ── Labels de sección ── */
+.oc_label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #8a93a3;
+    text-transform: uppercase;
+}
+
+/* ── Total ── */
+.oc_total_block {
+    margin-top: 22px;
+}
+
+.oc_total {
+    font-size: 28px;
+    font-weight: 800;
+    color: #29303e;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+}
+
+.oc_debt_pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 10px;
+    background: #fdf0ed;
+    color: #d9412f;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 999px;
+}
+
+.oc_debt_dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #e8573f;
+}
+
+.oc_progress {
+    height: 5px;
+    border-radius: 3px;
+    background: #f1eceb;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.oc_progress_bar {
+    display: block;
+    height: 100%;
+    background: #e8573f;
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+/* ── Desglose financiero ── */
+.oc_section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #eef0f3;
+}
+
+.oc_breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    font-size: 14.5px;
+    margin-top: 12px;
+}
+
+.oc_row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.oc_key {
+    color: #6b7180;
+}
+
+.oc_key_bold {
+    color: #29303e;
+    font-weight: 700;
+}
+
+.oc_val {
+    font-weight: 700;
+    color: #29303e;
+}
+
+.oc_val_red {
+    color: #e8573f;
+}
+
+.oc_val_green {
+    font-weight: 800;
+    color: #1aa251;
+}
+
+.oc_val_blue {
+    font-weight: 800;
+    color: #2f6fe8;
+}
+
+.oc_divider {
+    height: 1px;
+    background: #eef0f3;
+    margin: 3px 0;
+}
+
+/* ── Pagos ── */
+.oc_pagos {
+    margin-top: 22px;
+    background: #fdf6f4;
+    border: 1px solid #f6e7e2;
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.oc_pagos_label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #b88a7e;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.oc_pagos_row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+}
+
+.oc_pagos_key {
+    color: #6b7180;
+}
+
+.oc_pagos_val {
+    font-weight: 700;
+    color: #29303e;
+}
+
+.oc_pagos_progress {
+    height: 6px;
+    border-radius: 3px;
+    background: #f1ddd7;
+    margin: 11px 0;
+    overflow: hidden;
+}
+
+.oc_pagos_bar {
+    display: block;
+    height: 100%;
+    background: #e8573f;
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.oc_pending {
+    color: #d9412f;
+    font-weight: 800;
+}
+
+.oc_paid {
+    margin-top: 22px;
+    background: #eafaf3;
+    border: 1px solid #c6efdd;
+    border-radius: 18px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #13a37a;
+}
+
+/* ── Acciones ── */
+.oc_actions {
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.oc_btn_row {
+    display: flex;
+    gap: 10px;
+}
+
+.oc_btn_outline {
+    flex: 1;
+    cursor: pointer;
+    background: #fff;
+    color: #445;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border: 1px solid #dfe3ea;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--radius-sm, 8px);
+    transition: background 0.15s;
+}
+
+.oc_btn_outline:hover {
+    background: #f7f9fc;
+}
+
+.oc_btn_outline:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
