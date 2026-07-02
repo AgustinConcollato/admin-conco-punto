@@ -1,6 +1,7 @@
 import {
     faArrowDown,
     faCheckCircle,
+    faChevronDown,
     faCircleNotch,
     faClock,
     faHandshake,
@@ -17,6 +18,9 @@ import { formatDate } from '../../../../utils/formatDate';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { CreatePayment } from '../../../payment/components/CreatePayment/CreatePayment';
 import { OrderStatusAction } from '../OrderStatusAction/OrderStatusAction';
+import { PaymentsList } from '../PaymentsList/PaymentsList';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { FINANCIAL_GLOSSARY } from '../../glossary';
 import styles from './OrderCard.module.css';
 
 const PAYMENT_METHODS = {
@@ -29,7 +33,9 @@ const PAYMENT_METHODS = {
 export function OrderDetails({ order, onRefresh, variant = 'card' }) {
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [pagosOpen, setPagosOpen] = useState(false);
 
+    const hasPayments = order.payments?.length > 0;
     const clientName = order.client?.name || 'No asignado';
     const profit = parseFloat(order.final_total_amount) - parseFloat(order.shipping_cost) - parseFloat(order.total_cost || 0);
     const savings = profit * 0.10;
@@ -71,27 +77,27 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
                     <div className={styles.panel_label}>Desglose financiero</div>
                     <div className={styles.breakdown}>
                         <div className={styles.breakdown_row}>
-                            <span className={styles.breakdown_key}>Total facturado</span>
+                            <span className={styles.breakdown_key}>Total facturado <InfoTooltip text={FINANCIAL_GLOSSARY.invoiced} /></span>
                             <span className={styles.breakdown_val}>{formatPrice(order.final_total_amount)}</span>
                         </div>
                         <div className={styles.breakdown_row}>
-                            <span className={styles.breakdown_key}>Costo</span>
+                            <span className={styles.breakdown_key}>Costo <InfoTooltip text={FINANCIAL_GLOSSARY.cost} /></span>
                             <span className={`${styles.breakdown_val} ${styles.val_red}`}>−{formatPrice(order.total_cost)}</span>
                         </div>
                         <div className={styles.breakdown_row}>
-                            <span className={styles.breakdown_key}>Envío</span>
+                            <span className={styles.breakdown_key}>Envío <InfoTooltip text={FINANCIAL_GLOSSARY.shipping} /></span>
                             <span className={styles.breakdown_val}>{formatPrice(order.shipping_cost)}</span>
                         </div>
                         <div className={`${styles.breakdown_row} ${styles.breakdown_sep}`}>
-                            <span className={styles.breakdown_key_bold}>Ganancia</span>
+                            <span className={styles.breakdown_key_bold}>Ganancia <InfoTooltip text={FINANCIAL_GLOSSARY.profit} /></span>
                             <span className={styles.val_green}>{formatPrice(profit)}</span>
                         </div>
                         <div className={styles.breakdown_row}>
-                            <span className={styles.breakdown_key}>Reinversión (10%)</span>
+                            <span className={styles.breakdown_key}>Reinversión (10%) <InfoTooltip text={FINANCIAL_GLOSSARY.reinvest} /></span>
                             <span className={styles.breakdown_val}>{formatPrice(savings)}</span>
                         </div>
                         <div className={styles.breakdown_row}>
-                            <span className={styles.breakdown_key_bold}>A dividir</span>
+                            <span className={styles.breakdown_key_bold}>A dividir <InfoTooltip text={FINANCIAL_GLOSSARY.toSplit} /></span>
                             <span className={styles.val_blue}>{formatPrice(profit - savings)}</span>
                         </div>
                     </div>
@@ -103,10 +109,42 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
 
                     {notCancelled && !isPaid && (
                         <div className={styles.debt_card}>
-                            <div className={styles.debt_row}>
-                                <span className={styles.debt_key}>Pagado</span>
-                                <span className={styles.debt_val}>{formatPrice(paidAmount)}</span>
-                            </div>
+                            {hasPayments ? (
+                                <button
+                                    type="button"
+                                    className={styles.debt_toggle}
+                                    onClick={() => setPagosOpen(o => !o)}
+                                    aria-expanded={pagosOpen}
+                                >
+                                    <span className={styles.debt_key}>
+                                        Pagado
+                                        <FontAwesomeIcon
+                                            icon={faChevronDown}
+                                            className={`${styles.debt_chevron} ${pagosOpen ? styles.debt_chevron_open : ''}`}
+                                        />
+                                    </span>
+                                    <span className={styles.debt_val}>{formatPrice(paidAmount)}</span>
+                                </button>
+                            ) : (
+                                <div className={styles.debt_row}>
+                                    <span className={styles.debt_key}>Pagado</span>
+                                    <span className={styles.debt_val}>{formatPrice(paidAmount)}</span>
+                                </div>
+                            )}
+                            {hasPayments && pagosOpen && (
+                                <div className={styles.payments_detail}>
+                                    <PaymentsList
+                                        payments={order.payments}
+                                        breakdown={{
+                                            total: parseFloat(order.final_total_amount),
+                                            cost: parseFloat(order.total_cost || 0),
+                                            shipping: parseFloat(order.shipping_cost || 0),
+                                            profit,
+                                            savings,
+                                        }}
+                                    />
+                                </div>
+                            )}
                             <div className={styles.debt_progress}>
                                 <span className={styles.debt_bar} style={{ width: `${payPct}%` }} />
                             </div>
@@ -119,7 +157,36 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
 
                     {notCancelled && isPaid && (
                         <div className={styles.paid_card}>
-                            ✓ Pedido cobrado por completo
+                            {hasPayments ? (
+                                <button
+                                    type="button"
+                                    className={styles.paid_toggle}
+                                    onClick={() => setPagosOpen(o => !o)}
+                                    aria-expanded={pagosOpen}
+                                >
+                                    <span>✓ Pedido cobrado por completo</span>
+                                    <FontAwesomeIcon
+                                        icon={faChevronDown}
+                                        className={`${styles.paid_chevron} ${pagosOpen ? styles.debt_chevron_open : ''}`}
+                                    />
+                                </button>
+                            ) : (
+                                <div>✓ Pedido cobrado por completo</div>
+                            )}
+                            {hasPayments && pagosOpen && (
+                                <div className={styles.payments_detail}>
+                                    <PaymentsList
+                                        payments={order.payments}
+                                        breakdown={{
+                                            total: parseFloat(order.final_total_amount),
+                                            cost: parseFloat(order.total_cost || 0),
+                                            shipping: parseFloat(order.shipping_cost || 0),
+                                            profit,
+                                            savings,
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
 

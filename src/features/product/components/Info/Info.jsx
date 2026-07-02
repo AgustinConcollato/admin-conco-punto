@@ -24,6 +24,10 @@ export function Info({ product }) {
                 </div>
 
                 <div className={styles.info_detail}>
+                    <p>{currentProduct.name}</p>
+                </div>
+
+                <div className={styles.info_detail}>
                     <span>SKU</span>
                     <p>{currentProduct.sku}</p>
                 </div>

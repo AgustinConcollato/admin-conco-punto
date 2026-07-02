@@ -45,7 +45,7 @@
     border-bottom: none;
 }
 
-.info_detail:nth-child(4) {
+.info_detail:nth-child(5) {
     flex-direction: column;
 }
 

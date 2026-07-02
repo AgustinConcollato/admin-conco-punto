@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from '../../../../components/Modal/Modal';
 import { CreatePayment } from '../../../payment/components/CreatePayment/CreatePayment';
 import { OrderStatusAction } from '../OrderStatusAction/OrderStatusAction';
+import { PaymentsList } from '../PaymentsList/PaymentsList';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { FINANCIAL_GLOSSARY } from '../../glossary';
 import { downloadOrderPdf } from '../../../../utils/downloadOrderPdf';
 import { formatDate } from '../../../../utils/formatDate';
 import { formatPrice } from '../../../../utils/formatPrice';
@@ -28,6 +31,9 @@ function getInitials(name) {
 export function OrderCard({ order, onRefresh }) {
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [pagosOpen, setPagosOpen] = useState(false);
+
+    const hasPayments = order.payments?.length > 0;
 
     const clientName = order.client?.name || 'No asignado';
     const isNoClient = clientName === 'No asignado';
@@ -96,28 +102,28 @@ export function OrderCard({ order, onRefresh }) {
                 <div className={styles.oc_label}>Desglose financiero</div>
                 <div className={styles.oc_breakdown}>
                     <div className={styles.oc_row}>
-                        <span className={styles.oc_key}>Total facturado</span>
+                        <span className={styles.oc_key}>Total facturado <InfoTooltip text={FINANCIAL_GLOSSARY.invoiced} /></span>
                         <span className={styles.oc_val}>{formatPrice(total)}</span>
                     </div>
                     <div className={styles.oc_row}>
-                        <span className={styles.oc_key}>Costo</span>
+                        <span className={styles.oc_key}>Costo <InfoTooltip text={FINANCIAL_GLOSSARY.cost} /></span>
                         <span className={`${styles.oc_val} ${styles.oc_val_red}`}>−{formatPrice(cost)}</span>
                     </div>
                     <div className={styles.oc_row}>
-                        <span className={styles.oc_key}>Envío</span>
+                        <span className={styles.oc_key}>Envío <InfoTooltip text={FINANCIAL_GLOSSARY.shipping} /></span>
                         <span className={styles.oc_val}>{formatPrice(shipping)}</span>
                     </div>
                     <div className={styles.oc_divider} />
                     <div className={styles.oc_row}>
-                        <span className={styles.oc_key_bold}>Ganancia</span>
+                        <span className={styles.oc_key_bold}>Ganancia <InfoTooltip text={FINANCIAL_GLOSSARY.profit} /></span>
                         <span className={`${styles.oc_val} ${styles.oc_val_green}`}>{formatPrice(profit)}</span>
                     </div>
                     <div className={styles.oc_row}>
-                        <span className={styles.oc_key}>Reinversión (10%)</span>
+                        <span className={styles.oc_key}>Reinversión (10%) <InfoTooltip text={FINANCIAL_GLOSSARY.reinvest} /></span>
                         <span className={styles.oc_val}>{formatPrice(savings)}</span>
                     </div>
                     <div className={styles.oc_row}>
-                        <span className={styles.oc_key_bold}>A dividir</span>
+                        <span className={styles.oc_key_bold}>A dividir <InfoTooltip text={FINANCIAL_GLOSSARY.toSplit} /></span>
                         <span className={`${styles.oc_val} ${styles.oc_val_blue}`}>{formatPrice(toSplit)}</span>
                     </div>
                 </div>
@@ -127,10 +133,39 @@ export function OrderCard({ order, onRefresh }) {
             {notCancelled && !isPaid && (
                 <div className={styles.oc_pagos}>
                     <div className={styles.oc_pagos_label}>Pagos</div>
-                    <div className={styles.oc_pagos_row}>
-                        <span className={styles.oc_pagos_key}>Pagado</span>
-                        <span className={styles.oc_pagos_val}>{formatPrice(paidAmount)}</span>
-                    </div>
+
+                    {hasPayments ? (
+                        <button
+                            type="button"
+                            className={styles.oc_pagos_toggle}
+                            onClick={() => setPagosOpen(o => !o)}
+                            aria-expanded={pagosOpen}
+                        >
+                            <span className={styles.oc_pagos_key}>
+                                Pagado
+                                <FontAwesomeIcon
+                                    icon={faChevronDown}
+                                    className={`${styles.oc_pagos_chevron} ${pagosOpen ? styles.oc_pagos_chevron_open : ''}`}
+                                />
+                            </span>
+                            <span className={styles.oc_pagos_val}>{formatPrice(paidAmount)}</span>
+                        </button>
+                    ) : (
+                        <div className={styles.oc_pagos_row}>
+                            <span className={styles.oc_pagos_key}>Pagado</span>
+                            <span className={styles.oc_pagos_val}>{formatPrice(paidAmount)}</span>
+                        </div>
+                    )}
+
+                    {hasPayments && pagosOpen && (
+                        <div className={styles.oc_pagos_detail}>
+                            <PaymentsList
+                                payments={order.payments}
+                                breakdown={{ total, cost, shipping, profit, savings }}
+                            />
+                        </div>
+                    )}
+
                     <div className={styles.oc_pagos_progress}>
                         <span className={styles.oc_pagos_bar} style={{ width: `${payPct}%` }} />
                     </div>
@@ -142,7 +177,32 @@ export function OrderCard({ order, onRefresh }) {
             )}
 
             {notCancelled && isPaid && (
-                <div className={styles.oc_paid}>✓ Pedido cobrado por completo</div>
+                <div className={styles.oc_paid}>
+                    {hasPayments ? (
+                        <button
+                            type="button"
+                            className={styles.oc_paid_toggle}
+                            onClick={() => setPagosOpen(o => !o)}
+                            aria-expanded={pagosOpen}
+                        >
+                            <span className={styles.oc_paid_head}>✓ Pedido cobrado por completo</span>
+                            <FontAwesomeIcon
+                                icon={faChevronDown}
+                                className={`${styles.oc_paid_chevron} ${pagosOpen ? styles.oc_pagos_chevron_open : ''}`}
+                            />
+                        </button>
+                    ) : (
+                        <div className={styles.oc_paid_head}>✓ Pedido cobrado por completo</div>
+                    )}
+                    {hasPayments && pagosOpen && (
+                        <div className={styles.oc_paid_detail}>
+                            <PaymentsList
+                                payments={order.payments}
+                                breakdown={{ total, cost, shipping, profit, savings }}
+                            />
+                        </div>
+                    )}
+                </div>
             )}
 
             {/* Acciones */}

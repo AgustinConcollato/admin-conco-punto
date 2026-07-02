@@ -1,5 +1,4 @@
-﻿// src/components/Barcodes/Barcodes.jsx (o similar)
-import { faCheckCircle, faCircleNotch, faExclamationCircle, faInfoCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faCircleNotch, faExclamationCircle, faInfoCircle, faPrint, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -9,6 +8,16 @@ import { Modal } from '../../../../components/Modal/Modal';
 import { ProductService } from '../../../../services/product/productService';
 import { CombinedBarcodeGenerator } from '../CombinedBarcodeGenerator/CombinedBarcodeGenerator';
 import styles from './Barcodes.module.css';
+
+function detectType(value) {
+    const digits = String(value ?? '').replace(/\D/g, '');
+    switch (digits.length) {
+        case 13: return 'EAN-13';
+        case 12: return 'UPC-A';
+        case 8: return 'EAN-8';
+        default: return `${digits.length} díg.`;
+    }
+}
 
 export function Barcodes({ barcodes, sku, id }) {
     const productService = useMemo(() => new ProductService(), []);
@@ -39,7 +48,7 @@ export function Barcodes({ barcodes, sku, id }) {
 
             // Actualizar UI localmente
             setList(curr => curr.filter(b => (b.id || b.barcode) !== (barcode.id || barcode.barcode)));
-            setMessage('✓ Código eliminado');
+            setMessage('Código eliminado');
             setTimeout(() => setMessage(''), 1800);
         } catch (err) {
             console.error('Error eliminando código:', err);
@@ -50,51 +59,99 @@ export function Barcodes({ barcodes, sku, id }) {
         }
     };
 
+    const isEmpty = list.length === 0;
+
     return (
-        <div className={styles.barcode_container}>
+        <div className={styles.card}>
+            {/* Header */}
             <div className={styles.header}>
-                <h3>Códigos de barras</h3>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    {message && <div style={{ color: '#66b819' }}><FontAwesomeIcon icon={faCheckCircle} /> {message}</div>}
-                    {error && <div style={{ color: '#be3232' }}><FontAwesomeIcon icon={faExclamationCircle} /> {error}</div>}
-                    <Link to={`/productos/nuevo/4/${id}`} className='btn btn_regular'>+ Nuevo</Link>
+                <div className={styles.header_left}>
+                    <span className={styles.title}>Códigos de barras</span>
+                </div>
+                <div className={styles.header_actions}>
+                    {message && (
+                        <span className={styles.msg_ok}>
+                            <FontAwesomeIcon icon={faCheckCircle} /> {message}
+                        </span>
+                    )}
+                    {error && (
+                        <span className={styles.msg_err}>
+                            <FontAwesomeIcon icon={faExclamationCircle} /> {error}
+                        </span>
+                    )}
+                    <Link to={`/productos/nuevo/4/${id}`} className={styles.new_btn}>
+                        <span className={styles.plus}>+</span> Nuevo
+                    </Link>
                 </div>
             </div>
 
-            <div className={styles.barcodes}>
-                {list.length > 0 ?
-                    list.map((e, index) =>
-                        <div key={e.id || e.barcode || index} className={styles.barcode}>
-                            <p className={styles.barcode_text}>{e.barcode}</p>
-                            <Barcode value={e.barcode} code={sku} />
-                            <div className={styles.barcode_options}>
-                                <button
-                                    className="btn btn_small"
-                                    onClick={() => handlePrintClick(e.barcode)}
-                                >
-                                    Imprimir
-                                </button>
-                                <button
-                                    className="btn btn_error_regular"
-                                    onClick={() => setPendingDeleteBarcode(e)}
-                                    disabled={loading && deletingId === (e.id || e.barcode)}
-                                    title="Eliminar código de barras"
-                                >
-                                    {loading && deletingId === (e.id || e.barcode) ? (
-                                        <FontAwesomeIcon icon={faCircleNotch} spin />
-                                    ) : (
-                                        <>
-                                            <FontAwesomeIcon icon={faTrash} size='xs' />
-                                            Eliminar
-                                        </>
-                                    )}
-                                </button>
+            <div className={styles.divider} />
+
+            {/* Empty state */}
+            {isEmpty ? (
+                <div className={styles.empty}>
+                    <div className={styles.ghost_bars}>
+                        {Array.from({ length: 16 }).map((_, i) => (
+                            <span
+                                key={i}
+                                className={styles.ghost_bar}
+                                style={{ width: `${1 + (i % 4) * 1.5}px` }}
+                            />
+                        ))}
+                    </div>
+                    <div className={styles.empty_title}>No hay códigos asignados</div>
+                    <div className={styles.empty_sub}>
+                        Agrega un código de barras para identificar este producto en el inventario.
+                    </div>
+                    <Link to={`/productos/nuevo/4/${id}`} className={styles.empty_btn}>
+                        + Agregar el primero
+                    </Link>
+                </div>
+            ) : (
+                /* Lista */
+                <div className={styles.list}>
+                    {list.map((e, index) => (
+                        <div key={e.id || e.barcode || index} className={styles.row}>
+                            <div className={styles.row_top}>
+                                <div className={styles.row_barcode}>
+                                    <Barcode
+                                        value={e.barcode}
+                                        code={sku}
+                                        width={2}
+                                        height={44}
+                                        displayValue={false}
+                                        className={styles.mini_barcode}
+                                    />
+                                </div>
+                                <div className={styles.row_actions}>
+                                    <button
+                                        className={styles.print_btn}
+                                        onClick={() => handlePrintClick(e.barcode)}
+                                        title="Imprimir código"
+                                    >
+                                        <FontAwesomeIcon icon={faPrint} />
+                                    </button>
+                                    <button
+                                        className={styles.remove_btn}
+                                        onClick={() => setPendingDeleteBarcode(e)}
+                                        disabled={loading && deletingId === (e.id || e.barcode)}
+                                        title="Quitar código"
+                                    >
+                                        {loading && deletingId === (e.id || e.barcode)
+                                            ? <FontAwesomeIcon icon={faCircleNotch} spin />
+                                            : '×'}
+                                    </button>
+                                </div>
+                            </div>
+                            <div className={styles.row_info}>
+                                <span className={styles.row_value}>{e.barcode}</span>
+                                <span className={styles.row_sep}>•</span>
+                                <span className={styles.row_type}>{detectType(e.barcode)}</span>
                             </div>
                         </div>
-                    ) :
-                    <p>No hay códigos asignados</p>
-                }
-            </div>
+                    ))}
+                </div>
+            )}
 
             {pendingDeleteBarcode && (
                 <ConfirmModal
@@ -133,8 +190,3 @@ export function Barcodes({ barcodes, sku, id }) {
         </div>
     );
 }
-
-// Renombra tu componente Barcode actual a BarcodeGenerator
-// y úsalo para mostrar individualmente (o usa el existente sin el botón de descarga)
-// ... (Tu componente Barcode original, renombrado a BarcodeGenerator)
-

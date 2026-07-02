@@ -99,7 +99,7 @@ export function Images({ images: initialImages, productId }) {
                             onDrop={(e) => handleDrop(e, mainImage.id)}
                             onDragEnd={handleDragEnd}
                         >
-                            <img src={`${IMAGE_URL}/${mainImage.thumbnail_path}`} alt="Principal" />
+                            <img src={`${IMAGE_URL}/${mainImage.path}`} alt="Principal" />
                             <div className={styles.badge_principal}>PRINCIPAL</div>
                         </div>
                     ) : (

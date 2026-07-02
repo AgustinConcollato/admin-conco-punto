@@ -289,10 +289,16 @@
 }
 
 .breakdown_key {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     color: #64748b;
 }
 
 .breakdown_key_bold {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     color: #334155;
     font-weight: 600;
 }
@@ -336,13 +342,60 @@
     font-size: 13px;
 }
 
+.debt_toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+}
+
 .debt_key {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: #64748b;
+}
+
+.debt_chevron {
+    font-size: 10px;
+    color: #b88a7e;
+    transition: transform 0.2s;
+}
+
+.debt_chevron_open {
+    transform: rotate(180deg);
 }
 
 .debt_val {
     color: #1e293b;
     font-weight: 600;
+}
+
+.paid_toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #13a37a;
+}
+
+.paid_chevron {
+    font-size: 10px;
+    color: #13a37a;
+    transition: transform 0.2s;
 }
 
 .debt_progress {
@@ -381,11 +434,17 @@
     padding: 14px;
     margin-bottom: 14px;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
     font-size: 14px;
     color: #13a37a;
     font-weight: 600;
+}
+
+.payments_detail {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .panel_actions {
@@ -643,10 +702,16 @@
 }
 
 .oc_key {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     color: #6b7180;
 }
 
 .oc_key_bold {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     color: #29303e;
     font-weight: 700;
 }
@@ -700,8 +765,34 @@
     font-size: 14.5px;
 }
 
+.oc_pagos_toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14.5px;
+}
+
 .oc_pagos_key {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     color: #6b7180;
+}
+
+.oc_pagos_chevron {
+    font-size: 11px;
+    color: #b88a7e;
+    transition: transform 0.2s;
+}
+
+.oc_pagos_chevron_open {
+    transform: rotate(180deg);
 }
 
 .oc_pagos_val {
@@ -730,15 +821,50 @@
     font-weight: 800;
 }
 
+.oc_pagos_detail {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .oc_paid {
     margin-top: 22px;
     background: #eafaf3;
     border: 1px solid #c6efdd;
     border-radius: 18px;
     padding: 14px 16px;
+}
+
+.oc_paid_toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.oc_paid_head {
     font-size: 14px;
     font-weight: 700;
     color: #13a37a;
+}
+
+.oc_paid_chevron {
+    font-size: 11px;
+    color: #13a37a;
+    transition: transform 0.2s;
+}
+
+.oc_paid_detail {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 /* ── Acciones ── */

@@ -46,7 +46,10 @@ export function OrderRow({ order, onRefresh }) {
                         {clientName}
                     </span>
                     <span className={styles.sub}>
-                        {formatDate(order.created_at, 'numeric', true)} · {STATUS_TRANSLATIONS[status] ?? status}
+                        <span className={styles.sub_date}>{formatDate(order.created_at, 'numeric', true)}</span>
+                        <span className={`${styles.status_pill} ${styles[`st_${status}`] ?? styles.st_default}`}>
+                            {STATUS_TRANSLATIONS[status] ?? status}
+                        </span>
                     </span>
                 </span>
                 <span className={styles.total}>{formatPrice(order.final_total_amount)}</span>

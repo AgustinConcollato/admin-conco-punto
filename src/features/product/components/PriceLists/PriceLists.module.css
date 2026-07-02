@@ -14,11 +14,12 @@
 }
 
 .label {
-    font-size: 10px;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #9CA3AF;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
 }
 
 .action_btn {
