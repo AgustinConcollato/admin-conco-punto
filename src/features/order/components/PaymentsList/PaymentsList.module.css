@@ -18,6 +18,27 @@
     display: flex;
     align-items: center;
     gap: 11px;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.chevron {
+    flex: none;
+    font-size: 11px;
+    color: #c3a79d;
+    transition: transform 0.2s;
+}
+
+.chevron_open {
+    transform: rotate(180deg);
 }
 
 .icon {

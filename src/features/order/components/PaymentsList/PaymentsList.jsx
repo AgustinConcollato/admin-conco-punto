@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuildingColumns, faCreditCard, faMoneyBillWave, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
+import { faBuildingColumns, faChevronDown, faCreditCard, faMoneyBillWave, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from '../../../../utils/formatDate';
 import { formatPrice } from '../../../../utils/formatPrice';
 import { PaidBreakdown } from '../PaidBreakdown/PaidBreakdown';
@@ -14,16 +15,34 @@ const METHODS = {
 
 export function PaymentsList({ payments, breakdown = null }) {
     const completed = (payments ?? []).filter(p => (p.status ?? 'completed') === 'completed');
+    const [openIds, setOpenIds] = useState(() => new Set());
 
     if (completed.length === 0) return null;
+
+    const toggle = (key) => {
+        setOpenIds(prev => {
+            const next = new Set(prev);
+            next.has(key) ? next.delete(key) : next.add(key);
+            return next;
+        });
+    };
 
     return (
         <ul className={styles.list}>
             {completed.map((p, i) => {
                 const m = METHODS[p.payment_method] || { label: p.payment_method, icon: faMoneyBillWave, color: '#64748b', bg: '#f1f5f9' };
+                const key = p.id ?? i;
+                const isOpen = openIds.has(key);
+                const canExpand = !!breakdown;
+
                 return (
-                    <li key={p.id ?? i} className={styles.card}>
-                        <div className={styles.header}>
+                    <li key={key} className={styles.card}>
+                        <button
+                            type="button"
+                            className={`${styles.header} ${canExpand ? styles.clickable : ''}`}
+                            onClick={canExpand ? () => toggle(key) : undefined}
+                            aria-expanded={canExpand ? isOpen : undefined}
+                        >
                             <span className={styles.icon} style={{ background: m.bg, color: m.color }}>
                                 <FontAwesomeIcon icon={m.icon} />
                             </span>
@@ -32,8 +51,14 @@ export function PaymentsList({ payments, breakdown = null }) {
                                 <span className={styles.date}>{formatDate(p.payment_date ?? p.created_at, 'short', true)}</span>
                             </div>
                             <span className={styles.amount}>{formatPrice(p.amount)}</span>
-                        </div>
-                        {breakdown && (
+                            {canExpand && (
+                                <FontAwesomeIcon
+                                    icon={faChevronDown}
+                                    className={`${styles.chevron} ${isOpen ? styles.chevron_open : ''}`}
+                                />
+                            )}
+                        </button>
+                        {canExpand && isOpen && (
                             <PaidBreakdown
                                 embedded
                                 label="Este pago"
