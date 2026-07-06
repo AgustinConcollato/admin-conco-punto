@@ -83,6 +83,15 @@
     color: #dc2626;
 }
 
+.stat_credit {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+}
+
+.stat_credit .stat_value {
+    color: #2563eb;
+}
+
 /* Sections */
 
 .section_header {

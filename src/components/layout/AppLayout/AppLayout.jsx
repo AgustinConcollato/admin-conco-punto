@@ -24,6 +24,7 @@ const AnalyticsPage = lazy(() => import('../../../features/analytics/pages/Analy
 const PromotionListPage = lazy(() => import('../../../features/promotion/pages/PromotionListPage/PromotionListPage').then(m => ({ default: m.PromotionListPage })));
 const PromotionDetailPage = lazy(() => import('../../../features/promotion/pages/PromotionDetailPage/PromotionDetailPage').then(m => ({ default: m.PromotionDetailPage })));
 const PaymentPage = lazy(() => import('../../../features/payment/pages/PaymentPage/PaymentPage').then(m => ({ default: m.PaymentPage })));
+const CreateClientPaymentPage = lazy(() => import('../../../features/payment/pages/CreateClientPaymentPage/CreateClientPaymentPage').then(m => ({ default: m.CreateClientPaymentPage })));
 const MercadoLibrePage = lazy(() => import('../../../features/mercadoLibre/pages/MercadoLibrePage/MercadoLibrePage').then(m => ({ default: m.MercadoLibrePage })));
 const MLPublicationDetailPage = lazy(() => import('../../../features/mercadoLibre/pages/MLPublicationDetailPage/MLPublicationDetailPage').then(m => ({ default: m.MLPublicationDetailPage })));
 const MLPublishLayout = lazy(() => import('../MLPublishLayout/MLPublishLayout').then(m => ({ default: m.MLPublishLayout })));
@@ -77,6 +78,7 @@ export function AppLayout() {
                         <Route path="/promociones/:id" element={<PromotionDetailPage />} />
 
                         <Route path="/pagos" element={<PaymentPage />} />
+                        <Route path="/pagos/nuevo" element={<CreateClientPaymentPage />} />
 
                         <Route path="/mercado-libre" element={<Navigate to="/mercado-libre/cuenta" replace />} />
                         <Route path="/mercado-libre/cuenta" element={<MercadoLibrePage />} />

@@ -32,6 +32,23 @@ export class PaymentService {
     }
 
     /**
+     * POST /api/clients/{clientId}/payments
+     * Registra un pago a nivel cliente: se reparte a los pedidos con deuda (FIFO)
+     * y lo que sobra queda como saldo a favor.
+     * @param {string} clientId - UUID del cliente
+     * @param {object} data - {amount, payment_method, note?}
+     */
+    async createClientPayment(clientId, data) {
+        return apiRequest(`/clients/${clientId}/payments`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+
+    /**
      * GET /api/payments/{order}
      * Obtiene el historial de pagos de un pedido específico.
      * @param {string} orderId - UUID del pedido

@@ -10,7 +10,8 @@ import {
     WalletIcon,
     AnalyticsIcon,
     CalendarIcon,
-    PaymentIcon
+    PaymentIcon,
+    ProviderIcon
 } from '../../assets/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -20,17 +21,19 @@ import styles from './NavBarMobile.module.css';
 const mainNavItems = [
     { to: "/productos", icon: <ProductIcon width={22} height={22} color="currentColor" />, label: "Productos" },
     { to: "/pedidos", icon: <OrderIcon width={22} height={22} color="currentColor" />, label: "Pedidos" },
+    { to: "/clientes", icon: <ClientIcon width={22} height={22} color="currentColor" />, label: "Clientes" },
 ];
 
-const clientItem = { to: "/clientes", icon: <ClientIcon width={22} height={22} color="currentColor" />, label: "Clientes" };
+const AnalyticsItem = { to: "/reportes", icon: <AnalyticsIcon width={22} height={22} color="currentColor" />, label: "Reportes" };
+const PaymentItem = { to: "/pagos", icon: <PaymentIcon width={22} height={22} color="currentColor" />, label: "Pagos" };
 
 const extraNavItems = [
     { to: "/", icon: <HomeIcon width={18} height={18} />, label: "Inicio" },
     // { to: "/caja", icon: <WalletIcon width={18} height={18} />, label: "Caja" },
     { to: "/categorias", icon: <CategoryIcon width={18} height={18} />, label: "Categorí­as" },
     { to: "/promociones", icon: <CalendarIcon width={18} height={18} />, label: "Promos" },
-    { to: "/reportes", icon: <AnalyticsIcon width={18} height={18} />, label: "Reportes" },
-    { to: "/pagos", icon: <PaymentIcon width={18} height={18} />, label: "Pagos" },
+    // { to: "/reportes", icon: <AnalyticsIcon width={18} height={18} />, label: "Reportes" },
+    // { to: "/pagos", icon: <PaymentIcon width={18} height={18} />, label: "Pagos" },
 ];
 
 export function NavBarMobile() {
@@ -84,18 +87,59 @@ export function NavBarMobile() {
                     </button>
                     {showNew && (
                         <div className={styles.floating_menu} ref={newMenuRef}>
-                            <Link to='/ventas' onClick={() => setShowNew(false)}>Nuevo Pedido</Link>
-                            <Link to='/productos/nuevo/1' onClick={() => setShowNew(false)}>Nuevo Producto</Link>
-                            <Link to='/clientes/nuevo' onClick={() => setShowNew(false)}>Nuevo Cliente</Link>
-                            <Link to='/proveedor/nuevo' onClick={() => setShowNew(false)}>Nuevo Proveedor</Link>
+                            <div className={styles.mnew_header}>Crear nuevo</div>
+
+                            <Link to='/ventas' className={styles.mnew_item} onClick={() => setShowNew(false)}>
+                                <span className={styles.mnew_icon}><OrderIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.mnew_text}>
+                                    <span className={styles.mnew_title}>Nuevo pedido</span>
+                                    <span className={styles.mnew_sub}>Registrar una venta</span>
+                                </span>
+                            </Link>
+
+                            <Link to='/productos/nuevo/1' className={styles.mnew_item} onClick={() => setShowNew(false)}>
+                                <span className={styles.mnew_icon}><ProductIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.mnew_text}>
+                                    <span className={styles.mnew_title}>Nuevo producto</span>
+                                    <span className={styles.mnew_sub}>Agregar al inventario</span>
+                                </span>
+                            </Link>
+
+                            <Link to='/clientes/nuevo' className={styles.mnew_item} onClick={() => setShowNew(false)}>
+                                <span className={styles.mnew_icon}><ClientIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.mnew_text}>
+                                    <span className={styles.mnew_title}>Nuevo cliente</span>
+                                    <span className={styles.mnew_sub}>Crear ficha de cliente</span>
+                                </span>
+                            </Link>
+
+                            <Link to='/proveedor/nuevo' className={styles.mnew_item} onClick={() => setShowNew(false)}>
+                                <span className={styles.mnew_icon}><ProviderIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.mnew_text}>
+                                    <span className={styles.mnew_title}>Nuevo proveedor</span>
+                                    <span className={styles.mnew_sub}>Registrar proveedor</span>
+                                </span>
+                            </Link>
+
+                            <Link to='/pagos/nuevo' className={styles.mnew_item} onClick={() => setShowNew(false)}>
+                                <span className={styles.mnew_icon}><PaymentIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.mnew_text}>
+                                    <span className={styles.mnew_title}>Agregar pago</span>
+                                    <span className={styles.mnew_sub}>Registrar un pago</span>
+                                </span>
+                            </Link>
                         </div>
                     )}
                 </div>
 
                 {/* 3. El item de Clientes (para mantener simetrí­a con el botón "Más") */}
-                <NavLink to={clientItem.to} className={({ isActive }) => isActive ? styles.tab_active : styles.tab_item}>
-                    {clientItem.icon}
-                    <span>{clientItem.label}</span>
+                <NavLink to={AnalyticsItem.to} className={({ isActive }) => isActive ? styles.tab_active : styles.tab_item}>
+                    {AnalyticsItem.icon}
+                    <span>{AnalyticsItem.label}</span>
+                </NavLink>
+                <NavLink to={PaymentItem.to} className={({ isActive }) => isActive ? styles.tab_active : styles.tab_item}>
+                    {PaymentItem.icon}
+                    <span>{PaymentItem.label}</span>
                 </NavLink>
 
                 {/* BOTÓN MÁS */}

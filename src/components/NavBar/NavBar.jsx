@@ -205,10 +205,50 @@ export function NavBar() {
                     </button>
                     {showMenu &&
                         <div className={styles.actions} ref={menuRef} onClick={() => setShowMenu(false)}>
-                            <Link to='/ventas'>Nuevo pedido <span>[F9]</span></Link>
-                            <Link to='/productos/nuevo/1'>Nuevo producto <span>[F10]</span></Link>
-                            <Link to='/clientes/nuevo'>Nuevo cliente <span>[F11]</span></Link>
-                            <Link to='/proveedor/nuevo'>Nuevo proveedor </Link>
+                            <div className={styles.actions_header}>Crear nuevo</div>
+
+                            <Link to='/ventas' className={styles.action_item}>
+                                <span className={styles.action_icon}><OrderIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.action_text}>
+                                    <span className={styles.action_title}>Nuevo pedido</span>
+                                    <span className={styles.action_sub}>Registrar una venta</span>
+                                </span>
+                                <span className={styles.action_kbd}>F9</span>
+                            </Link>
+
+                            <Link to='/productos/nuevo/1' className={styles.action_item}>
+                                <span className={styles.action_icon}><ProductIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.action_text}>
+                                    <span className={styles.action_title}>Nuevo producto</span>
+                                    <span className={styles.action_sub}>Agregar al inventario</span>
+                                </span>
+                                <span className={styles.action_kbd}>F10</span>
+                            </Link>
+
+                            <Link to='/clientes/nuevo' className={styles.action_item}>
+                                <span className={styles.action_icon}><ClientIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.action_text}>
+                                    <span className={styles.action_title}>Nuevo cliente</span>
+                                    <span className={styles.action_sub}>Crear ficha de cliente</span>
+                                </span>
+                                <span className={styles.action_kbd}>F11</span>
+                            </Link>
+
+                            <Link to='/proveedor/nuevo' className={styles.action_item}>
+                                <span className={styles.action_icon}><ProviderIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.action_text}>
+                                    <span className={styles.action_title}>Nuevo proveedor</span>
+                                    <span className={styles.action_sub}>Registrar proveedor</span>
+                                </span>
+                            </Link>
+
+                            <Link to='/pagos/nuevo' className={styles.action_item}>
+                                <span className={styles.action_icon}><PaymentIcon width={18} height={18} color='currentColor' /></span>
+                                <span className={styles.action_text}>
+                                    <span className={styles.action_title}>Agregar pago</span>
+                                    <span className={styles.action_sub}>Registrar un pago</span>
+                                </span>
+                            </Link>
                         </div>
                     }
                 </div>

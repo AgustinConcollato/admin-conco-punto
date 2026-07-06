@@ -187,15 +187,30 @@ export function PaymentList({
                                 </span>
                                 <span className={styles.cell_client}>
                                     {clientName ? (
-                                        <>
-                                            <span
-                                                className={styles.avatar}
-                                                style={{ background: av.bg, color: av.color }}
+                                        p.order?.client?.id ? (
+                                            <Link
+                                                to={`/clientes/detalle/${p.order.client.id}`}
+                                                className={styles.client_link}
                                             >
-                                                {getInitials(clientName)}
-                                            </span>
-                                            <span className={styles.client_name}>{clientName}</span>
-                                        </>
+                                                <span
+                                                    className={styles.avatar}
+                                                    style={{ background: av.bg, color: av.color }}
+                                                >
+                                                    {getInitials(clientName)}
+                                                </span>
+                                                <span className={styles.client_name}>{clientName}</span>
+                                            </Link>
+                                        ) : (
+                                            <>
+                                                <span
+                                                    className={styles.avatar}
+                                                    style={{ background: av.bg, color: av.color }}
+                                                >
+                                                    {getInitials(clientName)}
+                                                </span>
+                                                <span className={styles.client_name}>{clientName}</span>
+                                            </>
+                                        )
                                     ) : (
                                         <span className={styles.no_client}>—</span>
                                     )}

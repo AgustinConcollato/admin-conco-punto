@@ -153,6 +153,12 @@ export function ClientDetailPage() {
                     <p className={styles.stat_label}>Saldo pendiente</p>
                     <p className={styles.stat_value}>{formatPrice(stats.balance_due)}</p>
                 </div>
+                {parseFloat(stats.credit_balance) > 0 && (
+                    <div className={`${styles.stat_card} ${styles.stat_credit}`}>
+                        <p className={styles.stat_label}>Saldo a favor</p>
+                        <p className={styles.stat_value}>{formatPrice(stats.credit_balance)}</p>
+                    </div>
+                )}
             </div>
 
             {/* Detalle financiero */}

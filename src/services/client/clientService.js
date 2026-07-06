@@ -22,6 +22,12 @@ export class ClientService {
         });
     }
 
+    async getCredits(id) {
+        return apiRequest(`/clients/${id}/credits`, {
+            method: "GET"
+        });
+    }
+
     async update(id, data) {
         return apiRequest(`/clients/${id}`, {
             method: "PUT",

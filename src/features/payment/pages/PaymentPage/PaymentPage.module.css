@@ -4,6 +4,14 @@
     gap: 20px;
 }
 
+.page_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .container {
     display: grid;
     grid-template-columns: 260px 1fr;

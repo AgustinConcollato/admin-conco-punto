@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { normalizeStr } from '../../../../utils/normalizeStr';
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { PaymentList } from "../../../../features/payment/components/PaymentList/PaymentList";
 import { ClientService } from "../../../../services/client/clientService";
 import { RANGE_OPTIONS, DEFAULT_RANGE, buildRangeFilters } from "../../../../utils/rangeHelpers";
@@ -107,7 +107,10 @@ export function PaymentPage() {
 
     return (
         <div className={styles.page_wrapper}>
-            <h2 className="title">Pagos</h2>
+            <div className={styles.page_header}>
+                <h2 className="title">Pagos</h2>
+                <Link to="/pagos/nuevo" className="btn btn_solid">+ Agregar pago</Link>
+            </div>
             <div className={styles.container}>
             <div className={styles.filters_sidebar}>
                 <div className={styles.filter_group}>
