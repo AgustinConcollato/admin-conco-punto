@@ -203,6 +203,7 @@ export function ProductSearch() {
                     placeholder="Nombre, SKU, Código de barras"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    onFocus={() => { if (search.trim()) searchForProducts(search); }}
                     className={'input'}
                     onKeyDown={handleKeyDown}
                     ref={inputRef}
@@ -299,7 +300,7 @@ export function ProductSearch() {
                     product={itemToBatch}
                     order={order}
                     addProduct={addProduct}
-                    onClose={() => { setItemToBatch(null); setSearch(''); }}
+                    onClose={() => setItemToBatch(null)}
                 />
             )}
         </>
