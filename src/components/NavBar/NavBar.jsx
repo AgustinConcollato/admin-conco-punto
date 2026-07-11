@@ -22,50 +22,6 @@ import { usePendingOrdersCount } from '../../hooks/usePendingOrdersCount'
 import styles from './NavBar.module.css'
 
 
-// const navItems = [
-//     {
-//         to: '/',
-//         icon: <HomeIcon width={18} height={18} color='currentColor' />,
-//         label: 'Inicio'
-//     },
-//     {
-//         to: '/productos',
-//         icon: <ProductIcon width={18} height={18} color='currentColor' />,
-//         label: 'Productos'
-//     },
-//     {
-//         to: '/pedidos',
-//         icon: <OrderIcon width={18} height={18} color='currentColor' />,
-//         label: 'Pedidos'
-//     },
-//     {
-//         to: '/clientes',
-//         icon: <ClientIcon width={18} height={18} color='currentColor' />,
-//         label: 'Clientes'
-//     },
-//     {
-//         to: '/categorias',
-//         icon: <CategoryIcon width={18} height={18} color='currentColor' />,
-//         label: 'Categorias'
-//     },
-//     {
-//         to: '/reportes',
-//         icon: <AnalyticsIcon width={18} height={18} color='currentColor' />,
-//         label: 'Reportes'
-//     },
-//     {
-//         to: '/pagos',
-//         icon: <PaymentIcon width={18} height={18} color='currentColor' />,
-//         label: 'Pagos'
-//     },
-//     {
-//         to: '/promociones',
-//         icon: <CalendarIcon width={18} height={18} color='currentColor' />,
-//         label: 'Promos'
-//     }
-
-// ]
-
 const navItems = [
     {
         to: '/',
@@ -104,6 +60,11 @@ const navItems = [
         to: '/promociones',
         icon: <CalendarIcon width={18} height={18} color='currentColor' />,
         label: 'Promos'
+    },
+    {
+        to: '/proveedores/compras',
+        icon: <WalletIcon width={18} height={18} color='currentColor' />,
+        label: 'Cuentas por pagar'
     },
     {
         to: '/diseno-home',

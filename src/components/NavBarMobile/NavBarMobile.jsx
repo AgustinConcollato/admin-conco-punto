@@ -32,6 +32,7 @@ const extraNavItems = [
     // { to: "/caja", icon: <WalletIcon width={18} height={18} />, label: "Caja" },
     { to: "/categorias", icon: <CategoryIcon width={18} height={18} />, label: "Categorí­as" },
     { to: "/promociones", icon: <CalendarIcon width={18} height={18} />, label: "Promos" },
+    { to: "/proveedores/compras", icon: <WalletIcon width={18} height={18} />, label: "Cuentas por pagar" },
     // { to: "/reportes", icon: <AnalyticsIcon width={18} height={18} />, label: "Reportes" },
     // { to: "/pagos", icon: <PaymentIcon width={18} height={18} />, label: "Pagos" },
 ];

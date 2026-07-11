@@ -1,0 +1,219 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 480px;
+}
+
+/* Header */
+.head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.supplier {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-text, #0f172a);
+    letter-spacing: -0.01em;
+}
+
+.invoice {
+    font-size: 13px;
+    color: var(--color-text-muted, #64748b);
+    margin-top: 2px;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Fields grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 16px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12px);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.field_label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.field_value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text, #0f172a);
+    font-variant-numeric: tabular-nums;
+}
+
+.void {
+    text-decoration: line-through;
+    color: #dc2626;
+    opacity: 0.8;
+}
+
+.overdue_note {
+    padding: 10px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-sm, 8px);
+    color: #b91c1c;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Note */
+.note_block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius-sm, 8px);
+}
+
+.note_label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #b45309;
+}
+
+.note_text {
+    font-size: 13.5px;
+    color: #78350f;
+    margin: 0;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* Payments */
+.payments {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.payments_title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #94a3b8);
+}
+
+.payments_empty {
+    font-size: 13px;
+    color: var(--color-text-muted, #94a3b8);
+    margin: 0;
+}
+
+.payments_list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.payment_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 9px 12px;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+}
+
+.payment_amount {
+    font-size: 14px;
+    color: var(--color-text, #0f172a);
+    font-variant-numeric: tabular-nums;
+}
+
+.payment_date {
+    font-size: 12px;
+    color: var(--color-text-muted, #64748b);
+}
+
+.payment_method {
+    background: var(--color-bg, #f1f5f9);
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-muted, #64748b);
+}
+
+.payment_note {
+    font-size: 12px;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 4px;
+}
+
+.actions_right {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 560px) {
+    .wrap {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .actions_right {
+        justify-content: stretch;
+    }
+
+    .actions_right button {
+        flex: 1;
+    }
+}

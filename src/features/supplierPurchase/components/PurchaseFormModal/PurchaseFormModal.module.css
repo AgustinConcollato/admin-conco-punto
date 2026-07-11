@@ -1,0 +1,141 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 480px;
+}
+
+.row {
+    display: flex;
+    gap: 12px;
+}
+
+.row > * {
+    flex: 1;
+    min-width: 0;
+}
+
+.computed {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--color-bg, #f8fafc);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-sm, 8px);
+}
+
+.computed span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted, #64748b);
+}
+
+.computed strong {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary, #3d6caa);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Searchable supplier select ── */
+.searchable {
+    position: relative;
+    width: 100%;
+}
+
+.options {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    background: var(--color-surface, #fff);
+    border: 1.5px solid var(--color-border, #e5e7eb);
+    border-radius: var(--radius-sm, 8px);
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+    padding: 4px 0;
+}
+
+.option {
+    padding: 9px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-text, #374151);
+}
+
+.option:hover {
+    background: #f0f7ff;
+}
+
+.option_active {
+    background: var(--primary-opacity-1, #3d6caa20);
+    color: var(--primary, #3d6caa);
+    font-weight: 600;
+}
+
+.option_empty {
+    padding: 9px 12px;
+    font-size: 13px;
+    color: var(--color-text-muted, #94a3b8);
+}
+
+/* ── Quick supplier chips ── */
+.quick {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.quick_label {
+    font-size: 12px;
+    color: var(--color-text-muted, #94a3b8);
+    font-weight: 600;
+}
+
+.quick_chip {
+    padding: 5px 11px;
+    border-radius: 100px;
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    background: #fff;
+    color: var(--color-text, #374151);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+
+.quick_chip:hover {
+    border-color: var(--primary, #3d6caa);
+    color: var(--primary, #3d6caa);
+}
+
+.quick_chip_active {
+    background: var(--primary, #3d6caa);
+    border-color: var(--primary, #3d6caa);
+    color: #fff;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+    .form {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 16px;
+    }
+}

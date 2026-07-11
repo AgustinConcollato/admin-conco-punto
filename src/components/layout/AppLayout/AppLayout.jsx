@@ -18,6 +18,7 @@ const ClientDetailPage = lazy(() => import('../../../features/client/pages/Clien
 const SalesPage = lazy(() => import('../../../features/sales/pages/SalesPage/SalesPage').then(m => ({ default: m.SalesPage })));
 const OrderPage = lazy(() => import('../../../features/order/pages/OrderPage/OrderPage').then(m => ({ default: m.OrderPage })));
 const NewSupplierPage = lazy(() => import('../../../features/supplier/pages/NewSupplierPage/NewSupplierPage').then(m => ({ default: m.NewSupplierPage })));
+const SupplierPurchasesPage = lazy(() => import('../../../features/supplierPurchase/pages/SupplierPurchasesPage/SupplierPurchasesPage').then(m => ({ default: m.SupplierPurchasesPage })));
 const CategoryListPage = lazy(() => import('../../../features/category/pages/CategoryListPage/CategoryListPage').then(m => ({ default: m.CategoryListPage })));
 const NewCategoryPage = lazy(() => import('../../../features/category/pages/NewCategoryPage/NewCategoryPage').then(m => ({ default: m.NewCategoryPage })));
 const AnalyticsPage = lazy(() => import('../../../features/analytics/pages/AnalyticsPage/AnalyticsPage').then(m => ({ default: m.AnalyticsPage })));
@@ -66,6 +67,7 @@ export function AppLayout() {
                         <Route path="/pedidos" element={<OrderPage />} />
 
                         <Route path="/proveedor/nuevo" element={<NewSupplierPage />} />
+                        <Route path="/proveedores/compras" element={<SupplierPurchasesPage />} />
 
                         <Route path="/categorias" element={<CategoryListPage />} />
                         <Route path="/categorias/nueva" element={<NewCategoryPage />} />

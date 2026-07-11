@@ -4,6 +4,13 @@
     gap: 28px;
     max-width: 1024px;
     margin: auto;
+    min-width: 0;
+}
+
+/* Los items del grid no deben crecer por su contenido ancho (tablas):
+   min-width:0 permite que la tabla de pagos scrollee adentro en vez de desbordar. */
+.container > * {
+    min-width: 0;
 }
 
 .error {
@@ -16,6 +23,11 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 16px;
+    min-width: 0;
+}
+
+.bottom_grid > * {
+    min-width: 0;
 }
 
 /* Shared section card */
