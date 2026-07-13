@@ -20,6 +20,14 @@ export class SupplierPurchaseService {
     }
 
     /**
+     * Lista de proveedores que tienen al menos una factura cargada (para el filtro).
+     * @returns {Promise<Array<{id: string, name: string}>>}
+     */
+    async getSuppliersWithPurchases() {
+        return apiRequest('/supplier-purchases/suppliers', { method: 'GET' });
+    }
+
+    /**
      * Crea una compra.
      * @param {object} data - {supplier_id, invoice_number, purchase_date, due_date, total, discount_percent, note}
      */

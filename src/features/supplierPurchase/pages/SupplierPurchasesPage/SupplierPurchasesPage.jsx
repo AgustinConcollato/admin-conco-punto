@@ -12,13 +12,13 @@ import { PurchaseDetailModal } from '../../components/PurchaseDetailModal/Purcha
 import { applyStatsDelta } from '../../utils/purchaseCalc';
 import styles from './SupplierPurchasesPage.module.css';
 
-const STATUS_OPTIONS = {
-    '': 'Todas',
-    pending: 'Pendientes',
-    partial: 'Parciales',
-    paid: 'Pagadas',
-    overdue: 'Vencidas',
-};
+const STATUS_OPTIONS = [
+    { key: '', label: 'Todos los estados', color: null },
+    { key: 'pending', label: 'Pendientes', color: '#94a3b8' },
+    { key: 'partial', label: 'Parciales', color: '#f59e0b' },
+    { key: 'paid', label: 'Pagadas', color: '#22c55e' },
+    { key: 'overdue', label: 'Vencidas', color: '#dc2626' },
+];
 
 const supplierService = new SupplierService();
 const purchaseService = new SupplierPurchaseService();
@@ -27,6 +27,7 @@ export function SupplierPurchasesPage() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [suppliers, setSuppliers] = useState([]);
+    const [filterSuppliers, setFilterSuppliers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [purchases, setPurchases] = useState([]);
     const [pagination, setPagination] = useState(null);
@@ -46,15 +47,21 @@ export function SupplierPurchasesPage() {
         start_date: searchParams.get('start_date') || '',
         end_date: searchParams.get('end_date') || '',
         page: searchParams.get('page') || '1',
+        sort_by: searchParams.get('sort_by') || '',
+        sort_dir: searchParams.get('sort_dir') || 'desc',
     }), [searchParams]);
 
     const filtersToSend = useMemo(() => buildRangeFilters(filters), [filters]);
 
     useEffect(() => {
         document.title = 'Cuentas por pagar';
+        // Todos los proveedores (para el modal de alta) y solo los que tienen factura (para el filtro).
         supplierService.getAll()
             .then(list => setSuppliers(list ?? []))
             .catch(() => setSuppliers([]));
+        purchaseService.getSuppliersWithPurchases()
+            .then(list => setFilterSuppliers(list ?? []))
+            .catch(() => setFilterSuppliers([]));
     }, []);
 
     const loadPurchases = useCallback(async () => {
@@ -95,6 +102,16 @@ export function SupplierPurchasesPage() {
         setSearchParams(newParams);
     };
 
+    // Click en encabezado: si ya está ordenando por esa columna, invierte la dirección.
+    const handleSort = (column) => {
+        const newParams = new URLSearchParams(searchParams);
+        const nextDir = filters.sort_by === column && filters.sort_dir === 'asc' ? 'desc' : 'asc';
+        newParams.set('sort_by', column);
+        newParams.set('sort_dir', nextDir);
+        newParams.set('page', '1');
+        setSearchParams(newParams);
+    };
+
     const handleReset = () => setSearchParams({ range: DEFAULT_RANGE, page: '1' });
 
     const openNew = () => { setEditing(null); setShowForm(true); };
@@ -114,6 +131,13 @@ export function SupplierPurchasesPage() {
         setPurchases(prev => [created, ...prev]);
         setStats(s => applyStatsDelta(s, null, created));
         setPagination(pg => pg ? { ...pg, total: pg.total + 1 } : pg);
+        // Si el proveedor no estaba en el filtro (primera factura), agregarlo.
+        if (created.supplier && !filterSuppliers.some(s => s.id === created.supplier.id)) {
+            setFilterSuppliers(prev =>
+                [...prev, { id: created.supplier.id, name: created.supplier.name }]
+                    .sort((a, b) => a.name.localeCompare(b.name))
+            );
+        }
     };
 
     const handleSaved = (saved, isEdit) => {
@@ -190,15 +214,22 @@ export function SupplierPurchasesPage() {
 
                     <div className={styles.filter_group}>
                         <label>Estado</label>
-                        <select
-                            value={filters.status}
-                            onChange={(e) => handleFilterChange('status', e.target.value)}
-                        >
-                            {Object.entries(STATUS_OPTIONS).map(([k, label]) => (
-                                <option key={k} value={k}>{label}</option>
+                        <div className={styles.status_list}>
+                            {STATUS_OPTIONS.map(({ key, label, color }) => (
+                                <button
+                                    key={key}
+                                    type="button"
+                                    className={filters.status === key ? styles.status_active : styles.status_inactive}
+                                    onClick={() => handleFilterChange('status', key)}
+                                >
+                                    {color && <span className={styles.status_dot} style={{ background: color }} />}
+                                    {label}
+                                </button>
                             ))}
-                        </select>
+                        </div>
                     </div>
+
+                    <div className={styles.divider} />
 
                     <div className={styles.filter_group}>
                         <label>Proveedor</label>
@@ -207,7 +238,7 @@ export function SupplierPurchasesPage() {
                             onChange={(e) => handleFilterChange('supplier_id', e.target.value)}
                         >
                             <option value="">Todos los proveedores</option>
-                            {suppliers.map(s => (
+                            {filterSuppliers.map(s => (
                                 <option key={s.id} value={s.id}>{s.name}</option>
                             ))}
                         </select>
@@ -239,6 +270,9 @@ export function SupplierPurchasesPage() {
                         purchases={purchases}
                         pagination={pagination}
                         stats={stats}
+                        sortBy={filters.sort_by}
+                        sortDir={filters.sort_dir}
+                        onSort={handleSort}
                         onPageChange={(page) => handleFilterChange('page', String(page))}
                         onRowClick={setDetail}
                         onRegisterPayment={setPayingPurchase}

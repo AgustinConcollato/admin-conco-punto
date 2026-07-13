@@ -1,0 +1,154 @@
+/* ── Section wrapper (mismo look que las secciones del resumen) ── */
+.section {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.section:first-child {
+    padding-top: 0;
+}
+
+.section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.section_label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted, #64748b);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Pedido cancelado ── */
+.outcome_banner {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm, 8px);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.outcome_cancelled {
+    background: rgba(231, 76, 60, 0.08);
+    color: var(--color-error, #e74c3c);
+    border: 1px solid rgba(231, 76, 60, 0.20);
+}
+
+/* ── Logistics stepper ── */
+.stepper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+/* Row 1: track plano — dot, connector, dot, connector... */
+.stepper_track {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.stepper_track_item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.stepper_track_item:last-child {
+    flex: 0 0 auto;
+}
+
+/* Dot — tamaño fijo igual para todos */
+.stepper_dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border, #e2e8f0);
+    background: var(--color-surface, #fff);
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.stepper_done {
+    background: var(--color-success, #66b819);
+    border-color: var(--color-success, #66b819);
+    color: #fff;
+}
+
+.stepper_active {
+    background: var(--primary, #3d6caa);
+    border-color: var(--primary, #3d6caa);
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(61, 108, 170, 0.18);
+}
+
+/* Connector */
+.stepper_connector {
+    flex: 1;
+    height: 2px;
+    background: var(--color-border, #e2e8f0);
+    min-width: 6px;
+}
+
+.stepper_connector_done {
+    background: var(--color-success, #66b819);
+}
+
+/* Row 2: labels — misma distribución que el track */
+.stepper_labels {
+    display: flex;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.stepper_track_item:first-child .stepper_labels {
+    left: 0;
+    transform: translateX(0);
+}
+
+.stepper_track_item:last-child .stepper_labels {
+    right: 0;
+    left: auto;
+    transform: translateX(0);
+}
+
+.stepper_label {
+    flex: 1;
+    font-size: 0.6rem;
+    color: var(--color-text-muted, #64748b);
+    opacity: 0.45;
+    line-height: 1.2;
+}
+
+.stepper_label:last-child {
+    flex: 0 0 20px;
+    /* igual al ancho del último dot */
+    text-align: center;
+}
+
+.stepper_label_done {
+    opacity: 0.7;
+}
+
+.stepper_label_active {
+    color: var(--primary, #3d6caa);
+    font-weight: 700;
+    font-size: 0.68rem;
+    opacity: 1;
+}

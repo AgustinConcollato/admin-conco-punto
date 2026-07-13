@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBillWave, faPenToSquare, faTrash, faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
+import { faMoneyBillWave, faPenToSquare, faTrash, faBell, faBellSlash, faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { Pagination } from '../../../../components/Pagination/Pagination';
 import { TableSkeleton } from '../../../../components/TableSkeleton/TableSkeleton';
 import { formatDate } from '../../../../utils/formatDate';
@@ -62,11 +62,29 @@ function StatusBadge({ purchase }) {
     );
 }
 
+function SortableHeader({ column, label, sortBy, sortDir, onSort }) {
+    const active = sortBy === column;
+    const icon = active ? (sortDir === 'asc' ? faSortUp : faSortDown) : faSort;
+    return (
+        <button
+            type="button"
+            className={`${styles.sortable} ${active ? styles.sortable_active : ''}`}
+            onClick={() => onSort(column)}
+        >
+            {label}
+            <FontAwesomeIcon icon={icon} className={styles.sort_icon} />
+        </button>
+    );
+}
+
 export function SupplierPurchaseList({
     loading,
     purchases,
     pagination,
     stats,
+    sortBy,
+    sortDir,
+    onSort,
     onPageChange,
     onRowClick,
     onRegisterPayment,
@@ -101,13 +119,13 @@ export function SupplierPurchaseList({
             {/* Table */}
             <div className={styles.table_wrap}>
                 <div className={styles.table_header}>
-                    <span>Fecha</span>
+                    <SortableHeader column="purchase_date" label="Fecha" sortBy={sortBy} sortDir={sortDir} onSort={onSort} />
                     <span>Proveedor</span>
-                    <span>N° Factura</span>
-                    <span>Vencimiento</span>
+                    <SortableHeader column="invoice_number" label="N° Factura" sortBy={sortBy} sortDir={sortDir} onSort={onSort} />
+                    <SortableHeader column="due_date" label="Vencimiento" sortBy={sortBy} sortDir={sortDir} onSort={onSort} />
                     <span>Total</span>
                     <span>Desc.</span>
-                    <span>Total c/desc</span>
+                    <SortableHeader column="total" label="Total c/desc" sortBy={sortBy} sortDir={sortDir} onSort={onSort} />
                     <span>Pagado</span>
                     <span>Saldo</span>
                     <span>Estado</span>
@@ -128,7 +146,7 @@ export function SupplierPurchaseList({
                         >
                             <span className={styles.cell_date}>{formatDate(p.purchase_date, 'short')}</span>
                             <span className={styles.cell_supplier} title={p.supplier?.name || ''}>{p.supplier?.name || '—'}</span>
-                            <span className={styles.cell_invoice}>{p.invoice_number || '—'}</span>
+                            <span className={styles.cell_invoice} title={p.invoice_number || ''}>{p.invoice_number || '—'}</span>
                             <span className={styles.cell_date}>{p.due_date ? formatDate(p.due_date, 'short') : '—'}</span>
                             <span className={styles.cell_num}>{formatPrice(p.total)}</span>
                             <span className={`${styles.cell_discount} ${isOverdue(p) && Number(p.discount_percent) > 0 ? styles.cell_discount_void : ''}`}>

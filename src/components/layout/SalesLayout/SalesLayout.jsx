@@ -3,17 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from 'react';
 import { Loading } from '../../../components/Loading/Loading';
 import { OrderContext } from '../../../context/OrderContext';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import { ProductList } from '../../../features/sales/components/ProductList/ProductList';
 import { ProductSearch } from '../../../features/sales/components/ProductSearch/ProductSearch';
 import { SearchByBarcode } from '../../../features/sales/components/SearchByBarcode/SearchByBarcode';
 import { Summary } from '../../../features/sales/components/Summary/Summary';
+import { OrderBottomSheet } from '../../../features/sales/components/OrderBottomSheet/OrderBottomSheet';
 import styles from './SalesLayout.module.css';
 
 export function SalesLayout({ orderId }) {
 
     const { getOrder, order } = useContext(OrderContext);
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const [mode, setMode] = useState(localStorage.getItem('mode') || 'default');
+    const [sheetExpanded, setSheetExpanded] = useState(false);
 
     const handleModeChange = () => {
         setMode(current => {
@@ -30,17 +34,20 @@ export function SalesLayout({ orderId }) {
 
     useEffect(() => {
         getOrder(orderId);
+        setSheetExpanded(false);
     }, [orderId]);
 
     useEffect(() => {
         document.title = order ? 'Pedido de ' + order?.client?.name : 'Pedido';
     }, [order])
 
+    const dimmed = isMobile && sheetExpanded;
+
     return (
         <div className={styles.layout}>
             {order ?
                 <>
-                    <div className={styles.search}>
+                    <div className={`${styles.search} ${dimmed ? styles.dimmed : ''}`}>
                         {mode === 'default' ?
                             <ProductSearch /> :
                             <SearchByBarcode />
@@ -55,12 +62,16 @@ export function SalesLayout({ orderId }) {
                             <span>Cambiar de modo</span>
                         </div>
                     </div>
-                    <div className={styles.list}>
+                    <div className={`${styles.list} ${isMobile ? styles.list_mobile : ''} ${dimmed ? styles.dimmed : ''}`}>
                         <ProductList />
                     </div>
-                    <div className={styles.summary}>
-                        <Summary />
-                    </div>
+                    {isMobile ? (
+                        <OrderBottomSheet expanded={sheetExpanded} onToggle={() => setSheetExpanded(v => !v)} />
+                    ) : (
+                        <div className={styles.summary}>
+                            <Summary />
+                        </div>
+                    )}
                 </> :
                 <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
                     <Loading />

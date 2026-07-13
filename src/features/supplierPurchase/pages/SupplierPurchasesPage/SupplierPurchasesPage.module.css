@@ -107,6 +107,51 @@
     background: #e5e7eb;
 }
 
+/* ── Status list buttons ── */
+.status_list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.status_active,
+.status_inactive {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.12s;
+    font-family: inherit;
+}
+
+.status_active {
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 600;
+}
+
+.status_inactive {
+    background: transparent;
+    color: #374151;
+    font-weight: 500;
+}
+
+.status_inactive:hover {
+    background: #f9fafb;
+}
+
+.status_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex: none;
+}
+
 /* ── Date inputs ── */
 .date_inputs {
     display: flex;

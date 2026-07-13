@@ -104,3 +104,16 @@
         position: static;
     }
 }
+
+/* ── Rediseño mobile: la lista ocupa toda la pantalla, el resumen vive en la bottom sheet ── */
+.list_mobile {
+    /* Deja lugar para la hoja colapsada (peek) + el bottom nav de la app. */
+    margin-bottom: 170px;
+}
+
+.dimmed {
+    filter: blur(1px);
+    opacity: .5;
+    pointer-events: none;
+    transition: filter .25s, opacity .25s;
+}

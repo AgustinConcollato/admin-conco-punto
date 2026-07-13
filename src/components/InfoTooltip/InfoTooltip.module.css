@@ -1,6 +1,7 @@
 .wrap {
     display: inline-flex;
     align-items: center;
+    position: relative;
 }
 
 .trigger {

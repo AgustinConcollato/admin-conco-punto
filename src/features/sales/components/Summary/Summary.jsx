@@ -1,4 +1,4 @@
-﻿import { faCircleNotch, faCheck } from "@fortawesome/free-solid-svg-icons";
+﻿import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useMemo, useState } from "react";
 import { Modal } from "../../../../components/Modal/Modal";
@@ -10,6 +10,7 @@ import { formatDate } from "../../../../utils/formatDate";
 import { CreatePayment } from "../../../payment/components/CreatePayment/CreatePayment";
 import { EditDiscount } from "../EditDiscount/EditDiscount";
 import { EditShippingCost } from "../EditShippingCost/EditShippingCost";
+import { LogisticsStepper } from "../LogisticsStepper/LogisticsStepper";
 import styles from "./Summary.module.css";
 
 const PAYMENT_METHODS = [
@@ -26,14 +27,6 @@ export const ORDER_STATUSES = [
     { value: 'shipped', label: 'Enviado' },
     { value: 'delivered', label: 'Entregado' },
     { value: 'cancelled', label: 'Cancelado' },
-];
-
-const LOGISTICS_STEPS = [
-    { value: 'pending', label: 'Pendiente' },
-    { value: 'processing', label: 'Preparación' },
-    { value: 'confirmed', label: 'Listo' },
-    { value: 'shipped', label: 'Enviado' },
-    { value: 'delivered', label: 'Entregado' },
 ];
 
 export function Summary() {
@@ -174,75 +167,37 @@ export function Summary() {
                 )}
 
                 {/* ── Estado logístico ── */}
-                <div className={styles.section}>
-                    <p className={styles.section_label}>Estado logístico</p>
+                <LogisticsStepper status={order.status} />
 
-                    {order.status === 'cancelled' ? (
-                        <p className={`${styles.outcome_banner} ${styles.outcome_cancelled}`}>Pedido cancelado</p>
-                    ) : (() => {
-                        const stepIndex = LOGISTICS_STEPS.findIndex(s => s.value === order.status);
-                        return (
-                            <div className={styles.stepper}>
-                                {/* Track plano: dot → connector → dot → connector → dot */}
-                                <div className={styles.stepper_track}>
-                                    {LOGISTICS_STEPS.map((step, i) => {
-                                        const isDone = i < stepIndex;
-                                        const isActive = i === stepIndex;
-                                        return (
-                                            <div key={step.value} className={styles.stepper_track_item}>
-                                                <div className={`${styles.stepper_dot} ${isDone ? styles.stepper_done : ''} ${isActive ? styles.stepper_active : ''}`}>
-                                                    {isDone && <FontAwesomeIcon icon={faCheck} />}
-                                                    {/* Labels */}
-                                                    <div className={styles.stepper_labels}>
-                                                        <span
-                                                            key={step.value}
-                                                            className={`${styles.stepper_label} ${isActive ? styles.stepper_label_active : ''} ${isDone ? styles.stepper_label_done : ''}`}
-                                                        >
-                                                            {step.label}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                {i < LOGISTICS_STEPS.length - 1 && (
-                                                    <div className={`${styles.stepper_connector} ${isDone ? styles.stepper_connector_done : ''}`} />
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        );
-                    })()}
-
-                    <div className={styles.actions_container}>
-                        {order.status === 'pending' && (
-                            <button className="btn btn_solid" onClick={() => updateStatus('processing')} disabled={loading}>
-                                {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Aceptar y empezar preparación'}
-                            </button>
-                        )}
-                        {(order.status === 'processing' && order.details.length > 0) && (
-                            <button className="btn btn_solid" onClick={() => updateStatus('confirmed')} disabled={loading}>
-                                {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Marcar como terminado'}
-                            </button>
-                        )}
-                        {order.status === 'confirmed' && (
-                            <button className="btn btn_solid" onClick={() => updateStatus('shipped')} disabled={loading}>
-                                {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Despachar / enviar'}
-                            </button>
-                        )}
-                        {order.status === 'shipped' && (
-                            <button className="btn btn_solid" onClick={() => updateStatus('delivered')} disabled={loading}>
-                                {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Confirmar entrega'}
-                            </button>
-                        )}
-                        {['pending', 'processing', 'confirmed'].includes(order.status) && (
-                            <button className="btn btn_error_regular" onClick={() => setConfirmCancel(true)} disabled={loading}>
-                                Cancelar pedido
-                            </button>
-                        )}
-                        {order.status === 'delivered' && (
-                            <p className={`${styles.outcome_banner} ${styles.outcome_success}`}>Pedido completado con éxito</p>
-                        )}
-                    </div>
+                <div className={styles.actions_container}>
+                    {order.status === 'pending' && (
+                        <button className="btn btn_solid" onClick={() => updateStatus('processing')} disabled={loading}>
+                            {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Aceptar y empezar preparación'}
+                        </button>
+                    )}
+                    {(order.status === 'processing' && order.details.length > 0) && (
+                        <button className="btn btn_solid" onClick={() => updateStatus('confirmed')} disabled={loading}>
+                            {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Marcar como terminado'}
+                        </button>
+                    )}
+                    {order.status === 'confirmed' && (
+                        <button className="btn btn_solid" onClick={() => updateStatus('shipped')} disabled={loading}>
+                            {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Despachar / enviar'}
+                        </button>
+                    )}
+                    {order.status === 'shipped' && (
+                        <button className="btn btn_solid" onClick={() => updateStatus('delivered')} disabled={loading}>
+                            {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Confirmar entrega'}
+                        </button>
+                    )}
+                    {['pending', 'processing', 'confirmed'].includes(order.status) && (
+                        <button className="btn btn_error_regular" onClick={() => setConfirmCancel(true)} disabled={loading}>
+                            Cancelar pedido
+                        </button>
+                    )}
+                    {order.status === 'delivered' && (
+                        <p className={`${styles.outcome_banner} ${styles.outcome_success}`}>Pedido completado con éxito</p>
+                    )}
                 </div>
 
             </div>

@@ -11,9 +11,6 @@ import { Modal } from "../../../../components/Modal/Modal";
 import styles from './Product.module.css';
 
 export function Product({ detail }) {
-
-    console.log(detail);
-
     const { updateProduct, removeProduct } = useContext(OrderContext);
 
     const [showModal, setShowModal] = useState(false);
