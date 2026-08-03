@@ -6,6 +6,7 @@ import { Pagination } from "../../../../components/Pagination/Pagination";
 import { PaymentService } from "../../../../services/payments/paymentsService";
 import { formatDate } from "../../../../utils/formatDate";
 import { formatPrice } from "../../../../utils/formatPrice";
+import { FinanceBreakdown } from "../FinanceBreakdown/FinanceBreakdown";
 import styles from './PaymentList.module.css';
 
 const METHOD_LABELS = {
@@ -56,6 +57,8 @@ export function PaymentList({
     const [payments, setPayments] = useState([]);
     const [pagination, setPagination] = useState(null);
     const [stats, setStats] = useState({ total_amount: 0, transfer_count: 0, cash_count: 0, check_count: 0, credit_card_count: 0 });
+    const [breakdown, setBreakdown] = useState({ cost: 0, shipping: 0, profit: 0, savings: 0, to_split: 0 });
+    const [selectedIds, setSelectedIds] = useState(() => new Set());
 
     const loadPayments = async (incomingFilters) => {
         setLoadingPayments(true);
@@ -76,6 +79,8 @@ export function PaymentList({
                 total: paymentsRes.total || 0,
             });
             if (paymentsRes.stats) setStats(paymentsRes.stats);
+            if (paymentsRes.breakdown) setBreakdown(paymentsRes.breakdown);
+            setSelectedIds(new Set());
         } catch (err) {
             console.log(err);
             setPayments([]);
@@ -88,6 +93,35 @@ export function PaymentList({
     useEffect(() => {
         loadPayments(filters);
     }, [filters]);
+
+    const toggleSelected = (id) => {
+        setSelectedIds(prev => {
+            const next = new Set(prev);
+            next.has(id) ? next.delete(id) : next.add(id);
+            return next;
+        });
+    };
+
+    const toggleSelectAll = () => {
+        setSelectedIds(prev => (
+            prev.size === payments.length ? new Set() : new Set(payments.map(p => p.id))
+        ));
+    };
+
+    const selectedPayments = payments.filter(p => selectedIds.has(p.id));
+    const selectedTotal = selectedPayments.reduce((sum, p) => sum + Number(p.amount), 0);
+    const selectedBreakdown = selectedPayments.reduce((acc, p) => {
+        const orderTotal = parseFloat(p.order?.final_total_amount || 0);
+        const cost = parseFloat(p.order?.total_cost || 0);
+        const shipping = parseFloat(p.order?.shipping_cost || 0);
+        const profit = orderTotal - shipping - cost;
+        const frac = orderTotal > 0 ? Number(p.amount) / orderTotal : 0;
+        acc.cost += cost * frac;
+        acc.shipping += shipping * frac;
+        acc.profit += profit * frac;
+        return acc;
+    }, { cost: 0, shipping: 0, profit: 0 });
+    const selectedSavings = selectedBreakdown.profit * 0.10;
 
     if (loadingPayments) {
         return (
@@ -150,10 +184,38 @@ export function PaymentList({
                 </div>
             </div>
 
+            {/* Desglose financiero */}
+            <div className={styles.breakdown_area}>
+                {selectedIds.size > 0 && (
+                    <FinanceBreakdown
+                        title={`Desglose de la selección (${selectedIds.size})`}
+                        subtitle={`${formatPrice(selectedTotal)} seleccionados`}
+                        cost={selectedBreakdown.cost}
+                        shipping={selectedBreakdown.shipping}
+                        profit={selectedBreakdown.profit}
+                        savings={selectedSavings}
+                        toSplit={selectedBreakdown.profit - selectedSavings}
+                        actions={
+                            <button type="button" className={styles.clear_selection} onClick={() => setSelectedIds(new Set())}>
+                                Limpiar selección
+                            </button>
+                        }
+                    />
+                )}
+            </div>
+
             {/* Table */}
             <div className={styles.table_wrap}>
                 {/* Table header */}
                 <div className={styles.table_header}>
+                    <span className={styles.cell_check}>
+                        <input
+                            type="checkbox"
+                            checked={payments.length > 0 && selectedIds.size === payments.length}
+                            onChange={toggleSelectAll}
+                            aria-label="Seleccionar todos"
+                        />
+                    </span>
                     <span>Fecha</span>
                     <span>Monto</span>
                     <span>Método</span>
@@ -169,7 +231,15 @@ export function PaymentList({
                         const av = clientName ? getAvatarStyle(clientName) : null;
 
                         return (
-                            <div key={p.id} className={`${styles.table_row} ${i % 2 === 1 ? styles.row_striped : ''}`}>
+                            <div key={p.id} className={`${styles.table_row} ${i % 2 === 1 ? styles.row_striped : ''} ${selectedIds.has(p.id) ? styles.row_selected : ''}`}>
+                                <span className={styles.cell_check}>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedIds.has(p.id)}
+                                        onChange={() => toggleSelected(p.id)}
+                                        aria-label="Seleccionar pago"
+                                    />
+                                </span>
                                 <span className={styles.cell_date}>
                                     {formatDate(p.payment_date || p.created_at, 'short')}
                                 </span>

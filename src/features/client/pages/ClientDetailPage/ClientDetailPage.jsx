@@ -15,8 +15,6 @@ import { OrderCard } from '../../../order/components/OrderCard/OrderCard';
 import { EditClientForm } from '../../components/EditClientForm/EditClientForm';
 import styles from './ClientDetailPage.module.css';
 
-const IMAGE_URL = import.meta.env.VITE_IMAGE_URL;
-
 const MONTH_NAMES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
 const formatYAxis = (value) => {
@@ -100,7 +98,7 @@ export function ClientDetailPage() {
     if (loading) return <Loading />;
     if (!client) return <p className={styles.error_msg}>Cliente no encontrado.</p>;
 
-    const { stats, addresses = [], orders = [], top_products = [], top_products_by_orders = [], revenue_by_month = [] } = client;
+    const { stats, addresses = [], orders = [], revenue_by_month = [] } = client;
 
     const chartData = revenue_by_month.map(d => ({
         month: formatMonth(d.month),
@@ -109,9 +107,6 @@ export function ClientDetailPage() {
     }));
 
     const ordersByStatus = stats.orders_by_status ?? {};
-
-    const maxTopQty = top_products.reduce((max, p) => Math.max(max, p.total_qty), 0);
-    const maxOrderCount = top_products_by_orders[0]?.order_count ?? 1;
 
     return (
         <div className={styles.page}>
@@ -281,67 +276,6 @@ export function ClientDetailPage() {
                                 {orderStatusBadge(status).label}: {count}
                             </Badge>
                         ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Top productos */}
-            {(top_products.length > 0 || top_products_by_orders.length > 0) && (
-                <section className={styles.section}>
-                    <h2 className={styles.section_title}>Productos más comprados</h2>
-                    <div className={styles.top_products_columns}>
-
-                        <div>
-                            <p className={styles.top_products_col_label}>Por unidades</p>
-                            <ol className={styles.top_products_list}>
-                                {top_products.map((p, i) => (
-                                    <li key={p.product_id} className={styles.top_product_item}>
-                                        <span className={styles.top_product_rank}>{i + 1}</span>
-                                        {p.image ? (
-                                            <img className={styles.top_product_thumb} src={`${IMAGE_URL}/${p.image}`} alt={p.product_name} />
-                                        ) : (
-                                            <span className={styles.top_product_thumb_placeholder}>—</span>
-                                        )}
-                                        <div className={styles.top_product_body}>
-                                            <div className={styles.top_product_head}>
-                                                <span className={styles.top_product_name}>{p.product_name}</span>
-                                                <span className={styles.top_product_amount}>{formatPrice(p.total_amount)}</span>
-                                            </div>
-                                            <div className={styles.top_product_bar_track}>
-                                                <div className={styles.top_product_bar_fill} style={{ width: `${maxTopQty > 0 ? (p.total_qty / maxTopQty) * 100 : 0}%` }} />
-                                            </div>
-                                            <span className={styles.top_product_qty}>{p.total_qty} u</span>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ol>
-                        </div>
-
-                        <div>
-                            <p className={styles.top_products_col_label}>Por frecuencia de pedidos</p>
-                            <ol className={styles.top_products_list}>
-                                {top_products_by_orders.map((p, i) => (
-                                    <li key={p.product_id} className={styles.top_product_item}>
-                                        <span className={styles.top_product_rank}>{i + 1}</span>
-                                        {p.image ? (
-                                            <img className={styles.top_product_thumb} src={`${IMAGE_URL}/${p.image}`} alt={p.product_name} />
-                                        ) : (
-                                            <span className={styles.top_product_thumb_placeholder}>—</span>
-                                        )}
-                                        <div className={styles.top_product_body}>
-                                            <div className={styles.top_product_head}>
-                                                <span className={styles.top_product_name}>{p.product_name}</span>
-                                            </div>
-                                            <div className={styles.top_product_bar_track}>
-                                                <div className={styles.top_product_bar_fill} style={{ width: `${maxOrderCount > 0 ? (p.order_count / maxOrderCount) * 100 : 0}%` }} />
-                                            </div>
-                                            <span className={styles.top_product_qty}>en {p.order_count} {p.order_count === 1 ? 'pedido' : 'pedidos'}</span>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ol>
-                        </div>
-
                     </div>
                 </section>
             )}
