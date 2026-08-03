@@ -1,6 +1,7 @@
 ﻿import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Modal } from "../../../../components/Modal/Modal";
 import { ConfirmModal } from "../../../../components/ConfirmModal/ConfirmModal";
 import { OrderContext } from "../../../../context/OrderContext";
@@ -68,7 +69,10 @@ export function Summary() {
             <div className={styles.order_summary_card}>
 
                 {order.number != null && (
-                    <div className={styles.order_number}>Pedido #{order.number}</div>
+                    <div className={styles.order_number_row}>
+                        <span className={styles.order_number}>Pedido #{order.number}</span>
+                        <Link to={`/pedidos/${order.id}`} className={styles.detail_link}>Ver detalle completo →</Link>
+                    </div>
                 )}
 
                 {/* ── Cliente ── */}

@@ -196,7 +196,12 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
                                 Registrar pago
                             </button>
                         )}
-                        <Link to={`/ventas/${order.id}`} className={styles.panel_btn_secondary}>
+                        {order.status === 'processing' && (
+                            <Link to={`/ventas/${order.id}`} className={styles.panel_btn_primary}>
+                                Armar pedido
+                            </Link>
+                        )}
+                        <Link to={`/pedidos/${order.id}`} className={styles.panel_btn_secondary}>
                             Ver pedido
                         </Link>
                         <button className={styles.panel_btn_ghost} onClick={downloadPDF} disabled={loading}>
@@ -291,7 +296,12 @@ export function OrderDetails({ order, onRefresh, variant = 'card' }) {
                 >
                     {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Descargar detalle'}
                 </button>
-                <Link to={`/ventas/${order.id}`} className={'btn'}>
+                {order.status === 'processing' && (
+                    <Link to={`/ventas/${order.id}`} className={'btn btn_solid'}>
+                        Armar pedido
+                    </Link>
+                )}
+                <Link to={`/pedidos/${order.id}`} className={'btn'}>
                     Ver pedido
                 </Link>
             </div>

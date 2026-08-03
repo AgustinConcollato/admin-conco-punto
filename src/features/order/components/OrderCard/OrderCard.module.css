@@ -464,6 +464,7 @@
     font-size: 13.5px;
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none;
     transition: background 0.15s;
 }
 

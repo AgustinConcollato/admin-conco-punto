@@ -1,10 +1,28 @@
+.order_number_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
 .order_number {
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--primary, #3d6caa);
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.detail_link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text-muted, #64748b);
+}
+
+.detail_link:hover {
+    color: var(--primary, #3d6caa);
 }
 
 .order_summary_card {

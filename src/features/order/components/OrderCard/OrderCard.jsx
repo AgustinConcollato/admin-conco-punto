@@ -212,8 +212,13 @@ export function OrderCard({ order, onRefresh }) {
                         Registrar pago
                     </button>
                 )}
+                {status === 'processing' && (
+                    <Link to={`/ventas/${order.id}`} className={'btn btn_solid'}>
+                        Armar pedido
+                    </Link>
+                )}
                 <div className={styles.oc_btn_row}>
-                    <Link to={`/ventas/${order.id}`} className={styles.oc_btn_outline}>
+                    <Link to={`/pedidos/${order.id}`} className={styles.oc_btn_outline}>
                         Ver pedido
                     </Link>
                     <button className={styles.oc_btn_outline} onClick={downloadPDF} disabled={loading}>
