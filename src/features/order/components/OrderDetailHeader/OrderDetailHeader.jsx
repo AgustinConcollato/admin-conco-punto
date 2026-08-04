@@ -54,7 +54,7 @@ export function OrderDetailHeader({ order, onUpdated }) {
                 </button>
                 {canEdit && (
                     <Link to={`/ventas/${order.id}`} className="btn btn_regular">
-                        <FontAwesomeIcon icon={faPenToSquare} /> Editar pedido
+                        Armar pedido
                     </Link>
                 )}
                 <OrderStatusAction order={order} onUpdated={onUpdated} />

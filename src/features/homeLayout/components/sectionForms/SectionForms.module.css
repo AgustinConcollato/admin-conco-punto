@@ -48,6 +48,12 @@
     color: var(--color-text-muted);
 }
 
+.divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2px 0;
+}
+
 /* Banner */
 .slides {
     display: flex;
@@ -142,4 +148,28 @@
 .add_image_btn:hover:not(:disabled) {
     border-color: var(--primary);
     color: var(--primary);
+}
+
+/* Promo tiles */
+.tile_card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+}
+
+.tile_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+
+.color_input {
+    padding: 2px !important;
+    height: 34px;
+    cursor: pointer;
 }

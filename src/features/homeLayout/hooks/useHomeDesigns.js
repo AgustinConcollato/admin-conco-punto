@@ -3,7 +3,10 @@ import { HomeLayoutService } from '../../../services/homeLayout/homeLayoutServic
 
 const DEFAULT_SETTINGS = {
     banner: { slides: [], autoplayMs: 5000 },
+    banner_products: { slides: [], autoplayMs: 5000, title: '', source: 'new-arrivals', categoryId: null, keyword: '', limit: 8, layout: 'grid' },
     products: { title: '', source: 'new-arrivals', categoryId: null, keyword: '', viewAllHref: '', limit: 12 },
+    products_grid: { title: '', source: 'new-arrivals', categoryId: null, keyword: '', viewAllHref: '', limit: 12 },
+    promo_tiles: { tiles: [] },
     promotions: { title: '', promotionId: null },
     text: { title: '', body: '' },
 };
