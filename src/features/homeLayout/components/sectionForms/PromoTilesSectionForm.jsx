@@ -6,17 +6,21 @@ import { IMAGE_URL } from '../../../../config/api';
 import styles from './SectionForms.module.css';
 
 export function PromoTilesSectionForm({ settings, onChange }) {
-    const [pickerOpen, setPickerOpen] = useState(false);
+    const [pickerFor, setPickerFor] = useState(null); // null closed, 'new' agregar, tile.id reemplazar
     const tiles = settings.tiles ?? [];
 
     const handleSelect = ({ path, url }) => {
-        onChange({
-            tiles: [
-                ...tiles,
-                { id: crypto.randomUUID(), path, url, link: '', eyebrow: '', title: '', buttonText: 'Ver ofertas', bgColor: '#f1f5f9' },
-            ],
-        });
-        setPickerOpen(false);
+        if (pickerFor === 'new') {
+            onChange({
+                tiles: [
+                    ...tiles,
+                    { id: crypto.randomUUID(), path, url, link: '', eyebrow: '', title: '', buttonText: 'Ver ofertas', bgColor: '#f1f5f9' },
+                ],
+            });
+        } else {
+            onChange({ tiles: tiles.map(t => (t.id === pickerFor ? { ...t, path, url } : t)) });
+        }
+        setPickerFor(null);
     };
 
     const removeTile = (tile) => {
@@ -42,11 +46,19 @@ export function PromoTilesSectionForm({ settings, onChange }) {
                 {tiles.map((tile, i) => (
                     <div key={tile.id} className={styles.tile_card}>
                         <div className={styles.tile_head}>
-                            <img
-                                src={tile.url ?? `${IMAGE_URL}/${tile.path}`}
-                                alt=""
-                                className={styles.slide_img}
-                            />
+                            <button
+                                type="button"
+                                className={styles.tile_img_btn}
+                                onClick={() => setPickerFor(tile.id)}
+                                title="Cambiar imagen"
+                            >
+                                <img
+                                    src={tile.url ?? `${IMAGE_URL}/${tile.path}`}
+                                    alt=""
+                                    className={styles.tile_img}
+                                />
+                                <span className={styles.tile_img_overlay}>Cambiar</span>
+                            </button>
                             <div className={styles.slide_actions}>
                                 <button onClick={() => moveTile(i, -1)} disabled={i === 0} aria-label="Subir">
                                     <FontAwesomeIcon icon={faArrowUp} />
@@ -91,38 +103,36 @@ export function PromoTilesSectionForm({ settings, onChange }) {
                             />
                         </label>
 
-                        <div className={styles.row}>
-                            <label className={styles.field}>
-                                <span>Texto del botón</span>
-                                <input
-                                    type="text"
-                                    value={tile.buttonText ?? ''}
-                                    onChange={e => updateTile(tile.id, { buttonText: e.target.value })}
-                                    placeholder="Ver ofertas"
-                                />
-                            </label>
-                            <label className={styles.field}>
-                                <span>Link</span>
-                                <input
-                                    type="text"
-                                    value={tile.link ?? ''}
-                                    onChange={e => updateTile(tile.id, { link: e.target.value })}
-                                    placeholder="/categoria/suplementos"
-                                />
-                            </label>
-                        </div>
+                        <label className={styles.field}>
+                            <span>Texto del botón</span>
+                            <input
+                                type="text"
+                                value={tile.buttonText ?? ''}
+                                onChange={e => updateTile(tile.id, { buttonText: e.target.value })}
+                                placeholder="Ver ofertas"
+                            />
+                        </label>
+                        <label className={styles.field}>
+                            <span>Link</span>
+                            <input
+                                type="text"
+                                value={tile.link ?? ''}
+                                onChange={e => updateTile(tile.id, { link: e.target.value })}
+                                placeholder="/categoria/suplementos"
+                            />
+                        </label>
                     </div>
                 ))}
             </div>
 
             <button
                 className={styles.add_image_btn}
-                onClick={() => setPickerOpen(true)}
+                onClick={() => setPickerFor('new')}
             >
                 <FontAwesomeIcon icon={faPlus} /> Agregar tarjeta
             </button>
-            {pickerOpen && (
-                <MediaPicker onSelect={handleSelect} onClose={() => setPickerOpen(false)} />
+            {pickerFor && (
+                <MediaPicker onSelect={handleSelect} onClose={() => setPickerFor(null)} />
             )}
         </div>
     );
