@@ -122,6 +122,11 @@
     margin-top: 2px;
 }
 
+.dropship_badge {
+    display: inline-block;
+    margin-top: 4px;
+}
+
 .sku {
     font-family: monospace;
     font-size: 0.82rem;

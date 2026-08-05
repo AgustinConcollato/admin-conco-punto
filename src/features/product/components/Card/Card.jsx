@@ -119,6 +119,12 @@ export function Card({ product }) {
                 <h3 className={styles.product_name}>{currentProduct.name}</h3>
                 <p className={styles.product_sku}>SKU: {product.sku || 'N/A'}</p>
 
+                {currentProduct.is_dropshipping && (
+                    <div className={styles.product_categories}>
+                        <span className={styles.dropship_tag}>Dropshipping</span>
+                    </div>
+                )}
+
                 {categories && categories.length > 0 && (
                     <div className={styles.product_categories}>
                         {categories.map((cat) => (
@@ -131,9 +137,13 @@ export function Card({ product }) {
 
                 <div className={styles.product_details}>
                     <div className={styles.detail_item}>
-                        <span className={styles.detail_label}>Stock:</span>
+                        <span className={styles.detail_label}>
+                            {currentProduct.is_dropshipping ? 'Disponibilidad:' : 'Stock:'}
+                        </span>
                         <span className={styles.detail_value}>
-                            {currentProduct.stock || 0}
+                            {currentProduct.is_dropshipping
+                                ? (currentProduct.stock > 0 ? 'Disponible' : 'Sin stock')
+                                : (currentProduct.stock || 0)}
                         </span>
                     </div>
                     <p>Precios</p>
@@ -185,7 +195,11 @@ export function Card({ product }) {
                                                 )}
                                             </div>
                                             <div className={styles.preview_meta}>
-                                                <span className={styles.preview_stock}>{v.stock} uds.</span>
+                                                <span className={styles.preview_stock}>
+                                                    {currentProduct.is_dropshipping
+                                                        ? (v.stock > 0 ? 'Disponible' : 'Sin stock')
+                                                        : `${v.stock} uds.`}
+                                                </span>
                                                 {!v.is_active && <span className={styles.preview_inactive}>Inact.</span>}
                                             </div>
                                         </div>

@@ -20,8 +20,8 @@ export function BatchAddModal({ product, order, addProduct, onClose }) {
                 product_id: product.product_id,
                 variant_id: null,
                 label: product.attribute_values?.map(av => `${av.category_attribute?.name ?? ''}: ${av.value}`).join(' · ') || product.sku || `#${product.id}`,
-                attrs: [], sku: product.sku, stock: product.stock, image: product.image
-
+                attrs: [], sku: product.sku, stock: product.stock, image: product.image,
+                is_dropshipping: product.is_dropshipping,
             }
         ] :
             []),
@@ -36,6 +36,7 @@ export function BatchAddModal({ product, order, addProduct, onClose }) {
                 sku: v.sku,
                 stock: v.stock,
                 image: v.images?.[0]?.thumbnail_path ?? product.image,
+                is_dropshipping: product.is_dropshipping,
             })),
     ];
 
@@ -45,7 +46,7 @@ export function BatchAddModal({ product, order, addProduct, onClose }) {
     const [saving, setSaving] = useState(false);
 
     const setQty = (key, val, max) => {
-        const n = Math.max(0, Math.min(max, parseInt(val) || 0));
+        const n = max == null ? Math.max(0, parseInt(val) || 0) : Math.max(0, Math.min(max, parseInt(val) || 0));
         setQuantities(prev => ({ ...prev, [key]: n }));
     };
 
@@ -98,14 +99,16 @@ export function BatchAddModal({ product, order, addProduct, onClose }) {
                                 <div className={styles.row_text}>
                                     <span className={styles.row_label}>{row.label}</span>
                                     {row.sku && <span className={styles.row_sku}>{row.sku}</span>}
-                                    <span className={styles.row_stock}>{row.stock} en stock</span>
+                                    <span className={styles.row_stock}>
+                                        {row.is_dropshipping ? 'Disponible' : `${row.stock} en stock`}
+                                    </span>
                                 </div>
                             </div>
                             <div className={styles.stepper}>
                                 <button
                                     type="button"
                                     className={styles.step_btn}
-                                    onClick={() => setQty(row.key, quantities[row.key] - 1, row.stock)}
+                                    onClick={() => setQty(row.key, quantities[row.key] - 1, row.is_dropshipping ? null : row.stock)}
                                     disabled={quantities[row.key] === 0}
                                 >
                                     <FontAwesomeIcon icon={faMinus} />
@@ -115,14 +118,14 @@ export function BatchAddModal({ product, order, addProduct, onClose }) {
                                     className={styles.step_input}
                                     value={quantities[row.key]}
                                     min={0}
-                                    max={row.stock}
-                                    onChange={e => setQty(row.key, e.target.value, row.stock)}
+                                    {...(row.is_dropshipping ? {} : { max: row.stock })}
+                                    onChange={e => setQty(row.key, e.target.value, row.is_dropshipping ? null : row.stock)}
                                 />
                                 <button
                                     type="button"
                                     className={styles.step_btn}
-                                    onClick={() => setQty(row.key, quantities[row.key] + 1, row.stock)}
-                                    disabled={quantities[row.key] >= row.stock}
+                                    onClick={() => setQty(row.key, quantities[row.key] + 1, row.is_dropshipping ? null : row.stock)}
+                                    disabled={!row.is_dropshipping && quantities[row.key] >= row.stock}
                                 >
                                     <FontAwesomeIcon icon={faPlus} />
                                 </button>

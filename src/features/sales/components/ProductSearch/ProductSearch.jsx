@@ -19,6 +19,7 @@ const fromProduct = (p) => ({
     name: p.name,
     sku: p.sku,
     stock: p.stock,
+    is_dropshipping: p.is_dropshipping,
     image: p.images?.[0]?.thumbnail_path ?? null,
     price_lists: p.price_lists ?? [],
     suppliers: p.suppliers ?? [],
@@ -280,12 +281,12 @@ export function ProductSearch() {
                                 onKeyDown={handleQuantifyKeyDown}
                                 className={'input ' + styles.quantity_input}
                                 ref={inputRef}
-                                max={itemToQuantify.stock}
+                                {...(itemToQuantify.is_dropshipping ? {} : { max: itemToQuantify.stock })}
                                 autoFocus
                             />
                             {error?.quantity && <p className={styles.error}>{error.quantity[0]}</p>}
                         </div>
-                        <p>Cantidad en stock: {itemToQuantify.stock}</p>
+                        <p>{itemToQuantify.is_dropshipping ? 'Disponible' : `Cantidad en stock: ${itemToQuantify.stock}`}</p>
                         {error?.status && <p className={styles.error}>{error.status[0]}</p>}
                         <button type="button" onClick={confirmToOrder} className='btn btn_solid'>
                             {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Agregar'}

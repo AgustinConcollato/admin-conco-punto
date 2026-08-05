@@ -131,6 +131,15 @@
     font-weight: 500;
 }
 
+.dropship_tag {
+    padding: 3px 8px;
+    background: #e0e7ff;
+    color: #3730a3;
+    border-radius: var(--radius-md, 12px);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
 .product_details {
     display: flex;
     flex-direction: column;

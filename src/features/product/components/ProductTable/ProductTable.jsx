@@ -84,12 +84,21 @@ export function ProductTable({ products, sortBy, sortOrder, onSort, onUpdated })
                                 </td>
                                 <td>
                                     <span className={styles.name}>{product.name}</span>
+                                    {product.is_dropshipping && (
+                                        <Badge tone="indigo" className={styles.dropship_badge}>Dropshipping</Badge>
+                                    )}
                                     {product.variants?.length > 0 && (
                                         <span className={styles.sub}>{product.variants.length} variantes</span>
                                     )}
                                 </td>
                                 <td className={styles.sku}>{product.sku || 'N/A'}</td>
-                                <td className={styles.right}>{product.stock ?? 0}</td>
+                                <td className={styles.right}>
+                                    {product.is_dropshipping ? (
+                                        <Badge tone={product.stock > 0 ? 'green' : 'red'}>
+                                            {product.stock > 0 ? 'Disponible' : 'Sin stock'}
+                                        </Badge>
+                                    ) : (product.stock ?? 0)}
+                                </td>
                                 <td className={styles.right}>
                                     {priceLists.length > 0 ? (
                                         <div className={styles.price_list}>
